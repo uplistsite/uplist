@@ -1,10 +1,31 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/about">About</router-link> |
+    <router-link to="/register">Register</router-link> |
+    <router-link to="/login">Login</router-link>
+    <button @click="logout">Logout</button>
   </div>
   <router-view />
 </template>
+
+<script lang="ts">
+import { Auth } from "aws-amplify";
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "App",
+  methods: {
+    async logout() {
+      try {
+        await Auth.signOut();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+  },
+});
+</script>
 
 <style>
 #app {
