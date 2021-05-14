@@ -3,22 +3,35 @@
     <div class="row justify-content-center">
       <div class="col-md-12 col-lg-8">
         <div class="card">
-            <div class="card-body">
-              <h3 class="card-title">Login</h3>
-              <form @submit.prevent="login">
-                <div class="mb-3">
-                  <label for="inputEmail" class="form-label">Email address</label>
-                  <input v-model="email" type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
-                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          <div class="card-body">
+            <h3 class="card-title">Login</h3>
+            <form @submit.prevent="login">
+              <div class="mb-3">
+                <label for="inputEmail" class="form-label">Email address</label>
+                <input
+                  v-model="email"
+                  type="email"
+                  class="form-control"
+                  id="inputEmail"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input
+                  v-model="password"
+                  type="password"
+                  class="form-control"
+                  id="inputPassword"
+                  required
+                />
+                <div v-if="loginError" class="form-text text-danger">
+                  {{ loginError }}
                 </div>
-                <div class="mb-3">
-                  <label for="inputPassword" class="form-label">Password</label>
-                  <input v-model="password" type="password" class="form-control" id="inputPassword">
-                </div>
-                <p class=""></p>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-            </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -34,24 +47,23 @@ export default defineComponent({
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      loginError: "",
     };
   },
   methods: {
     async login() {
       try {
-        await Auth.signIn(this.email, this.password);
-        alert("Successfully logged in");
+        const user = await Auth.signIn(this.email, this.password);
+        this.$store.commit("setUser", user);
+        console.log(user);
+        await this.$router.push("/");
       } catch (error) {
-        alert(error.message);
+        this.loginError = error.message;
       }
-    }
-  }
+    },
+  },
 });
 </script>
 
-<style scoped>
-input {
-  margin-right: 10px;
-}
-</style>
+<style scoped></style>
