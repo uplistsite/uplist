@@ -44,7 +44,7 @@
                   class="nav-link"
                   :class="[isActive && 'active']"
                   aria-current="page"
-                  >Register</a
+                  >Sign Up</a
                 >
               </li>
             </router-link>
@@ -63,9 +63,12 @@
               </li>
             </router-link>
             <li class="nav-item" v-if="isAuthenticated">
-              <a class="nav-link" aria-current="page" href="#" @click="logout"
+              <a class="nav-link" aria-current="page" href="/" @click="logout"
                 >Logout</a
               >
+            </li>
+            <li class="nav-item" v-if="isAuthenticated">
+              <div class="nav-link">{{ getEmail }}</div>
             </li>
           </ul>
         </div>
@@ -93,7 +96,7 @@ export default defineComponent({
     },
   },
   computed: {
-    ...mapGetters(["isAuthenticated"]),
+    ...mapGetters(["isAuthenticated", "getEmail"]),
   },
   created() {
     this.$store.dispatch("getCurrentUser");

@@ -5,7 +5,7 @@
         <div class="card">
           <div class="card-body">
             <h3 class="card-title">Login</h3>
-            <form @submit.prevent="login">
+            <form @submit.prevent="signIn">
               <div class="mb-3">
                 <label for="inputEmail" class="form-label">Email address</label>
                 <input
@@ -25,9 +25,9 @@
                   id="inputPassword"
                   required
                 />
-                <div v-if="loginError" class="form-text text-danger">
-                  {{ loginError }}
-                </div>
+              </div>
+              <div v-if="loginError" class="form-text text-danger mb-3">
+                {{ loginError }}
               </div>
               <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -52,11 +52,11 @@ export default defineComponent({
     };
   },
   methods: {
-    async login() {
+    async signIn() {
       try {
         const user = await Auth.signIn(this.email, this.password);
-        this.$store.commit("setUser", user);
         console.log(user);
+        this.$store.commit("setUser", user);
         await this.$router.push("/");
       } catch (error) {
         this.loginError = error.message;

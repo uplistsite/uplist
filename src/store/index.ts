@@ -21,5 +21,8 @@ export default createStore({
     isAuthenticated: (state) => {
       return !!state.user;
     },
+    getEmail: (state) => {
+      return state.user ? state.user.attributes.email : null;
+    }
   },
 });
