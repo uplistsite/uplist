@@ -23,6 +23,16 @@
               >
             </li>
           </router-link>
+          <router-link to="/appraisals" v-slot="{ isActive }">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                :class="[isActive && 'active']"
+                aria-current="page"
+              >Appraisals</a
+              >
+            </li>
+          </router-link>
           <router-link to="/about" v-slot="{ isActive }">
             <li class="nav-item">
               <a
