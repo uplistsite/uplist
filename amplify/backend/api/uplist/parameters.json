@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "uplist",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authuplist9241861e9241861e",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

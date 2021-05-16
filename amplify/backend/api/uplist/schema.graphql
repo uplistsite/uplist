@@ -1,0 +1,42 @@
+type User
+@model
+@auth(
+    rules: [
+      { allow: owner, operations: [create, update, delete, read] },
+      { allow: groups, groups: ["Admin"] },
+    ])
+{
+  id: ID!
+  owner: String,
+  balance: Float
+    @auth(rules: [
+          { allow: owner, ownerField: "username", operations: [read] },
+          { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+        ])
+}
+
+type Appraisal
+@model
+@auth(
+    rules: [
+      { allow: owner, operations: [create, update, delete, read] },
+      { allow: groups, groups: ["Admin"] },
+    ])
+{
+  id: ID!
+  owner: String,
+  name: String!,
+  description: String!,
+  pictures: [String],
+  isUserWithdrawn: Boolean,
+  appraisalStatus: AppraisalStatus
+    @auth(rules: [
+              { allow: owner, ownerField: "username", operations: [read] },
+              { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+            ])
+}
+
+enum AppraisalStatus {
+    approved,
+    denied
+}
