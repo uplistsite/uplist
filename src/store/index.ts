@@ -3,26 +3,26 @@ import { Auth } from "aws-amplify";
 
 export default createStore({
   state: {
-    user: null,
+    cognitoUser: null,
   },
   mutations: {
-    setUser(state, user) {
-      state.user = user;
+    setCognitoUser(state, cognitoUser) {
+      state.cognitoUser = cognitoUser;
     },
   },
   actions: {
-    async getCurrentUser({ commit }) {
+    async getCognitoUser({ commit }) {
       const user = await Auth.currentAuthenticatedUser();
       console.log(user);
-      commit("setUser", user);
+      commit("setCognitoUser", user);
     },
   },
   getters: {
     isAuthenticated: (state) => {
-      return !!state.user;
+      return !!state.cognitoUser;
     },
     getEmail: (state) => {
-      return state.user ? state.user.attributes.email : null;
+      return state.cognitoUser?.attributes?.email;
     }
   },
 });

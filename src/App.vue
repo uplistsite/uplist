@@ -1,7 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-sm navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Uplist.io</a>
+      <router-link to="/">
+        <a class="navbar-brand">Uplist.io</a>
+      </router-link>
       <button
         class="navbar-toggler"
         data-bs-toggle="collapse"
@@ -62,14 +64,16 @@
                 >
               </li>
             </router-link>
-            <li class="nav-item" v-if="isAuthenticated">
-              <a class="nav-link" aria-current="page" href="/" @click="logout"
-                >Logout</a
-              >
+            <li>
+              <a class="nav-link text-success">{{ getEmail }}</a>
             </li>
-            <li class="nav-item" v-if="isAuthenticated">
-              <div class="nav-link">{{ getEmail }}</div>
-            </li>
+            <router-link to="/">
+              <li class="nav-item" v-if="isAuthenticated">
+                <a class="nav-link" aria-current="page" @click="logout"
+                  >Logout</a
+                >
+              </li>
+            </router-link>
           </ul>
         </div>
       </div>
@@ -89,7 +93,7 @@ export default defineComponent({
     async logout() {
       try {
         await Auth.signOut();
-        this.$store.commit("setUser", null);
+        this.$store.commit("setCognitoUser", null);
       } catch (error) {
         alert(error.message);
       }
@@ -99,7 +103,7 @@ export default defineComponent({
     ...mapGetters(["isAuthenticated", "getEmail"]),
   },
   created() {
-    this.$store.dispatch("getCurrentUser");
+    this.$store.dispatch("getCognitoUser");
   },
 });
 </script>
