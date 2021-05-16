@@ -48,7 +48,6 @@ export type User = {
   balance?: number | null,
   createdAt?: string,
   updatedAt?: string,
-  username?: string | null,
 };
 
 export type UpdateUserInput = {
@@ -137,7 +136,6 @@ export type Appraisal = {
   appraisalStatus?: AppraisalStatus | null,
   createdAt?: string,
   updatedAt?: string,
-  username?: string | null,
 };
 
 export type UpdateAppraisalInput = {
@@ -217,7 +215,6 @@ export type CreateUserMutation = {
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -234,7 +231,6 @@ export type UpdateUserMutation = {
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -251,7 +247,6 @@ export type DeleteUserMutation = {
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -272,7 +267,6 @@ export type CreateAppraisalMutation = {
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -293,7 +287,6 @@ export type UpdateAppraisalMutation = {
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -314,7 +307,6 @@ export type DeleteAppraisalMutation = {
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -330,7 +322,6 @@ export type GetUserQuery = {
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -350,7 +341,6 @@ export type ListUsersQuery = {
       balance?: number | null,
       createdAt: string,
       updatedAt: string,
-      username?: string | null,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -372,7 +362,6 @@ export type GetAppraisalQuery = {
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -396,7 +385,6 @@ export type ListAppraisalsQuery = {
       appraisalStatus?: AppraisalStatus | null,
       createdAt: string,
       updatedAt: string,
-      username?: string | null,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -414,7 +402,6 @@ export type OnCreateUserSubscription = {
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -430,7 +417,6 @@ export type OnUpdateUserSubscription = {
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -446,7 +432,6 @@ export type OnDeleteUserSubscription = {
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -466,7 +451,6 @@ export type OnCreateAppraisalSubscription = {
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -486,7 +470,6 @@ export type OnUpdateAppraisalSubscription = {
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };
 
@@ -506,6 +489,5 @@ export type OnDeleteAppraisalSubscription = {
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
     updatedAt: string,
-    username?: string | null,
   } | null,
 };

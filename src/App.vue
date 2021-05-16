@@ -75,7 +75,7 @@
               </li>
             </router-link>
             <li>
-              <a class="nav-link text-success">{{ getEmail }}</a>
+              <a class="nav-link text-success">{{ getBalance }}</a>
             </li>
             <router-link to="/">
               <li class="nav-item" v-if="isAuthenticated">
@@ -110,10 +110,11 @@ export default defineComponent({
     },
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "getEmail"]),
+    ...mapGetters(["isAuthenticated", "getBalance"]),
   },
-  created() {
-    this.$store.dispatch("getCognitoUser");
+  async created() {
+    await this.$store.dispatch("getCognitoUser");
+    await this.$store.dispatch("getUser");
   },
 });
 </script>

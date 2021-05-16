@@ -13,7 +13,6 @@ export const createUser = /* GraphQL */ `
       balance
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -28,7 +27,6 @@ export const updateUser = /* GraphQL */ `
       balance
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -43,7 +41,6 @@ export const deleteUser = /* GraphQL */ `
       balance
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -62,7 +59,6 @@ export const createAppraisal = /* GraphQL */ `
       appraisalStatus
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -81,7 +77,6 @@ export const updateAppraisal = /* GraphQL */ `
       appraisalStatus
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -100,7 +95,6 @@ export const deleteAppraisal = /* GraphQL */ `
       appraisalStatus
       createdAt
       updatedAt
-      username
     }
   }
 `;

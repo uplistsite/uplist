@@ -9,8 +9,9 @@ type User
   id: ID!
   owner: String,
   balance: Float
-    @auth(rules: [
-          { allow: owner, ownerField: "username", operations: [read] },
+    @auth(
+        rules: [
+          { allow: owner, operations: [read] },
           { allow: groups, groups: ["Admin"], operations: [create, update, read] }
         ])
 }
@@ -30,10 +31,11 @@ type Appraisal
   pictures: [String],
   isUserWithdrawn: Boolean,
   appraisalStatus: AppraisalStatus
-    @auth(rules: [
-              { allow: owner, ownerField: "username", operations: [read] },
-              { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-            ])
+    @auth(
+        rules: [
+          { allow: owner, operations: [read] },
+          { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+        ])
 }
 
 enum AppraisalStatus {

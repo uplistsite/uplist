@@ -10,7 +10,6 @@ export const getUser = /* GraphQL */ `
       balance
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -27,7 +26,6 @@ export const listUsers = /* GraphQL */ `
         balance
         createdAt
         updatedAt
-        username
       }
       nextToken
     }
@@ -45,7 +43,6 @@ export const getAppraisal = /* GraphQL */ `
       appraisalStatus
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -66,7 +63,6 @@ export const listAppraisals = /* GraphQL */ `
         appraisalStatus
         createdAt
         updatedAt
-        username
       }
       nextToken
     }
