@@ -23,13 +23,13 @@
               >
             </li>
           </router-link>
-          <router-link to="/appraisals" v-slot="{ isActive }">
+          <router-link to="/appraisals" v-slot="{ isActive }" v-if="isAuthenticated">
             <li class="nav-item">
               <a
                 class="nav-link"
                 :class="[isActive && 'active']"
                 aria-current="page"
-              >Appraisals</a
+                >Appraisals</a
               >
             </li>
           </router-link>
@@ -74,7 +74,7 @@
                 >
               </li>
             </router-link>
-            <li>
+            <li v-if="isAuthenticated">
               <a class="nav-link text-success">{{ getBalance }}</a>
             </li>
             <router-link to="/">
