@@ -32,21 +32,27 @@ const routes: Array<RouteRecordRaw> = [
     path: "/appraisals",
     name: "ListAppraisals",
     component: () =>
-      import(/* webpackChunkName: "appraisals" */ "../views/Appraisal/List.vue"),
+      import(
+        /* webpackChunkName: "appraisals" */ "../views/Appraisal/List.vue"
+      ),
   },
   {
     path: "/appraisals/create",
     name: "CreateAppraisal",
     component: () =>
-      import(/* webpackChunkName: "appraisals" */ "../views/Appraisal/View.vue"),
+      import(
+        /* webpackChunkName: "appraisals" */ "../views/Appraisal/View.vue"
+      ),
   },
   {
     path: "/appraisals/:id",
     name: "UpdateAppraisal",
     component: () =>
-      import(/* webpackChunkName: "appraisals" */ "../views/Appraisal/View.vue"),
-    props: true
-  }
+      import(
+        /* webpackChunkName: "appraisals" */ "../views/Appraisal/View.vue"
+      ),
+    props: true,
+  },
 ];
 
 const router = createRouter({

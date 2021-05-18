@@ -1,13 +1,28 @@
 <template>
   <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
-      <button type="submit" class="btn btn-primary" @click="navigateCreateAppraisal">Create New Appraisal</button>
-      <div v-for="appraisal in appraisals" :key="appraisal.id" class="col-6 mt-3">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        @click="navigateCreateAppraisal"
+      >
+        Create New Appraisal
+      </button>
+      <div
+        v-for="appraisal in appraisals"
+        :key="appraisal.id"
+        class="col-6 mt-3"
+      >
         <div class="card">
           <div class="card-body">
             <h3 class="card-title">{{ appraisal.name }}</h3>
-            <h6> {{appraisal.description}} </h6>
-            <button class="btn btn-primary" @click="navigateUpdateAppraisal(appraisal.id)">Edit</button>
+            <h6>{{ appraisal.description }}</h6>
+            <button
+              class="btn btn-primary"
+              @click="navigateUpdateAppraisal(appraisal.id)"
+            >
+              Edit
+            </button>
           </div>
         </div>
       </div>
@@ -30,22 +45,24 @@ export default defineComponent({
     };
   },
   methods: {
-    async navigateUpdateAppraisal(id : string) {
-      await this.$router.push({ name: 'UpdateAppraisal', params: { id: id }});
+    async navigateUpdateAppraisal(id: string) {
+      await this.$router.push({ name: "UpdateAppraisal", params: { id: id } });
     },
     async navigateCreateAppraisal() {
-      await this.$router.push({ name: 'CreateAppraisal' });
+      await this.$router.push({ name: "CreateAppraisal" });
     },
     async getAppraisals() {
       this.appraisals = (
         (await API.graphql(
           graphqlOperation(listAppraisals)
         )) as GraphQLResult<ListAppraisalsQuery>
-      ).data.listAppraisals.items.sort((a, b) => a.updatedAt > b.updatedAt ? -1 : a.updatedAt === b.updatedAt ? 0 : 1);
+      ).data.listAppraisals.items.sort((a, b) =>
+        a.updatedAt > b.updatedAt ? -1 : a.updatedAt === b.updatedAt ? 0 : 1
+      );
     },
   },
   async created() {
     await this.getAppraisals();
-  }
+  },
 });
 </script>

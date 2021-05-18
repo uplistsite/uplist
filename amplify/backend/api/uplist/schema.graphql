@@ -2,7 +2,7 @@ type User
 @model
 @auth(
     rules: [
-      { allow: owner, operations: [create, update, delete, read] },
+      { allow: owner, operations: [create, update, read] },
       { allow: groups, groups: ["Admin"] },
     ])
 {
@@ -28,7 +28,7 @@ type Appraisal
   owner: String,
   name: String!,
   description: String!,
-  pictures: [String],
+  pictures: [S3Object],
   isUserWithdrawn: Boolean,
   appraisalStatus: AppraisalStatus
     @auth(
@@ -36,6 +36,20 @@ type Appraisal
           { allow: owner, operations: [read] },
           { allow: groups, groups: ["Admin"], operations: [create, update, read] }
         ])
+}
+
+type S3Object
+@model
+@auth(
+    rules: [
+      { allow: owner },
+      { allow: groups, groups: ["Admin"] },
+    ])
+{
+    owner: String,
+    bucket: String!
+    region: String!
+    key: String!
 }
 
 enum AppraisalStatus {

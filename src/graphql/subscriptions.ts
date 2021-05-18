@@ -42,7 +42,15 @@ export const onCreateAppraisal = /* GraphQL */ `
       owner
       name
       description
-      pictures
+      pictures {
+        id
+        owner
+        bucket
+        region
+        key
+        createdAt
+        updatedAt
+      }
       isUserWithdrawn
       appraisalStatus
       createdAt
@@ -57,7 +65,15 @@ export const onUpdateAppraisal = /* GraphQL */ `
       owner
       name
       description
-      pictures
+      pictures {
+        id
+        owner
+        bucket
+        region
+        key
+        createdAt
+        updatedAt
+      }
       isUserWithdrawn
       appraisalStatus
       createdAt
@@ -72,9 +88,56 @@ export const onDeleteAppraisal = /* GraphQL */ `
       owner
       name
       description
-      pictures
+      pictures {
+        id
+        owner
+        bucket
+        region
+        key
+        createdAt
+        updatedAt
+      }
       isUserWithdrawn
       appraisalStatus
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateS3Object = /* GraphQL */ `
+  subscription OnCreateS3Object($owner: String) {
+    onCreateS3Object(owner: $owner) {
+      id
+      owner
+      bucket
+      region
+      key
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateS3Object = /* GraphQL */ `
+  subscription OnUpdateS3Object($owner: String) {
+    onUpdateS3Object(owner: $owner) {
+      id
+      owner
+      bucket
+      region
+      key
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteS3Object = /* GraphQL */ `
+  subscription OnDeleteS3Object($owner: String) {
+    onDeleteS3Object(owner: $owner) {
+      id
+      owner
+      bucket
+      region
+      key
       createdAt
       updatedAt
     }

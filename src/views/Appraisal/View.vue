@@ -18,7 +18,7 @@
               </div>
               <div class="mb-3">
                 <label for="inputDescription" class="form-label"
-                >Description</label
+                  >Description</label
                 >
                 <input
                   v-model="description"
@@ -28,10 +28,7 @@
                   required
                 />
               </div>
-              <div
-                v-if="appraisalError"
-                class="form-text text-danger mb-3"
-              >
+              <div v-if="appraisalError" class="form-text text-danger mb-3">
                 {{ appraisalError }}
               </div>
               <button class="btn btn-primary">Submit</button>
@@ -64,16 +61,16 @@ export default defineComponent({
     id: String,
   },
   computed: {
-    isCreate() : boolean {
+    isCreate(): boolean {
       return !this.id;
     },
-    isUpdate() : boolean {
+    isUpdate(): boolean {
       return !!this.id;
     },
     titleText() {
-      if (this.isUpdate) return 'Update Appraisal';
-      return 'Create Appraisal';
-    }
+      if (this.isUpdate) return "Update Appraisal";
+      return "Create Appraisal";
+    },
   },
   methods: {
     async processAppraisal() {
@@ -81,7 +78,7 @@ export default defineComponent({
       if (this.isUpdate) await this.updateAppraisal();
     },
     async navigateListAppraisals() {
-      await this.$router.push({ name: 'ListAppraisals'});
+      await this.$router.push({ name: "ListAppraisals" });
     },
     async createAppraisal() {
       try {
@@ -117,11 +114,9 @@ export default defineComponent({
       }
     },
     async getAppraisal() {
-      const appraisal = (
-        (await API.graphql(
-          graphqlOperation(getAppraisal, {id: this.id})
-        )) as GraphQLResult<GetAppraisalQuery>
-      );
+      const appraisal = (await API.graphql(
+        graphqlOperation(getAppraisal, { id: this.id })
+      )) as GraphQLResult<GetAppraisalQuery>;
       this.name = appraisal.data.getAppraisal.name;
       this.description = appraisal.data.getAppraisal.description;
     },
@@ -132,6 +127,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

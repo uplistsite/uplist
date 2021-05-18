@@ -23,7 +23,11 @@
               >
             </li>
           </router-link>
-          <router-link to="/appraisals" v-slot="{ isActive }" v-if="isAuthenticated">
+          <router-link
+            to="/appraisals"
+            v-slot="{ isActive }"
+            v-if="isAuthenticated"
+          >
             <li class="nav-item">
               <a
                 class="nav-link"

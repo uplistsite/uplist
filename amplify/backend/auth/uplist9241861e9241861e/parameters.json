@@ -1,6 +1,6 @@
 {
     "identityPoolName": "uplist9241861e_identitypool_9241861e",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "uplist9241861e",
     "userPoolName": "uplist9241861e_userpool_9241861e",
     "autoVerifiedAttributes": [

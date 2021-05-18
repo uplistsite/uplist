@@ -135,7 +135,7 @@ export default defineComponent({
   methods: {
     async signUp() {
       try {
-        const response = await Auth.signUp({
+        await Auth.signUp({
           username: this.email,
           password: this.password,
           attributes: {
