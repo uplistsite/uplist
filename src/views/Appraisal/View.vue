@@ -44,9 +44,9 @@
 import { defineComponent } from "vue";
 import { API, graphqlOperation } from "aws-amplify";
 import { createAppraisal, updateAppraisal } from "@/graphql/mutations";
-import { getAppraisal, listAppraisals } from "@/graphql/queries";
+import { getAppraisal } from "@/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api";
-import { GetAppraisalQuery, ListAppraisalsQuery } from "@/API";
+import { GetAppraisalQuery } from "@/API";
 
 export default defineComponent({
   name: "Appraisal View",
