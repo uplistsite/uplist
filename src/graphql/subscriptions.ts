@@ -43,13 +43,15 @@ export const onCreateAppraisal = /* GraphQL */ `
       name
       description
       pictures {
-        id
-        owner
-        bucket
-        region
-        key
-        createdAt
-        updatedAt
+        items {
+          id
+          foreignId
+          key
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
       }
       isUserWithdrawn
       appraisalStatus
@@ -66,13 +68,15 @@ export const onUpdateAppraisal = /* GraphQL */ `
       name
       description
       pictures {
-        id
-        owner
-        bucket
-        region
-        key
-        createdAt
-        updatedAt
+        items {
+          id
+          foreignId
+          key
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
       }
       isUserWithdrawn
       appraisalStatus
@@ -89,13 +93,15 @@ export const onDeleteAppraisal = /* GraphQL */ `
       name
       description
       pictures {
-        id
-        owner
-        bucket
-        region
-        key
-        createdAt
-        updatedAt
+        items {
+          id
+          foreignId
+          key
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
       }
       isUserWithdrawn
       appraisalStatus
@@ -108,12 +114,11 @@ export const onCreateS3Object = /* GraphQL */ `
   subscription OnCreateS3Object($owner: String) {
     onCreateS3Object(owner: $owner) {
       id
-      owner
-      bucket
-      region
+      foreignId
       key
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -121,12 +126,11 @@ export const onUpdateS3Object = /* GraphQL */ `
   subscription OnUpdateS3Object($owner: String) {
     onUpdateS3Object(owner: $owner) {
       id
-      owner
-      bucket
-      region
+      foreignId
       key
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -134,12 +138,11 @@ export const onDeleteS3Object = /* GraphQL */ `
   subscription OnDeleteS3Object($owner: String) {
     onDeleteS3Object(owner: $owner) {
       id
-      owner
-      bucket
-      region
+      foreignId
       key
       createdAt
       updatedAt
+      owner
     }
   }
 `;

@@ -6,7 +6,7 @@ type User
       { allow: groups, groups: ["Admin"] },
     ])
 {
-  id: ID!
+  id: ID!,
   owner: String,
   balance: Float
     @auth(
@@ -24,11 +24,11 @@ type Appraisal
       { allow: groups, groups: ["Admin"] },
     ])
 {
-  id: ID!
+  id: ID!,
   owner: String,
   name: String!,
   description: String!,
-  pictures: [S3Object],
+  pictures: [S3Object] @connection(keyName: "byAppraisal", fields: ["id"]),
   isUserWithdrawn: Boolean,
   appraisalStatus: AppraisalStatus
     @auth(
@@ -40,15 +40,15 @@ type Appraisal
 
 type S3Object
 @model
+@key(name: "byAppraisal", fields: ["foreignId", "key"])
 @auth(
     rules: [
       { allow: owner },
       { allow: groups, groups: ["Admin"] },
     ])
 {
-    owner: String,
-    bucket: String!
-    region: String!
+    id: ID!,
+    foreignId: ID!,
     key: String!
 }
 

@@ -27,8 +27,12 @@ export default createStore({
   },
   actions: {
     async getCognitoUser({ commit }) {
-      const user = await Auth.currentAuthenticatedUser();
-      commit("setCognitoUser", user);
+      try {
+        const user = await Auth.currentAuthenticatedUser();
+        commit("setCognitoUser", user);
+      } catch (e) {
+        commit("setCognitoUser", null);
+      }
     },
     async getUser({ commit }) {
       const user = await findUser();

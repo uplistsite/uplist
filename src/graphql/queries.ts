@@ -39,13 +39,15 @@ export const getAppraisal = /* GraphQL */ `
       name
       description
       pictures {
-        id
-        owner
-        bucket
-        region
-        key
-        createdAt
-        updatedAt
+        items {
+          id
+          foreignId
+          key
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
       }
       isUserWithdrawn
       appraisalStatus
@@ -67,13 +69,7 @@ export const listAppraisals = /* GraphQL */ `
         name
         description
         pictures {
-          id
-          owner
-          bucket
-          region
-          key
-          createdAt
-          updatedAt
+          nextToken
         }
         isUserWithdrawn
         appraisalStatus
@@ -88,12 +84,11 @@ export const getS3Object = /* GraphQL */ `
   query GetS3Object($id: ID!) {
     getS3Object(id: $id) {
       id
-      owner
-      bucket
-      region
+      foreignId
       key
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -106,12 +101,11 @@ export const listS3Objects = /* GraphQL */ `
     listS3Objects(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        owner
-        bucket
-        region
+        foreignId
         key
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

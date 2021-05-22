@@ -55,13 +55,15 @@ export const createAppraisal = /* GraphQL */ `
       name
       description
       pictures {
-        id
-        owner
-        bucket
-        region
-        key
-        createdAt
-        updatedAt
+        items {
+          id
+          foreignId
+          key
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
       }
       isUserWithdrawn
       appraisalStatus
@@ -81,13 +83,15 @@ export const updateAppraisal = /* GraphQL */ `
       name
       description
       pictures {
-        id
-        owner
-        bucket
-        region
-        key
-        createdAt
-        updatedAt
+        items {
+          id
+          foreignId
+          key
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
       }
       isUserWithdrawn
       appraisalStatus
@@ -107,13 +111,15 @@ export const deleteAppraisal = /* GraphQL */ `
       name
       description
       pictures {
-        id
-        owner
-        bucket
-        region
-        key
-        createdAt
-        updatedAt
+        items {
+          id
+          foreignId
+          key
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
       }
       isUserWithdrawn
       appraisalStatus
@@ -129,12 +135,11 @@ export const createS3Object = /* GraphQL */ `
   ) {
     createS3Object(input: $input, condition: $condition) {
       id
-      owner
-      bucket
-      region
+      foreignId
       key
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -145,12 +150,11 @@ export const updateS3Object = /* GraphQL */ `
   ) {
     updateS3Object(input: $input, condition: $condition) {
       id
-      owner
-      bucket
-      region
+      foreignId
       key
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -161,12 +165,11 @@ export const deleteS3Object = /* GraphQL */ `
   ) {
     deleteS3Object(input: $input, condition: $condition) {
       id
-      owner
-      bucket
-      region
+      foreignId
       key
       createdAt
       updatedAt
+      owner
     }
   }
 `;

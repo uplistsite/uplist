@@ -55,7 +55,6 @@ export default defineComponent({
     async signIn() {
       try {
         const user = await Auth.signIn(this.email, this.password);
-        console.log(user);
         this.$store.commit("setCognitoUser", user);
         await this.$router.push("/");
       } catch (error) {

@@ -129,22 +129,27 @@ export type Appraisal = {
   owner?: string | null,
   name?: string,
   description?: string,
-  pictures?:  Array<S3Object | null > | null,
+  pictures?: ModelS3ObjectConnection,
   isUserWithdrawn?: boolean | null,
   appraisalStatus?: AppraisalStatus | null,
   createdAt?: string,
   updatedAt?: string,
 };
 
+export type ModelS3ObjectConnection = {
+  __typename: "ModelS3ObjectConnection",
+  items?:  Array<S3Object | null > | null,
+  nextToken?: string | null,
+};
+
 export type S3Object = {
   __typename: "S3Object",
   id?: string,
-  owner?: string | null,
-  bucket?: string,
-  region?: string,
+  foreignId?: string,
   key?: string,
   createdAt?: string,
   updatedAt?: string,
+  owner?: string | null,
 };
 
 export type UpdateAppraisalInput = {
@@ -162,39 +167,16 @@ export type DeleteAppraisalInput = {
 
 export type CreateS3ObjectInput = {
   id?: string | null,
-  owner?: string | null,
-  bucket: string,
-  region: string,
+  foreignId: string,
   key: string,
 };
 
 export type ModelS3ObjectConditionInput = {
-  bucket?: ModelStringInput | null,
-  region?: ModelStringInput | null,
+  foreignId?: ModelIDInput | null,
   key?: ModelStringInput | null,
   and?: Array< ModelS3ObjectConditionInput | null > | null,
   or?: Array< ModelS3ObjectConditionInput | null > | null,
   not?: ModelS3ObjectConditionInput | null,
-};
-
-export type UpdateS3ObjectInput = {
-  owner?: string | null,
-  bucket?: string | null,
-  region?: string | null,
-  key?: string | null,
-};
-
-export type DeleteS3ObjectInput = {
-  id?: string | null,
-};
-
-export type ModelUserFilterInput = {
-  id?: ModelIDInput | null,
-  owner?: ModelStringInput | null,
-  balance?: ModelFloatInput | null,
-  and?: Array< ModelUserFilterInput | null > | null,
-  or?: Array< ModelUserFilterInput | null > | null,
-  not?: ModelUserFilterInput | null,
 };
 
 export type ModelIDInput = {
@@ -211,6 +193,25 @@ export type ModelIDInput = {
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
   size?: ModelSizeInput | null,
+};
+
+export type UpdateS3ObjectInput = {
+  id: string,
+  foreignId?: string | null,
+  key?: string | null,
+};
+
+export type DeleteS3ObjectInput = {
+  id?: string | null,
+};
+
+export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
+  balance?: ModelFloatInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
 };
 
 export type ModelUserConnection = {
@@ -238,19 +239,12 @@ export type ModelAppraisalConnection = {
 };
 
 export type ModelS3ObjectFilterInput = {
-  owner?: ModelStringInput | null,
-  bucket?: ModelStringInput | null,
-  region?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  foreignId?: ModelIDInput | null,
   key?: ModelStringInput | null,
   and?: Array< ModelS3ObjectFilterInput | null > | null,
   or?: Array< ModelS3ObjectFilterInput | null > | null,
   not?: ModelS3ObjectFilterInput | null,
-};
-
-export type ModelS3ObjectConnection = {
-  __typename: "ModelS3ObjectConnection",
-  items?:  Array<S3Object | null > | null,
-  nextToken?: string | null,
 };
 
 export type CreateUserMutationVariables = {
@@ -313,16 +307,19 @@ export type CreateAppraisalMutation = {
     owner?: string | null,
     name: string,
     description: string,
-    pictures?:  Array< {
-      __typename: "S3Object",
-      id: string,
-      owner?: string | null,
-      bucket: string,
-      region: string,
-      key: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
+    pictures?:  {
+      __typename: "ModelS3ObjectConnection",
+      items?:  Array< {
+        __typename: "S3Object",
+        id: string,
+        foreignId: string,
+        key: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     isUserWithdrawn?: boolean | null,
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
@@ -342,16 +339,19 @@ export type UpdateAppraisalMutation = {
     owner?: string | null,
     name: string,
     description: string,
-    pictures?:  Array< {
-      __typename: "S3Object",
-      id: string,
-      owner?: string | null,
-      bucket: string,
-      region: string,
-      key: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
+    pictures?:  {
+      __typename: "ModelS3ObjectConnection",
+      items?:  Array< {
+        __typename: "S3Object",
+        id: string,
+        foreignId: string,
+        key: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     isUserWithdrawn?: boolean | null,
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
@@ -371,16 +371,19 @@ export type DeleteAppraisalMutation = {
     owner?: string | null,
     name: string,
     description: string,
-    pictures?:  Array< {
-      __typename: "S3Object",
-      id: string,
-      owner?: string | null,
-      bucket: string,
-      region: string,
-      key: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
+    pictures?:  {
+      __typename: "ModelS3ObjectConnection",
+      items?:  Array< {
+        __typename: "S3Object",
+        id: string,
+        foreignId: string,
+        key: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     isUserWithdrawn?: boolean | null,
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
@@ -397,12 +400,11 @@ export type CreateS3ObjectMutation = {
   createS3Object?:  {
     __typename: "S3Object",
     id: string,
-    owner?: string | null,
-    bucket: string,
-    region: string,
+    foreignId: string,
     key: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -415,12 +417,11 @@ export type UpdateS3ObjectMutation = {
   updateS3Object?:  {
     __typename: "S3Object",
     id: string,
-    owner?: string | null,
-    bucket: string,
-    region: string,
+    foreignId: string,
     key: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -433,12 +434,11 @@ export type DeleteS3ObjectMutation = {
   deleteS3Object?:  {
     __typename: "S3Object",
     id: string,
-    owner?: string | null,
-    bucket: string,
-    region: string,
+    foreignId: string,
     key: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -489,16 +489,19 @@ export type GetAppraisalQuery = {
     owner?: string | null,
     name: string,
     description: string,
-    pictures?:  Array< {
-      __typename: "S3Object",
-      id: string,
-      owner?: string | null,
-      bucket: string,
-      region: string,
-      key: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
+    pictures?:  {
+      __typename: "ModelS3ObjectConnection",
+      items?:  Array< {
+        __typename: "S3Object",
+        id: string,
+        foreignId: string,
+        key: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     isUserWithdrawn?: boolean | null,
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
@@ -521,16 +524,10 @@ export type ListAppraisalsQuery = {
       owner?: string | null,
       name: string,
       description: string,
-      pictures?:  Array< {
-        __typename: "S3Object",
-        id: string,
-        owner?: string | null,
-        bucket: string,
-        region: string,
-        key: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
+      pictures?:  {
+        __typename: "ModelS3ObjectConnection",
+        nextToken?: string | null,
+      } | null,
       isUserWithdrawn?: boolean | null,
       appraisalStatus?: AppraisalStatus | null,
       createdAt: string,
@@ -548,12 +545,11 @@ export type GetS3ObjectQuery = {
   getS3Object?:  {
     __typename: "S3Object",
     id: string,
-    owner?: string | null,
-    bucket: string,
-    region: string,
+    foreignId: string,
     key: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -569,12 +565,11 @@ export type ListS3ObjectsQuery = {
     items?:  Array< {
       __typename: "S3Object",
       id: string,
-      owner?: string | null,
-      bucket: string,
-      region: string,
+      foreignId: string,
       key: string,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -636,16 +631,19 @@ export type OnCreateAppraisalSubscription = {
     owner?: string | null,
     name: string,
     description: string,
-    pictures?:  Array< {
-      __typename: "S3Object",
-      id: string,
-      owner?: string | null,
-      bucket: string,
-      region: string,
-      key: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
+    pictures?:  {
+      __typename: "ModelS3ObjectConnection",
+      items?:  Array< {
+        __typename: "S3Object",
+        id: string,
+        foreignId: string,
+        key: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     isUserWithdrawn?: boolean | null,
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
@@ -664,16 +662,19 @@ export type OnUpdateAppraisalSubscription = {
     owner?: string | null,
     name: string,
     description: string,
-    pictures?:  Array< {
-      __typename: "S3Object",
-      id: string,
-      owner?: string | null,
-      bucket: string,
-      region: string,
-      key: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
+    pictures?:  {
+      __typename: "ModelS3ObjectConnection",
+      items?:  Array< {
+        __typename: "S3Object",
+        id: string,
+        foreignId: string,
+        key: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     isUserWithdrawn?: boolean | null,
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
@@ -692,16 +693,19 @@ export type OnDeleteAppraisalSubscription = {
     owner?: string | null,
     name: string,
     description: string,
-    pictures?:  Array< {
-      __typename: "S3Object",
-      id: string,
-      owner?: string | null,
-      bucket: string,
-      region: string,
-      key: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
+    pictures?:  {
+      __typename: "ModelS3ObjectConnection",
+      items?:  Array< {
+        __typename: "S3Object",
+        id: string,
+        foreignId: string,
+        key: string,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     isUserWithdrawn?: boolean | null,
     appraisalStatus?: AppraisalStatus | null,
     createdAt: string,
@@ -717,12 +721,11 @@ export type OnCreateS3ObjectSubscription = {
   onCreateS3Object?:  {
     __typename: "S3Object",
     id: string,
-    owner?: string | null,
-    bucket: string,
-    region: string,
+    foreignId: string,
     key: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -734,12 +737,11 @@ export type OnUpdateS3ObjectSubscription = {
   onUpdateS3Object?:  {
     __typename: "S3Object",
     id: string,
-    owner?: string | null,
-    bucket: string,
-    region: string,
+    foreignId: string,
     key: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -751,11 +753,10 @@ export type OnDeleteS3ObjectSubscription = {
   onDeleteS3Object?:  {
     __typename: "S3Object",
     id: string,
-    owner?: string | null,
-    bucket: string,
-    region: string,
+    foreignId: string,
     key: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
