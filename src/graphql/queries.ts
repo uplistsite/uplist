@@ -49,8 +49,16 @@ export const getAppraisal = /* GraphQL */ `
         }
         nextToken
       }
-      isUserWithdrawn
-      appraisalStatus
+      appraisalUserStatus
+      paymentAdvance
+      paymentRangeLow
+      paymentRangeHigh
+      defects
+      year
+      model
+      make
+      wear
+      appraisalAdminStatus
       createdAt
       updatedAt
     }
@@ -71,8 +79,16 @@ export const listAppraisals = /* GraphQL */ `
         pictures {
           nextToken
         }
-        isUserWithdrawn
-        appraisalStatus
+        appraisalUserStatus
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        defects
+        year
+        model
+        make
+        wear
+        appraisalAdminStatus
         createdAt
         updatedAt
       }

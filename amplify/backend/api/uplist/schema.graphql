@@ -29,8 +29,31 @@ type Appraisal
   name: String!,
   description: String!,
   pictures: [S3Object] @connection(keyName: "byAppraisal", fields: ["id"]),
-  isUserWithdrawn: Boolean,
-  appraisalStatus: AppraisalStatus
+  appraisalUserStatus: AppraisalUserStatus,
+  paymentAdvance: Float
+    @auth(
+        rules: [
+          { allow: owner, operations: [read] },
+          { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+        ]),
+  paymentRangeLow: Float
+    @auth(
+        rules: [
+            { allow: owner, operations: [read] },
+            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+        ]),
+  paymentRangeHigh: Float
+    @auth(
+        rules: [
+            { allow: owner, operations: [read] },
+            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+        ]),
+  defects: String,
+  year: String,
+  model: String,
+  make: String,
+  wear: Wear,
+  appraisalAdminStatus: AppraisalAdminStatus
     @auth(
         rules: [
           { allow: owner, operations: [read] },
@@ -52,7 +75,24 @@ type S3Object
     key: String!
 }
 
-enum AppraisalStatus {
-    approved,
-    denied
+enum AppraisalUserStatus {
+    CREATED,
+    WITHDRAWN
+}
+
+enum AppraisalAdminStatus {
+    APPROVED,
+    DENIED,
+    PROCESSING,
+    LIST,
+    SOLD
+}
+
+enum Wear {
+    POOR,
+    WELL_USED,
+    USED,
+    LIGHTLY_USED,
+    LIKE_NEW,
+    NEW
 }

@@ -53,8 +53,16 @@ export const onCreateAppraisal = /* GraphQL */ `
         }
         nextToken
       }
-      isUserWithdrawn
-      appraisalStatus
+      appraisalUserStatus
+      paymentAdvance
+      paymentRangeLow
+      paymentRangeHigh
+      defects
+      year
+      model
+      make
+      wear
+      appraisalAdminStatus
       createdAt
       updatedAt
     }
@@ -78,8 +86,16 @@ export const onUpdateAppraisal = /* GraphQL */ `
         }
         nextToken
       }
-      isUserWithdrawn
-      appraisalStatus
+      appraisalUserStatus
+      paymentAdvance
+      paymentRangeLow
+      paymentRangeHigh
+      defects
+      year
+      model
+      make
+      wear
+      appraisalAdminStatus
       createdAt
       updatedAt
     }
@@ -103,8 +119,16 @@ export const onDeleteAppraisal = /* GraphQL */ `
         }
         nextToken
       }
-      isUserWithdrawn
-      appraisalStatus
+      appraisalUserStatus
+      paymentAdvance
+      paymentRangeLow
+      paymentRangeHigh
+      defects
+      year
+      model
+      make
+      wear
+      appraisalAdminStatus
       createdAt
       updatedAt
     }
