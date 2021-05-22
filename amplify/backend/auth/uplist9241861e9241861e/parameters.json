@@ -55,7 +55,7 @@
     "usernameAttributes": [
         "email"
     ],
-    "userPoolGroups": true,
+    "userPoolGroups": false,
     "adminQueries": true,
     "triggers": "{}",
     "hostedUI": false,

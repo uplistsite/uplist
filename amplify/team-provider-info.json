@@ -13,12 +13,17 @@
     },
     "categories": {
       "auth": {
-        "uplist9241861e9241861e": {}
+        "uplist9241861e9241861e": {},
+        "userPoolGroups": {}
       },
       "function": {
         "AdminQueriesab231e8c": {
           "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
           "s3Key": "amplify-builds/AdminQueriesab231e8c-336b6165524a3550637a-build.zip"
+        },
+        "createUserLambda": {
+          "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
+          "s3Key": "amplify-builds/createUserLambda-454c7676546d49484b61-build.zip"
         }
       }
     }
