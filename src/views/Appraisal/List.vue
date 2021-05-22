@@ -1,17 +1,19 @@
 <template>
   <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
-      <button
-        type="submit"
-        class="btn btn-primary"
-        @click="navigateCreateAppraisal"
-      >
-        Create New Appraisal
-      </button>
+      <div class="mx-1">
+        <button
+          type="submit"
+          class="btn btn-primary align-content-end"
+          @click="navigateCreateAppraisal"
+        >
+          Create New Appraisal
+        </button>
+      </div>
       <div
         v-for="appraisal in appraisals"
         :key="appraisal.id"
-        class="col-6 mt-3"
+        class="col-12 mt-3"
       >
         <div class="card">
           <div class="card-body">
