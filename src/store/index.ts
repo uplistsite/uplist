@@ -49,5 +49,12 @@ export default createStore({
     getBalance: (state) => {
       return "Balance: $" + (state?.user?.balance ? state.user.balance : "0");
     },
+    isAdminUser: (state) => {
+      const groups =
+        state.cognitoUser?.signInUserSession?.accessToken?.payload[
+          "cognito:groups"
+        ];
+      return groups?.includes("admin");
+    },
   },
 });

@@ -65,6 +65,7 @@ export default defineComponent({
   },
   async created() {
     await this.getAppraisals();
+    await this.$store.getters["isAdminUser"];
   },
 });
 </script>
