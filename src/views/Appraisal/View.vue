@@ -7,7 +7,7 @@
             <h3 class="card-title">{{ typeText + " Appraisal" }}</h3>
             <form @submit.prevent="processAppraisal">
               <div class="mb-3">
-                <label for="inputName" class="form-label">Name</label>
+                <label for="inputName" class="form-label label-required">Name</label>
                 <input
                   v-model="name"
                   type="text"
@@ -17,7 +17,7 @@
                 />
               </div>
               <div class="mb-3">
-                <label for="inputDescription" class="form-label"
+                <label for="inputDescription" class="form-label label-required"
                   >Description</label
                 >
                 <input

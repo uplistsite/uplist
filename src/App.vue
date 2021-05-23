@@ -123,8 +123,12 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style>
 a {
   text-decoration: none;
+}
+.label-required:after {
+  color: #d00;
+  content: " *";
 }
 </style>
