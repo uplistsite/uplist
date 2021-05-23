@@ -20,11 +20,94 @@
             <h3 class="card-title">{{ appraisal.name }}</h3>
             <h6>{{ appraisal.description }}</h6>
             <button
-              class="btn btn-primary"
+              class="btn btn-primary mb-3"
               @click="navigateUpdateAppraisal(appraisal.id)"
             >
               Edit
             </button>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 16%"
+                aria-valuenow="15"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
+              >
+                Withdrawn
+              </div>
+              <div
+                class="progress-bar bg-secondary"
+                role="progressbar"
+                style="width: 16%"
+                aria-valuenow="30"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Pending
+              </div>
+              <div
+                class="progress-bar bg-success"
+                role="progressbar"
+                style="width: 16%"
+                aria-valuenow="30"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Denied
+              </div>
+              <div
+                class="progress-bar bg-info"
+                role="progressbar"
+                style="width: 16%"
+                aria-valuenow="30"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Approved
+              </div>
+              <div
+                class="progress-bar bg-secondary"
+                role="progressbar"
+                style="width: 17%"
+                aria-valuenow="20"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Accepted
+              </div>
+              <div
+                class="progress-bar bg-info"
+                role="progressbar"
+                style="width: 17%"
+                aria-valuenow="20"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Processing
+              </div>
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 17%"
+                aria-valuenow="20"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Listed
+              </div>
+              <div
+                class="progress-bar bg-info"
+                role="progressbar"
+                style="width: 17%"
+                aria-valuenow="20"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Sold
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -38,6 +121,7 @@ import { listAppraisals } from "@/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api";
 import { ListAppraisalsQuery } from "@/API";
 import { API, graphqlOperation } from "aws-amplify";
+import { mapGetters } from "vuex";
 
 export default defineComponent({
   name: "Appraisals List",
@@ -45,6 +129,9 @@ export default defineComponent({
     return {
       appraisals: [],
     };
+  },
+  computed: {
+    ...mapGetters(["isAdminUser"]),
   },
   methods: {
     async navigateUpdateAppraisal(id: string) {
@@ -65,7 +152,16 @@ export default defineComponent({
   },
   async created() {
     await this.getAppraisals();
-    await this.$store.getters["isAdminUser"];
   },
 });
 </script>
+
+<style scoped>
+.progress {
+  height: 1.5rem;
+  border-radius: 1.5rem;
+}
+.progress-bar {
+  cursor: pointer;
+}
+</style>

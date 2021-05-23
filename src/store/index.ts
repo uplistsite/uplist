@@ -54,7 +54,7 @@ export default createStore({
         state.cognitoUser?.signInUserSession?.accessToken?.payload[
           "cognito:groups"
         ];
-      return groups?.includes("admin");
+      return groups?.includes("Admin");
     },
   },
 });
