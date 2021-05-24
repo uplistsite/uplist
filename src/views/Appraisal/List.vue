@@ -45,6 +45,16 @@
                     )
                   )
                 "
+                @click="
+                  changeStatus(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    ),
+                    'WITHDRAWN',
+                    appraisal.id
+                  )
+                "
               >
                 Withdrawn
               </div>
@@ -65,6 +75,16 @@
                       appraisal.appraisalUserStatus,
                       appraisal.appraisalAdminStatus
                     )
+                  )
+                "
+                @click="
+                  changeStatus(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    ),
+                    'PENDING',
+                    appraisal.id
                   )
                 "
               >
@@ -89,6 +109,16 @@
                     )
                   )
                 "
+                @click="
+                  changeStatus(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    ),
+                    'DENIED',
+                    appraisal.id
+                  )
+                "
               >
                 Denied
               </div>
@@ -109,6 +139,16 @@
                       appraisal.appraisalUserStatus,
                       appraisal.appraisalAdminStatus
                     )
+                  )
+                "
+                @click="
+                  changeStatus(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    ),
+                    'APPROVED',
+                    appraisal.id
                   )
                 "
               >
@@ -133,6 +173,16 @@
                     )
                   )
                 "
+                @click="
+                  changeStatus(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    ),
+                    'ACCEPTED',
+                    appraisal.id
+                  )
+                "
               >
                 Accepted
               </div>
@@ -153,6 +203,16 @@
                       appraisal.appraisalUserStatus,
                       appraisal.appraisalAdminStatus
                     )
+                  )
+                "
+                @click="
+                  changeStatus(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    ),
+                    'PROCESSING',
+                    appraisal.id
                   )
                 "
               >
@@ -177,6 +237,16 @@
                     )
                   )
                 "
+                @click="
+                  changeStatus(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    ),
+                    'LISTED',
+                    appraisal.id
+                  )
+                "
               >
                 Listed
               </div>
@@ -199,6 +269,16 @@
                     )
                   )
                 "
+                @click="
+                  changeStatus(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    ),
+                    'SOLD',
+                    appraisal.id
+                  )
+                "
               >
                 Sold
               </div>
@@ -218,6 +298,17 @@ import { ListAppraisalsQuery } from "@/API";
 import { API, graphqlOperation } from "aws-amplify";
 import { mapGetters } from "vuex";
 
+const STATUSES = {
+  WITHDRAWN: "WITHDRAWN",
+  PENDING: "PENDING",
+  DENIED: "DENIED",
+  APPROVED: "APPROVED",
+  ACCEPTED: "ACCEPTED",
+  PROCESSING: "PROCESSING",
+  LISTED: "LISTED",
+  SOLD: "SOLD",
+};
+
 export default defineComponent({
   name: "Appraisals List",
   data() {
@@ -229,64 +320,101 @@ export default defineComponent({
     ...mapGetters(["isAdminUser"]),
     getStatusClasses() {
       return (status: string, currentStatus: string): string => {
-        if (status === "WITHDRAWN") {
-          if (["WITHDRAWN"].includes(currentStatus)) {
+        if (status === STATUSES.WITHDRAWN) {
+          if ([STATUSES.WITHDRAWN].includes(currentStatus)) {
             return "bg-danger";
           }
-          if (["PENDING", "APPROVED"].includes(currentStatus) && !this.isAdminUser) {
+          if (
+            [STATUSES.PENDING, STATUSES.APPROVED].includes(currentStatus) &&
+            !this.isAdminUser
+          ) {
             return "bg-primary";
           }
           return "bg-secondary";
-        } else if (status === "PENDING") {
-          if (["APPROVED", "DENIED"].includes(currentStatus) && this.isAdminUser) {
+        } else if (status === STATUSES.PENDING) {
+          if (
+            [STATUSES.APPROVED, STATUSES.DENIED].includes(currentStatus) &&
+            this.isAdminUser
+          ) {
             return "bg-primary";
           }
-          if (["PENDING", "APPROVED", "ACCEPTED", "PROCESSING", "LISTED", "SOLD"].includes(currentStatus)) {
+          if (
+            [
+              STATUSES.PENDING,
+              STATUSES.APPROVED,
+              STATUSES.ACCEPTED,
+              STATUSES.PROCESSING,
+              STATUSES.LISTED,
+              STATUSES.SOLD,
+            ].includes(currentStatus)
+          ) {
             return "bg-success";
           }
           return "bg-secondary";
-        } else if (status === "APPROVED") {
-          if (["PENDING"].includes(currentStatus) && this.isAdminUser) {
+        } else if (status === STATUSES.APPROVED) {
+          if ([STATUSES.PENDING].includes(currentStatus) && this.isAdminUser) {
             return "bg-primary";
           }
-          if (["APPROVED", "ACCEPTED", "PROCESSING", "LISTED", "SOLD"].includes(currentStatus)) {
+          if (
+            [
+              STATUSES.APPROVED,
+              STATUSES.ACCEPTED,
+              STATUSES.PROCESSING,
+              STATUSES.LISTED,
+              STATUSES.SOLD,
+            ].includes(currentStatus)
+          ) {
             return "bg-success";
           }
           return "bg-secondary";
-        } else if (status === "DENIED") {
-          if (["PENDING"].includes(currentStatus) && this.isAdminUser) {
+        } else if (status === STATUSES.DENIED) {
+          if ([STATUSES.PENDING].includes(currentStatus) && this.isAdminUser) {
             return "bg-primary";
           }
-          if (["DENIED"].includes(currentStatus)) {
+          if ([STATUSES.DENIED].includes(currentStatus)) {
             return "bg-danger";
           }
           return "bg-secondary";
-        } else if (status === "ACCEPTED") {
-          if (["PROCESSING"].includes(currentStatus) && this.isAdminUser) {
+        } else if (status === STATUSES.ACCEPTED) {
+          if (
+            [STATUSES.PROCESSING].includes(currentStatus) &&
+            this.isAdminUser
+          ) {
             return "bg-primary";
           }
-          if (["ACCEPTED", "PROCESSING", "LISTED", "SOLD"].includes(currentStatus)) {
+          if (
+            [
+              STATUSES.ACCEPTED,
+              STATUSES.PROCESSING,
+              STATUSES.LISTED,
+              STATUSES.SOLD,
+            ].includes(currentStatus)
+          ) {
             return "bg-success";
           }
           return "bg-secondary";
-        } else if (status === "PROCESSING") {
-          if (["LISTED"].includes(currentStatus) && this.isAdminUser) {
+        } else if (status === STATUSES.PROCESSING) {
+          if ([STATUSES.LISTED].includes(currentStatus) && this.isAdminUser) {
             return "bg-primary";
           }
-          if (["PROCESSING", "LISTED", "SOLD"].includes(currentStatus)) {
+          if (
+            [STATUSES.PROCESSING, STATUSES.LISTED, STATUSES.SOLD].includes(
+              currentStatus
+            )
+          ) {
             return "bg-success";
           }
           return "bg-secondary";
-        } else if (status === "LISTED") {
-          if (["SOLD"].includes(currentStatus) && this.isAdminUser) {
+        } else if (status === STATUSES.LISTED) {
+          if ([STATUSES.SOLD].includes(currentStatus) && this.isAdminUser) {
             return "bg-primary";
           }
-          if (["LISTED", "SOLD"].includes(currentStatus)) {
+          if ([STATUSES.LISTED, STATUSES.SOLD].includes(currentStatus)) {
             return "bg-success";
           }
           return "bg-secondary";
-        } else if (status === "SOLD") {
-          if (["SOLD"].includes(currentStatus)) {
+        } else if (status === STATUSES.SOLD) {
+          if ([STATUSES.SOLD].includes(currentStatus)) {
             return "bg-success";
           }
           return "bg-secondary";
@@ -297,10 +425,11 @@ export default defineComponent({
   },
   methods: {
     getCurrentStatus(userStatus: string, adminStatus: string) {
-      if (userStatus === "WITHDRAWN") return userStatus;
-      if (userStatus === "ACCEPTED" && adminStatus === "APPROVED") return userStatus;
+      if (userStatus === STATUSES.WITHDRAWN) return userStatus;
+      if (userStatus === STATUSES.ACCEPTED && adminStatus === STATUSES.APPROVED)
+        return userStatus;
       if (adminStatus) return adminStatus;
-      return "PENDING";
+      return STATUSES.PENDING;
     },
     async navigateUpdateAppraisal(id: string) {
       await this.$router.push({ name: "UpdateAppraisal", params: { id: id } });
@@ -314,8 +443,71 @@ export default defineComponent({
           graphqlOperation(listAppraisals)
         )) as GraphQLResult<ListAppraisalsQuery>
       ).data.listAppraisals.items.sort((a, b) =>
-        a.updatedAt > b.updatedAt ? -1 : a.updatedAt === b.updatedAt ? 0 : 1
+        a.createdAt > b.createdAt ? -1 : a.createdAt === b.createdAt ? 0 : 1
       );
+    },
+    getNextStatuses(status: string) {
+      if (status === STATUSES.WITHDRAWN) {
+        return [];
+      } else if (status === STATUSES.PENDING && this.isAdminUser) {
+        return [STATUSES.APPROVED, STATUSES.DENIED];
+      } else if (status === STATUSES.DENIED) {
+        return [];
+      } else if (status === STATUSES.APPROVED && !this.isAdminUser) {
+        return [STATUSES.ACCEPTED];
+      } else if (status === STATUSES.ACCEPTED && this.isAdminUser) {
+        return [STATUSES.PROCESSING];
+      } else if (status === STATUSES.PROCESSING && this.isAdminUser) {
+        return [STATUSES.LISTED];
+      } else if (status === STATUSES.LISTED && this.isAdminUser) {
+        return [STATUSES.SOLD];
+      } else if (status === STATUSES.SOLD) {
+        return [];
+      }
+      return [];
+    },
+    changeStatus(oldStatus: string, newStatus: string, id: string) {
+      if (
+        oldStatus === STATUSES.WITHDRAWN &&
+        this.getNextStatuses(oldStatus).includes(newStatus)
+      ) {
+        console.log(`From ${oldStatus} to ${newStatus}`);
+      } else if (
+        oldStatus === STATUSES.PENDING &&
+        this.getNextStatuses(oldStatus).includes(newStatus)
+      ) {
+        console.log(`From ${oldStatus} to ${newStatus}`);
+      } else if (
+        oldStatus === STATUSES.DENIED &&
+        this.getNextStatuses(oldStatus).includes(newStatus)
+      ) {
+        console.log(`From ${oldStatus} to ${newStatus}`);
+      } else if (
+        oldStatus === STATUSES.APPROVED &&
+        this.getNextStatuses(oldStatus).includes(newStatus)
+      ) {
+        console.log(`From ${oldStatus} to ${newStatus}`);
+      } else if (
+        oldStatus === STATUSES.ACCEPTED &&
+        this.getNextStatuses(oldStatus).includes(newStatus)
+      ) {
+        console.log(`From ${oldStatus} to ${newStatus}`);
+      } else if (
+        oldStatus === STATUSES.PROCESSING &&
+        this.getNextStatuses(oldStatus).includes(newStatus)
+      ) {
+        console.log(`From ${oldStatus} to ${newStatus}`);
+      } else if (
+        oldStatus === STATUSES.LISTED &&
+        this.getNextStatuses(oldStatus).includes(newStatus)
+      ) {
+        console.log(`From ${oldStatus} to ${newStatus}`);
+      } else if (
+        oldStatus === STATUSES.SOLD &&
+        this.getNextStatuses(oldStatus).includes(newStatus)
+      ) {
+        console.log(`From ${oldStatus} to ${newStatus}`);
+      }
     },
   },
   async created() {
