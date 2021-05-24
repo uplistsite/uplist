@@ -33,57 +33,128 @@
                 aria-valuenow="15"
                 aria-valuemin="0"
                 aria-valuemax="100"
-                data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Withdraw the appraisal."
+                :class="
+                  getStatusClasses(
+                    'WITHDRAWN',
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    )
+                  )
+                "
               >
                 Withdrawn
               </div>
               <div
-                class="progress-bar bg-secondary"
+                class="progress-bar"
                 role="progressbar"
                 style="width: 16%"
                 aria-valuenow="30"
                 aria-valuemin="0"
                 aria-valuemax="100"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Appraisal is being appraised."
+                :class="
+                  getStatusClasses(
+                    'PENDING',
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    )
+                  )
+                "
               >
                 Pending
               </div>
               <div
-                class="progress-bar bg-success"
+                class="progress-bar"
                 role="progressbar"
                 style="width: 16%"
                 aria-valuenow="30"
                 aria-valuemin="0"
                 aria-valuemax="100"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Appraisal was denied."
+                :class="
+                  getStatusClasses(
+                    'DENIED',
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    )
+                  )
+                "
               >
                 Denied
               </div>
               <div
-                class="progress-bar bg-info"
+                class="progress-bar"
                 role="progressbar"
                 style="width: 16%"
                 aria-valuenow="30"
                 aria-valuemin="0"
                 aria-valuemax="100"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Appraisal was approved. Pending user acceptance."
+                :class="
+                  getStatusClasses(
+                    'APPROVED',
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    )
+                  )
+                "
               >
                 Approved
               </div>
               <div
-                class="progress-bar bg-secondary"
+                class="progress-bar"
                 role="progressbar"
                 style="width: 17%"
                 aria-valuenow="20"
                 aria-valuemin="0"
                 aria-valuemax="100"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Accept the appraisal."
+                :class="
+                  getStatusClasses(
+                    'ACCEPTED',
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    )
+                  )
+                "
               >
                 Accepted
               </div>
               <div
-                class="progress-bar bg-info"
+                class="progress-bar"
                 role="progressbar"
                 style="width: 17%"
                 aria-valuenow="20"
                 aria-valuemin="0"
                 aria-valuemax="100"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Item is currently being processed."
+                :class="
+                  getStatusClasses(
+                    'PROCESSING',
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    )
+                  )
+                "
               >
                 Processing
               </div>
@@ -94,16 +165,40 @@
                 aria-valuenow="20"
                 aria-valuemin="0"
                 aria-valuemax="100"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Item has been listed for sale."
+                :class="
+                  getStatusClasses(
+                    'LISTED',
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    )
+                  )
+                "
               >
                 Listed
               </div>
               <div
-                class="progress-bar bg-info"
+                class="progress-bar"
                 role="progressbar"
                 style="width: 17%"
                 aria-valuenow="20"
                 aria-valuemin="0"
                 aria-valuemax="100"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Item has been sold."
+                :class="
+                  getStatusClasses(
+                    'SOLD',
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    )
+                  )
+                "
               >
                 Sold
               </div>
@@ -132,8 +227,81 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters(["isAdminUser"]),
+    getStatusClasses() {
+      return (status: string, currentStatus: string): string => {
+        if (status === "WITHDRAWN") {
+          if (["WITHDRAWN"].includes(currentStatus)) {
+            return "bg-danger";
+          }
+          if (["PENDING", "APPROVED"].includes(currentStatus) && !this.isAdminUser) {
+            return "bg-primary";
+          }
+          return "bg-secondary";
+        } else if (status === "PENDING") {
+          if (["APPROVED", "DENIED"].includes(currentStatus) && this.isAdminUser) {
+            return "bg-primary";
+          }
+          if (["PENDING", "APPROVED", "ACCEPTED", "PROCESSING", "LISTED", "SOLD"].includes(currentStatus)) {
+            return "bg-success";
+          }
+          return "bg-secondary";
+        } else if (status === "APPROVED") {
+          if (["PENDING"].includes(currentStatus) && this.isAdminUser) {
+            return "bg-primary";
+          }
+          if (["APPROVED", "ACCEPTED", "PROCESSING", "LISTED", "SOLD"].includes(currentStatus)) {
+            return "bg-success";
+          }
+          return "bg-secondary";
+        } else if (status === "DENIED") {
+          if (["PENDING"].includes(currentStatus) && this.isAdminUser) {
+            return "bg-primary";
+          }
+          if (["DENIED"].includes(currentStatus)) {
+            return "bg-danger";
+          }
+          return "bg-secondary";
+        } else if (status === "ACCEPTED") {
+          if (["PROCESSING"].includes(currentStatus) && this.isAdminUser) {
+            return "bg-primary";
+          }
+          if (["ACCEPTED", "PROCESSING", "LISTED", "SOLD"].includes(currentStatus)) {
+            return "bg-success";
+          }
+          return "bg-secondary";
+        } else if (status === "PROCESSING") {
+          if (["LISTED"].includes(currentStatus) && this.isAdminUser) {
+            return "bg-primary";
+          }
+          if (["PROCESSING", "LISTED", "SOLD"].includes(currentStatus)) {
+            return "bg-success";
+          }
+          return "bg-secondary";
+        } else if (status === "LISTED") {
+          if (["SOLD"].includes(currentStatus) && this.isAdminUser) {
+            return "bg-primary";
+          }
+          if (["LISTED", "SOLD"].includes(currentStatus)) {
+            return "bg-success";
+          }
+          return "bg-secondary";
+        } else if (status === "SOLD") {
+          if (["SOLD"].includes(currentStatus)) {
+            return "bg-success";
+          }
+          return "bg-secondary";
+        }
+        return "";
+      };
+    },
   },
   methods: {
+    getCurrentStatus(userStatus: string, adminStatus: string) {
+      if (userStatus === "WITHDRAWN") return userStatus;
+      if (userStatus === "ACCEPTED" && adminStatus === "APPROVED") return userStatus;
+      if (adminStatus) return adminStatus;
+      return "PENDING";
+    },
     async navigateUpdateAppraisal(id: string) {
       await this.$router.push({ name: "UpdateAppraisal", params: { id: id } });
     },
@@ -158,10 +326,16 @@ export default defineComponent({
 
 <style scoped>
 .progress {
-  height: 1.5rem;
+  height: 1.75rem;
   border-radius: 1.5rem;
 }
-.progress-bar {
+.bg-primary {
   cursor: pointer;
+}
+.bg-secondary {
+  cursor: not-allowed;
+}
+.bg-success {
+  cursor: not-allowed;
 }
 </style>

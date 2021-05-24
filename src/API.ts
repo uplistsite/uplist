@@ -78,8 +78,8 @@ export type CreateAppraisalInput = {
 };
 
 export enum AppraisalUserStatus {
-  CREATED = "CREATED",
   WITHDRAWN = "WITHDRAWN",
+  ACCEPTED = "ACCEPTED",
 }
 
 
@@ -97,7 +97,7 @@ export enum AppraisalAdminStatus {
   APPROVED = "APPROVED",
   DENIED = "DENIED",
   PROCESSING = "PROCESSING",
-  LIST = "LIST",
+  LISTED = "LISTED",
   SOLD = "SOLD",
 }
 

@@ -76,15 +76,15 @@ type S3Object
 }
 
 enum AppraisalUserStatus {
-    CREATED,
-    WITHDRAWN
+    WITHDRAWN,
+    ACCEPTED
 }
 
 enum AppraisalAdminStatus {
     APPROVED,
     DENIED,
     PROCESSING,
-    LIST,
+    LISTED,
     SOLD
 }
 
