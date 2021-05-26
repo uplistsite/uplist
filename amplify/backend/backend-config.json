@@ -95,7 +95,23 @@
   "storage": {
     "s37ab2bbfd": {
       "service": "S3",
-      "providerPlugin": "awscloudformation"
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "uplist9241861e9241861e",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "auth",
+          "resourceName": "userPoolGroups",
+          "attributes": [
+            "AdminGroupRole"
+          ]
+        }
+      ]
     }
   }
 }

@@ -20,11 +20,12 @@
                 <label for="inputDescription" class="form-label label-required"
                   >Description</label
                 >
-                <input
+                <textarea
                   v-model="description"
                   type="text"
                   class="form-control"
                   id="inputDescription"
+                  rows="3"
                   required
                 />
               </div>

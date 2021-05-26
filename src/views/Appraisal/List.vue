@@ -16,15 +16,16 @@
         class="col-12 mt-3"
       >
         <div class="card">
-          <div class="card-body">
-            <h3 class="card-title">{{ appraisal.name }}</h3>
-            <h6>{{ appraisal.description }}</h6>
+          <h3 class="card-header">{{ appraisal.name }}
             <button
-              class="btn btn-primary mb-3"
+              class="btn btn-link float-end"
               @click="navigateUpdateAppraisal(appraisal.id)"
             >
               Edit
             </button>
+          </h3>
+          <div class="card-body">
+            <h6>{{ appraisal.description }}</h6>
             <div class="progress">
               <div
                 class="progress-bar"
