@@ -53,6 +53,8 @@ type Appraisal
   model: String,
   make: String,
   wear: Wear,
+  deniedReason: String,
+  withdrawnReason: String,
   appraisalAdminStatus: AppraisalAdminStatus
     @auth(
         rules: [

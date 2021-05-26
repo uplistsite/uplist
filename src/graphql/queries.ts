@@ -58,6 +58,8 @@ export const getAppraisal = /* GraphQL */ `
       model
       make
       wear
+      deniedReason
+      withdrawnReason
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -88,6 +90,8 @@ export const listAppraisals = /* GraphQL */ `
         model
         make
         wear
+        deniedReason
+        withdrawnReason
         appraisalAdminStatus
         createdAt
         updatedAt
