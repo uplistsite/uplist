@@ -1,13 +1,23 @@
 <template>
   <div class="container mt-5 mb-5">
+    <ul class="nav nav-tabs justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link" href="#description" :class="descriptionClasses">Description</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#images" :class="imagesClasses">Images</a>
+      </li>
+    </ul>
     <div class="row justify-content-center">
-      <div class="col-12">
+      <div class="col-12" v-if="hash === '#description' || !hash">
         <div class="card">
           <div class="card-body">
             <h3 class="card-title">{{ typeText + " Appraisal" }}</h3>
             <form @submit.prevent="processAppraisal">
               <div class="mb-3">
-                <label for="inputName" class="form-label label-required">Name</label>
+                <label for="inputName" class="form-label label-required"
+                  >Name</label
+                >
                 <input
                   v-model="name"
                   type="text"
@@ -37,7 +47,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 mt-3" v-if="isUpdate">
+      <div class="col-12" v-if="hash === '#images'">
         <div class="card">
           <div class="card-body">
             <div class="mb-3">
@@ -74,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from "vue";
+import { defineComponent } from "vue";
 import { API, graphqlOperation, Storage } from "aws-amplify";
 import {
   createAppraisal,
@@ -94,6 +104,7 @@ export default defineComponent({
       name: "",
       description: "",
       images: [],
+      hash: "",
     };
   },
   props: {
@@ -109,6 +120,24 @@ export default defineComponent({
     typeText() {
       if (this.isUpdate) return "Update";
       return "Create";
+    },
+    descriptionClasses() {
+      if (this.hash === "#description" || !this.hash) return "active";
+      return "";
+    },
+    imagesClasses() {
+      if (this.hash === "#images") return "active";
+      if (this.isCreate) return "disabled";
+      return "";
+    },
+  },
+  watch: {
+    "$route.hash": {
+      handler: function (hash) {
+        this.hash = hash;
+      },
+      deep: true,
+      immediate: true,
     },
   },
   methods: {
