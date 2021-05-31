@@ -472,42 +472,42 @@ export default defineComponent({
         oldStatus === STATUSES.WITHDRAWN &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus}`);
+        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
         oldStatus === STATUSES.PENDING &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus}`);
+        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
         oldStatus === STATUSES.DENIED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus}`);
+        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
         oldStatus === STATUSES.APPROVED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus}`);
+        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
         oldStatus === STATUSES.ACCEPTED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus}`);
+        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
         oldStatus === STATUSES.PROCESSING &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus}`);
+        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
         oldStatus === STATUSES.LISTED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus}`);
+        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
         oldStatus === STATUSES.SOLD &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus}`);
+        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       }
     },
   },

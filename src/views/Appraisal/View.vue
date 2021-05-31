@@ -10,7 +10,7 @@
     </ul>
     <div class="row justify-content-center">
       <div class="col-12" v-if="hash === '#description' || !hash">
-        <div class="card">
+        <div class="card shadow">
           <div class="card-body">
             <h3 class="card-title">{{ typeText + " Appraisal" }}</h3>
             <form @submit.prevent="processAppraisal">
@@ -48,12 +48,9 @@
         </div>
       </div>
       <div class="col-12" v-if="hash === '#images'">
-        <div class="card">
+        <div class="card shadow">
           <div class="card-body">
             <div class="mb-3">
-              <label for="formFileMultiple" class="form-label"
-                >File Input</label
-              >
               <input
                 class="form-control"
                 type="file"
