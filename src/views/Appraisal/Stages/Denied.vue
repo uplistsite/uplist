@@ -12,7 +12,30 @@
           ></button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to deny this appraisal?</p>
+          <p class="mb-1">Are you sure you want to deny this appraisal?</p>
+          <form id="deniedForm" @submit.prevent="deny">
+            <div class="mb-3">
+              <label for="reason" class="col-form-label">Reason</label>
+              <select class="form-select" id="reason" v-model="reason" required>
+                <option disabled value="">Please select a reason</option>
+                <option>Item quality</option>
+                <option>Item value</option>
+                <option>Location</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="mb-3" v-if="reason === 'Other'">
+              <label for="otherReason" class="form-label">Other Reason</label>
+              <textarea
+                v-model="otherReason"
+                type="text"
+                class="form-control"
+                id="otherReason"
+                rows="3"
+                required
+              />
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button
@@ -22,7 +45,7 @@
           >
             Cancel
           </button>
-          <button type="button" class="btn btn-danger" @click="deny">
+          <button form="deniedForm" type="submit" class="btn btn-danger">
             Deny
           </button>
         </div>
@@ -42,6 +65,12 @@ export default defineComponent({
   props: {
     id: String,
   },
+  data() {
+    return {
+      reason: "",
+      otherReason: "",
+    };
+  },
   components: {
     Modal,
   },
@@ -53,6 +82,7 @@ export default defineComponent({
           variables: {
             input: {
               id: this.id,
+              deniedReason: this.otherReason ? this.otherReason : this.reason,
               appraisalAdminStatus: "DENIED",
             },
           },

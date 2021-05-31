@@ -483,7 +483,6 @@ export default defineComponent({
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
         this.deniedId = id;
-        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
         newStatus === STATUSES.APPROVED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
@@ -513,6 +512,7 @@ export default defineComponent({
     },
     closeModals() {
       this.deniedId = "";
+      this.getAppraisals();
     },
   },
   async created() {
