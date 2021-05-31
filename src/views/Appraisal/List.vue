@@ -288,6 +288,7 @@
         </div>
       </div>
     </div>
+    <Denied v-if="deniedId" :id="deniedId" @close="closeModals"></Denied>
   </div>
 </template>
 
@@ -298,6 +299,7 @@ import { GraphQLResult } from "@aws-amplify/api";
 import { ListAppraisalsQuery } from "@/API";
 import { API, graphqlOperation } from "aws-amplify";
 import { mapGetters } from "vuex";
+import Denied from "@/views/Appraisal/Stages/Denied.vue";
 
 const STATUSES = {
   WITHDRAWN: "WITHDRAWN",
@@ -315,7 +317,11 @@ export default defineComponent({
   data() {
     return {
       appraisals: [],
+      deniedId: "",
     };
+  },
+  components: {
+    Denied,
   },
   computed: {
     ...mapGetters(["isAdminUser"]),
@@ -469,46 +475,50 @@ export default defineComponent({
     },
     changeStatus(oldStatus: string, newStatus: string, id: string) {
       if (
-        oldStatus === STATUSES.WITHDRAWN &&
+        newStatus === STATUSES.WITHDRAWN &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
         console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
-        oldStatus === STATUSES.PENDING &&
+        newStatus === STATUSES.PENDING &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
         console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
-        oldStatus === STATUSES.DENIED &&
+        newStatus === STATUSES.DENIED &&
+        this.getNextStatuses(oldStatus).includes(newStatus)
+      ) {
+        this.deniedId = id;
+        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
+      } else if (
+        newStatus === STATUSES.APPROVED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
         console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
-        oldStatus === STATUSES.APPROVED &&
+        newStatus === STATUSES.ACCEPTED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
         console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
-        oldStatus === STATUSES.ACCEPTED &&
+        newStatus === STATUSES.PROCESSING &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
         console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
-        oldStatus === STATUSES.PROCESSING &&
+        newStatus === STATUSES.LISTED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
         console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
-        oldStatus === STATUSES.LISTED &&
-        this.getNextStatuses(oldStatus).includes(newStatus)
-      ) {
-        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
-      } else if (
-        oldStatus === STATUSES.SOLD &&
+        newStatus === STATUSES.SOLD &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
         console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       }
+    },
+    closeModals() {
+      this.deniedId = "";
     },
   },
   async created() {
