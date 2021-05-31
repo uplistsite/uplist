@@ -22,7 +22,7 @@
           >
             Cancel
           </button>
-          <button type="button" class="btn btn-primary" @click="deny">
+          <button type="button" class="btn btn-danger" @click="deny">
             Deny
           </button>
         </div>
@@ -61,7 +61,6 @@ export default defineComponent({
         console.log(e);
       }
       const modal: any = this.$refs.modal;
-      console.log("Denied");
       modal.close();
     },
   },
