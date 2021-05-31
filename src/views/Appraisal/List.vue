@@ -4,7 +4,7 @@
       <div class="mx-1 mb-3">
         <button
           type="submit"
-          class="btn btn-primary align-content-end"
+          class="btn btn-primary"
           @click="navigateCreateAppraisal"
         >
           Create New Appraisal

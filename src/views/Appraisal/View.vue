@@ -42,7 +42,7 @@
               <div v-if="appraisalError" class="form-text text-danger mb-3">
                 {{ appraisalError }}
               </div>
-              <button class="btn btn-primary">{{ typeText }}</button>
+              <button class="btn btn-primary float-end">{{ typeText }}</button>
             </form>
           </div>
         </div>
