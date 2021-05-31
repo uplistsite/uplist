@@ -1,7 +1,7 @@
 <template>
-  <div class="container mt-5 mb-5">
+  <div class="container my-4">
     <div class="row justify-content-center">
-      <div class="mx-1">
+      <div class="mx-1 mb-3">
         <button
           type="submit"
           class="btn btn-primary align-content-end"
@@ -13,9 +13,9 @@
       <div
         v-for="appraisal in appraisals"
         :key="appraisal.id"
-        class="col-12 mt-3"
+        class="col-12 mb-4"
       >
-        <div class="card">
+        <div class="card shadow">
           <h3 class="card-header">{{ appraisal.name }}
             <button
               class="btn btn-link float-end"
