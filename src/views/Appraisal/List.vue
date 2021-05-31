@@ -340,12 +340,6 @@ export default defineComponent({
           return "bg-secondary";
         } else if (status === STATUSES.PENDING) {
           if (
-            [STATUSES.APPROVED, STATUSES.DENIED].includes(currentStatus) &&
-            this.isAdminUser
-          ) {
-            return "bg-primary";
-          }
-          if (
             [
               STATUSES.PENDING,
               STATUSES.APPROVED,
@@ -539,6 +533,9 @@ export default defineComponent({
   cursor: not-allowed;
 }
 .bg-success {
+  cursor: not-allowed;
+}
+.bg-danger {
   cursor: not-allowed;
 }
 </style>

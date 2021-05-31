@@ -26,5 +26,10 @@ export default defineComponent({
     this.modal = new Modal(modalElement);
     this.modal.show();
   },
+  methods: {
+    close() {
+      this.modal.hide();
+    },
+  },
 });
 </script>
