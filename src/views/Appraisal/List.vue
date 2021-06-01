@@ -60,6 +60,38 @@
                 Withdrawn
               </div>
               <div
+                  class="progress-bar"
+                  role="progressbar"
+                  style="width: 16%"
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Appraisal was denied."
+                  :class="
+                  getStatusClasses(
+                    'DENIED',
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    )
+                  )
+                "
+                  @click="
+                  changeStatus(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    ),
+                    'DENIED',
+                    appraisal.id
+                  )
+                "
+              >
+                Denied
+              </div>
+              <div
                 class="progress-bar"
                 role="progressbar"
                 style="width: 16%"
@@ -90,38 +122,6 @@
                 "
               >
                 Pending
-              </div>
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 16%"
-                aria-valuenow="30"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Appraisal was denied."
-                :class="
-                  getStatusClasses(
-                    'DENIED',
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    )
-                  )
-                "
-                @click="
-                  changeStatus(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    ),
-                    'DENIED',
-                    appraisal.id
-                  )
-                "
-              >
-                Denied
               </div>
               <div
                 class="progress-bar"
@@ -289,6 +289,11 @@
       </div>
     </div>
     <Denied v-if="deniedId" :id="deniedId" @close="closeModals"></Denied>
+    <Approved
+      v-if="approvedId"
+      :id="approvedId"
+      @close="closeModals"
+    ></Approved>
   </div>
 </template>
 
@@ -300,6 +305,7 @@ import { ListAppraisalsQuery } from "@/API";
 import { API, graphqlOperation } from "aws-amplify";
 import { mapGetters } from "vuex";
 import Denied from "@/views/Appraisal/Stages/Denied.vue";
+import Approved from "@/views/Appraisal/Stages/Approved.vue";
 
 const STATUSES = {
   WITHDRAWN: "WITHDRAWN",
@@ -318,10 +324,12 @@ export default defineComponent({
     return {
       appraisals: [],
       deniedId: "",
+      approvedId: "",
     };
   },
   components: {
     Denied,
+    Approved,
   },
   computed: {
     ...mapGetters(["isAdminUser"]),
@@ -378,8 +386,8 @@ export default defineComponent({
           return "bg-secondary";
         } else if (status === STATUSES.ACCEPTED) {
           if (
-            [STATUSES.PROCESSING].includes(currentStatus) &&
-            this.isAdminUser
+            [STATUSES.APPROVED].includes(currentStatus) &&
+            !this.isAdminUser
           ) {
             return "bg-primary";
           }
@@ -450,12 +458,13 @@ export default defineComponent({
     getNextStatuses(status: string) {
       if (status === STATUSES.WITHDRAWN) {
         return [];
-      } else if (status === STATUSES.PENDING && this.isAdminUser) {
-        return [STATUSES.APPROVED, STATUSES.DENIED];
+      } else if (status === STATUSES.PENDING) {
+        if (this.isAdminUser) return [STATUSES.APPROVED, STATUSES.DENIED];
+        return [STATUSES.WITHDRAWN];
       } else if (status === STATUSES.DENIED) {
         return [];
       } else if (status === STATUSES.APPROVED && !this.isAdminUser) {
-        return [STATUSES.ACCEPTED];
+        return [STATUSES.WITHDRAWN, STATUSES.ACCEPTED];
       } else if (status === STATUSES.ACCEPTED && this.isAdminUser) {
         return [STATUSES.PROCESSING];
       } else if (status === STATUSES.PROCESSING && this.isAdminUser) {
@@ -487,7 +496,7 @@ export default defineComponent({
         newStatus === STATUSES.APPROVED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
+        this.approvedId = id;
       } else if (
         newStatus === STATUSES.ACCEPTED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
@@ -511,6 +520,7 @@ export default defineComponent({
       }
     },
     closeModals() {
+      this.approvedId = "";
       this.deniedId = "";
       this.getAppraisals();
     },
