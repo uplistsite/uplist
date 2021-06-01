@@ -304,8 +304,8 @@ import { GraphQLResult } from "@aws-amplify/api";
 import { ListAppraisalsQuery } from "@/API";
 import { API, graphqlOperation } from "aws-amplify";
 import { mapGetters } from "vuex";
-import Denied from "@/views/Appraisal/Stages/Denied.vue";
-import Approved from "@/views/Appraisal/Stages/Approved.vue";
+import Denied from "@/components/Appraisal/Stages/Denied.vue";
+import Approved from "@/components/Appraisal/Stages/Approved.vue";
 
 const STATUSES = {
   WITHDRAWN: "WITHDRAWN",

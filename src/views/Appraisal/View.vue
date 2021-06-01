@@ -2,7 +2,7 @@
   <div class="container mt-5 mb-5">
     <ul class="nav nav-tabs justify-content-center">
       <li class="nav-item">
-        <a class="nav-link" href="#description" :class="descriptionClasses">Description</a>
+        <a class="nav-link" href="#" :class="descriptionClasses">Description</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#images" :class="imagesClasses">Images</a>

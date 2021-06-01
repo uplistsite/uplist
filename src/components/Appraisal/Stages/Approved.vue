@@ -18,43 +18,58 @@
               <label for="inputPaymentAdvance" class="form-label"
                 >Payment Advance</label
               >
-              <input
-                v-model="paymentAdvance"
-                type="number"
-                class="form-control"
-                id="inputPaymentAdvance"
-                step=".01"
-                min=".01"
-                required
-              />
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input
+                  v-model="paymentAdvance"
+                  type="number"
+                  class="form-control"
+                  id="inputPaymentAdvance"
+                  step=".01"
+                  min=".01"
+                  required
+                />
+              </div>
             </div>
             <div class="mb-3">
               <label for="inputPaymentRangeLow" class="form-label"
                 >Estimated Lowest Range</label
               >
-              <input
-                v-model="paymentRangeLow"
-                type="number"
-                class="form-control"
-                id="inputPaymentRangeLow"
-                step=".01"
-                min=".01"
-                required
-              />
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input
+                  v-model="paymentRangeLow"
+                  type="number"
+                  class="form-control"
+                  id="inputPaymentRangeLow"
+                  step=".01"
+                  min=".01"
+                  required
+                />
+              </div>
             </div>
             <div class="mb-3">
               <label for="inputPaymentRangeHigh" class="form-label"
                 >Estimated Highest Range</label
               >
-              <input
-                v-model="paymentRangeHigh"
-                type="number"
-                class="form-control"
-                id="inputPaymentRangeHigh"
-                step=".01"
-                min=".01"
-                required
-              />
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input
+                  v-model="paymentRangeHigh"
+                  type="number"
+                  class="form-control"
+                  id="inputPaymentRangeHigh"
+                  step=".01"
+                  min=".01"
+                  required
+                />
+              </div>
             </div>
           </form>
         </div>

@@ -7,7 +7,7 @@
       <button
         class="navbar-toggler"
         data-bs-toggle="collapse"
-        data-bs-target="#navbar"
+        data-bs-target="#navbarSupportedContent"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
