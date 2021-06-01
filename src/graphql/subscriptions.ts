@@ -54,6 +54,13 @@ export const onCreateAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
@@ -89,6 +96,13 @@ export const onUpdateAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
@@ -124,6 +138,13 @@ export const onDeleteAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
@@ -173,6 +194,39 @@ export const onDeleteS3Object = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+    }
+  }
+`;
+export const onCreatePickupTime = /* GraphQL */ `
+  subscription OnCreatePickupTime {
+    onCreatePickupTime {
+      id
+      time
+      isUsed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePickupTime = /* GraphQL */ `
+  subscription OnUpdatePickupTime {
+    onUpdatePickupTime {
+      id
+      time
+      isUsed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePickupTime = /* GraphQL */ `
+  subscription OnDeletePickupTime {
+    onDeletePickupTime {
+      id
+      time
+      isUsed
+      createdAt
+      updatedAt
     }
   }
 `;

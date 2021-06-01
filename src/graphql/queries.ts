@@ -50,6 +50,13 @@ export const getAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
@@ -82,6 +89,13 @@ export const listAppraisals = /* GraphQL */ `
           nextToken
         }
         appraisalUserStatus
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
         paymentAdvance
         paymentRangeLow
         paymentRangeHigh
@@ -126,6 +140,35 @@ export const listS3Objects = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getPickupTime = /* GraphQL */ `
+  query GetPickupTime($id: ID!) {
+    getPickupTime(id: $id) {
+      id
+      time
+      isUsed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPickupTimes = /* GraphQL */ `
+  query ListPickupTimes(
+    $filter: ModelPickupTimeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPickupTimes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
       }
       nextToken
     }

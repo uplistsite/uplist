@@ -66,6 +66,13 @@ export const createAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
@@ -104,6 +111,13 @@ export const updateAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
@@ -142,6 +156,13 @@ export const deleteAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
@@ -200,6 +221,48 @@ export const deleteS3Object = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+    }
+  }
+`;
+export const createPickupTime = /* GraphQL */ `
+  mutation CreatePickupTime(
+    $input: CreatePickupTimeInput!
+    $condition: ModelPickupTimeConditionInput
+  ) {
+    createPickupTime(input: $input, condition: $condition) {
+      id
+      time
+      isUsed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updatePickupTime = /* GraphQL */ `
+  mutation UpdatePickupTime(
+    $input: UpdatePickupTimeInput!
+    $condition: ModelPickupTimeConditionInput
+  ) {
+    updatePickupTime(input: $input, condition: $condition) {
+      id
+      time
+      isUsed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deletePickupTime = /* GraphQL */ `
+  mutation DeletePickupTime(
+    $input: DeletePickupTimeInput!
+    $condition: ModelPickupTimeConditionInput
+  ) {
+    deletePickupTime(input: $input, condition: $condition) {
+      id
+      time
+      isUsed
+      createdAt
+      updatedAt
     }
   }
 `;

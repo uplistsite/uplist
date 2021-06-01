@@ -2,17 +2,17 @@ type User
 @model
 @auth(
     rules: [
-      { allow: owner, operations: [read] },
-      { allow: groups, groups: ["Admin"] },
+        { allow: owner, operations: [read] },
+        { allow: groups, groups: ["Admin"] },
     ])
 {
-  id: ID!,
-  owner: String,
-  balance: Float
+    id: ID!,
+    owner: String,
+    balance: Float
     @auth(
         rules: [
-          { allow: owner, operations: [read] },
-          { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+            { allow: owner, operations: [read] },
+            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
         ])
 }
 
@@ -20,46 +20,47 @@ type Appraisal
 @model
 @auth(
     rules: [
-      { allow: owner, operations: [create, update, delete, read] },
-      { allow: groups, groups: ["Admin"] },
+        { allow: owner, operations: [create, update, delete, read] },
+        { allow: groups, groups: ["Admin"] },
     ])
 {
-  id: ID!,
-  owner: String,
-  name: String!,
-  description: String!,
-  pictures: [S3Object] @connection(keyName: "byAppraisal", fields: ["id"]),
-  appraisalUserStatus: AppraisalUserStatus,
-  paymentAdvance: Float
-    @auth(
-        rules: [
-          { allow: owner, operations: [read] },
-          { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-        ]),
-  paymentRangeLow: Float
+    id: ID!,
+    owner: String,
+    name: String!,
+    description: String!,
+    pictures: [S3Object] @connection(keyName: "byAppraisal", fields: ["id"]),
+    appraisalUserStatus: AppraisalUserStatus,
+    pickupTime: PickupTime @connection,
+    paymentAdvance: Float
     @auth(
         rules: [
             { allow: owner, operations: [read] },
             { allow: groups, groups: ["Admin"], operations: [create, update, read] }
         ]),
-  paymentRangeHigh: Float
+    paymentRangeLow: Float
     @auth(
         rules: [
             { allow: owner, operations: [read] },
             { allow: groups, groups: ["Admin"], operations: [create, update, read] }
         ]),
-  defects: String,
-  year: String,
-  model: String,
-  make: String,
-  wear: Wear,
-  deniedReason: String,
-  withdrawnReason: String,
-  appraisalAdminStatus: AppraisalAdminStatus
+    paymentRangeHigh: Float
     @auth(
         rules: [
-          { allow: owner, operations: [read] },
-          { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+            { allow: owner, operations: [read] },
+            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+        ]),
+    defects: String,
+    year: String,
+    model: String,
+    make: String,
+    wear: Wear,
+    deniedReason: String,
+    withdrawnReason: String,
+    appraisalAdminStatus: AppraisalAdminStatus
+    @auth(
+        rules: [
+            { allow: owner, operations: [read] },
+            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
         ])
 }
 
@@ -68,13 +69,31 @@ type S3Object
 @key(name: "byAppraisal", fields: ["foreignId", "key"])
 @auth(
     rules: [
-      { allow: owner },
-      { allow: groups, groups: ["Admin"] },
+        { allow: owner },
+        { allow: groups, groups: ["Admin"] },
     ])
 {
     id: ID!,
     foreignId: ID!,
     key: String!
+}
+
+type PickupTime
+@model
+@auth(
+    rules: [
+        { allow: private, operations: [read] },
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    time: AWSDateTime!,
+    isUsed: Boolean
+    @auth(
+        rules: [
+            { allow: private, operations: [update] },
+            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+        ])
 }
 
 enum AppraisalUserStatus {

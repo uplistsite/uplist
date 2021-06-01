@@ -53,6 +53,12 @@ const routes: Array<RouteRecordRaw> = [
       ),
     props: true,
   },
+  {
+    path: "/pickups",
+    name: "Pickups",
+    component: () =>
+      import(/* webpackChunkName: "appraisals" */ "../views/Pickups.vue"),
+  },
 ];
 
 const router = createRouter({

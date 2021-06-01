@@ -37,6 +37,16 @@
               >
             </li>
           </router-link>
+          <router-link to="/pickups" v-slot="{ isActive }" v-if="isAdminUser">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                :class="[isActive && 'active']"
+                aria-current="page"
+                >Pickups</a
+              >
+            </li>
+          </router-link>
           <router-link to="/about" v-slot="{ isActive }">
             <li class="nav-item">
               <a
@@ -114,7 +124,7 @@ export default defineComponent({
     },
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "getBalance"]),
+    ...mapGetters(["isAuthenticated", "getBalance", "isAdminUser"]),
   },
   async created() {
     await this.$store.dispatch("getCognitoUser");

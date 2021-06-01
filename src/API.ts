@@ -77,6 +77,7 @@ export type CreateAppraisalInput = {
   deniedReason?: string | null,
   withdrawnReason?: string | null,
   appraisalAdminStatus?: AppraisalAdminStatus | null,
+  appraisalPickupTimeId?: string | null,
 };
 
 export enum AppraisalUserStatus {
@@ -173,6 +174,7 @@ export type Appraisal = {
   description?: string,
   pictures?: ModelS3ObjectConnection,
   appraisalUserStatus?: AppraisalUserStatus | null,
+  pickupTime?: PickupTime,
   paymentAdvance?: number | null,
   paymentRangeLow?: number | null,
   paymentRangeHigh?: number | null,
@@ -204,6 +206,15 @@ export type S3Object = {
   owner?: string | null,
 };
 
+export type PickupTime = {
+  __typename: "PickupTime",
+  id?: string,
+  time?: string,
+  isUsed?: boolean | null,
+  createdAt?: string,
+  updatedAt?: string,
+};
+
 export type UpdateAppraisalInput = {
   id: string,
   owner?: string | null,
@@ -221,6 +232,7 @@ export type UpdateAppraisalInput = {
   deniedReason?: string | null,
   withdrawnReason?: string | null,
   appraisalAdminStatus?: AppraisalAdminStatus | null,
+  appraisalPickupTimeId?: string | null,
 };
 
 export type DeleteAppraisalInput = {
@@ -264,6 +276,37 @@ export type UpdateS3ObjectInput = {
 };
 
 export type DeleteS3ObjectInput = {
+  id?: string | null,
+};
+
+export type CreatePickupTimeInput = {
+  id?: string | null,
+  time: string,
+  isUsed?: boolean | null,
+};
+
+export type ModelPickupTimeConditionInput = {
+  time?: ModelStringInput | null,
+  isUsed?: ModelBooleanInput | null,
+  and?: Array< ModelPickupTimeConditionInput | null > | null,
+  or?: Array< ModelPickupTimeConditionInput | null > | null,
+  not?: ModelPickupTimeConditionInput | null,
+};
+
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type UpdatePickupTimeInput = {
+  id: string,
+  time?: string | null,
+  isUsed?: boolean | null,
+};
+
+export type DeletePickupTimeInput = {
   id?: string | null,
 };
 
@@ -317,6 +360,21 @@ export type ModelS3ObjectFilterInput = {
   and?: Array< ModelS3ObjectFilterInput | null > | null,
   or?: Array< ModelS3ObjectFilterInput | null > | null,
   not?: ModelS3ObjectFilterInput | null,
+};
+
+export type ModelPickupTimeFilterInput = {
+  id?: ModelIDInput | null,
+  time?: ModelStringInput | null,
+  isUsed?: ModelBooleanInput | null,
+  and?: Array< ModelPickupTimeFilterInput | null > | null,
+  or?: Array< ModelPickupTimeFilterInput | null > | null,
+  not?: ModelPickupTimeFilterInput | null,
+};
+
+export type ModelPickupTimeConnection = {
+  __typename: "ModelPickupTimeConnection",
+  items?:  Array<PickupTime | null > | null,
+  nextToken?: string | null,
 };
 
 export type CreateUserMutationVariables = {
@@ -393,6 +451,14 @@ export type CreateAppraisalMutation = {
       nextToken?: string | null,
     } | null,
     appraisalUserStatus?: AppraisalUserStatus | null,
+    pickupTime?:  {
+      __typename: "PickupTime",
+      id: string,
+      time: string,
+      isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     paymentAdvance?: number | null,
     paymentRangeLow?: number | null,
     paymentRangeHigh?: number | null,
@@ -435,6 +501,14 @@ export type UpdateAppraisalMutation = {
       nextToken?: string | null,
     } | null,
     appraisalUserStatus?: AppraisalUserStatus | null,
+    pickupTime?:  {
+      __typename: "PickupTime",
+      id: string,
+      time: string,
+      isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     paymentAdvance?: number | null,
     paymentRangeLow?: number | null,
     paymentRangeHigh?: number | null,
@@ -477,6 +551,14 @@ export type DeleteAppraisalMutation = {
       nextToken?: string | null,
     } | null,
     appraisalUserStatus?: AppraisalUserStatus | null,
+    pickupTime?:  {
+      __typename: "PickupTime",
+      id: string,
+      time: string,
+      isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     paymentAdvance?: number | null,
     paymentRangeLow?: number | null,
     paymentRangeHigh?: number | null,
@@ -544,6 +626,54 @@ export type DeleteS3ObjectMutation = {
   } | null,
 };
 
+export type CreatePickupTimeMutationVariables = {
+  input?: CreatePickupTimeInput,
+  condition?: ModelPickupTimeConditionInput | null,
+};
+
+export type CreatePickupTimeMutation = {
+  createPickupTime?:  {
+    __typename: "PickupTime",
+    id: string,
+    time: string,
+    isUsed?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdatePickupTimeMutationVariables = {
+  input?: UpdatePickupTimeInput,
+  condition?: ModelPickupTimeConditionInput | null,
+};
+
+export type UpdatePickupTimeMutation = {
+  updatePickupTime?:  {
+    __typename: "PickupTime",
+    id: string,
+    time: string,
+    isUsed?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeletePickupTimeMutationVariables = {
+  input?: DeletePickupTimeInput,
+  condition?: ModelPickupTimeConditionInput | null,
+};
+
+export type DeletePickupTimeMutation = {
+  deletePickupTime?:  {
+    __typename: "PickupTime",
+    id: string,
+    time: string,
+    isUsed?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type GetUserQueryVariables = {
   id?: string,
 };
@@ -605,6 +735,14 @@ export type GetAppraisalQuery = {
       nextToken?: string | null,
     } | null,
     appraisalUserStatus?: AppraisalUserStatus | null,
+    pickupTime?:  {
+      __typename: "PickupTime",
+      id: string,
+      time: string,
+      isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     paymentAdvance?: number | null,
     paymentRangeLow?: number | null,
     paymentRangeHigh?: number | null,
@@ -641,6 +779,14 @@ export type ListAppraisalsQuery = {
         nextToken?: string | null,
       } | null,
       appraisalUserStatus?: AppraisalUserStatus | null,
+      pickupTime?:  {
+        __typename: "PickupTime",
+        id: string,
+        time: string,
+        isUsed?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       paymentAdvance?: number | null,
       paymentRangeLow?: number | null,
       paymentRangeHigh?: number | null,
@@ -692,6 +838,42 @@ export type ListS3ObjectsQuery = {
       createdAt: string,
       updatedAt: string,
       owner?: string | null,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetPickupTimeQueryVariables = {
+  id?: string,
+};
+
+export type GetPickupTimeQuery = {
+  getPickupTime?:  {
+    __typename: "PickupTime",
+    id: string,
+    time: string,
+    isUsed?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListPickupTimesQueryVariables = {
+  filter?: ModelPickupTimeFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListPickupTimesQuery = {
+  listPickupTimes?:  {
+    __typename: "ModelPickupTimeConnection",
+    items?:  Array< {
+      __typename: "PickupTime",
+      id: string,
+      time: string,
+      isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -767,6 +949,14 @@ export type OnCreateAppraisalSubscription = {
       nextToken?: string | null,
     } | null,
     appraisalUserStatus?: AppraisalUserStatus | null,
+    pickupTime?:  {
+      __typename: "PickupTime",
+      id: string,
+      time: string,
+      isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     paymentAdvance?: number | null,
     paymentRangeLow?: number | null,
     paymentRangeHigh?: number | null,
@@ -808,6 +998,14 @@ export type OnUpdateAppraisalSubscription = {
       nextToken?: string | null,
     } | null,
     appraisalUserStatus?: AppraisalUserStatus | null,
+    pickupTime?:  {
+      __typename: "PickupTime",
+      id: string,
+      time: string,
+      isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     paymentAdvance?: number | null,
     paymentRangeLow?: number | null,
     paymentRangeHigh?: number | null,
@@ -849,6 +1047,14 @@ export type OnDeleteAppraisalSubscription = {
       nextToken?: string | null,
     } | null,
     appraisalUserStatus?: AppraisalUserStatus | null,
+    pickupTime?:  {
+      __typename: "PickupTime",
+      id: string,
+      time: string,
+      isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     paymentAdvance?: number | null,
     paymentRangeLow?: number | null,
     paymentRangeHigh?: number | null,
@@ -910,5 +1116,38 @@ export type OnDeleteS3ObjectSubscription = {
     createdAt: string,
     updatedAt: string,
     owner?: string | null,
+  } | null,
+};
+
+export type OnCreatePickupTimeSubscription = {
+  onCreatePickupTime?:  {
+    __typename: "PickupTime",
+    id: string,
+    time: string,
+    isUsed?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdatePickupTimeSubscription = {
+  onUpdatePickupTime?:  {
+    __typename: "PickupTime",
+    id: string,
+    time: string,
+    isUsed?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeletePickupTimeSubscription = {
+  onDeletePickupTime?:  {
+    __typename: "PickupTime",
+    id: string,
+    time: string,
+    isUsed?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
