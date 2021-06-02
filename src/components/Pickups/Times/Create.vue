@@ -63,6 +63,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Modal from "@/components/Modal.vue";
+import { API } from "aws-amplify";
+import { createPickupTime } from "@/graphql/mutations";
 
 export default defineComponent({
   name: "PickupTimesCreate",
@@ -100,8 +102,21 @@ export default defineComponent({
   },
   components: { Modal },
   methods: {
-    createTimes() {
-      console.log("Created");
+    async createTimes() {
+      await Promise.all(
+        this.selectedTimes.map(async (selectedTime: string) => {
+          await API.graphql({
+            query: createPickupTime,
+            variables: {
+              input: {
+                time: `${this.date}T${selectedTime}`,
+              },
+            },
+          });
+        })
+      );
+      const modal: any = this.$refs.modal;
+      modal.close();
     },
   },
 });
