@@ -60,6 +60,13 @@ export const getAppraisal = /* GraphQL */ `
       wear
       deniedReason
       withdrawnReason
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -92,6 +99,13 @@ export const listAppraisals = /* GraphQL */ `
         wear
         deniedReason
         withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
         appraisalAdminStatus
         createdAt
         updatedAt
@@ -126,90 +140,6 @@ export const listS3Objects = /* GraphQL */ `
         createdAt
         updatedAt
         owner
-      }
-      nextToken
-    }
-  }
-`;
-export const getPickup = /* GraphQL */ `
-  query GetPickup($id: ID!) {
-    getPickup(id: $id) {
-      id
-      owner
-      appraisal {
-        id
-        owner
-        name
-        description
-        pictures {
-          nextToken
-        }
-        appraisalUserStatus
-        paymentAdvance
-        paymentRangeLow
-        paymentRangeHigh
-        defects
-        year
-        model
-        make
-        wear
-        deniedReason
-        withdrawnReason
-        appraisalAdminStatus
-        createdAt
-        updatedAt
-      }
-      pickupTime {
-        id
-        time
-        isUsed
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listPickups = /* GraphQL */ `
-  query ListPickups(
-    $filter: ModelPickupFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPickups(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        appraisal {
-          id
-          owner
-          name
-          description
-          appraisalUserStatus
-          paymentAdvance
-          paymentRangeLow
-          paymentRangeHigh
-          defects
-          year
-          model
-          make
-          wear
-          deniedReason
-          withdrawnReason
-          appraisalAdminStatus
-          createdAt
-          updatedAt
-        }
-        pickupTime {
-          id
-          time
-          isUsed
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
       }
       nextToken
     }

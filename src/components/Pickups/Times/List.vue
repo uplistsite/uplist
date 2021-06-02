@@ -4,11 +4,6 @@
     :key="pickupTime.id"
     class="input-group mb-3"
   >
-    <div class="input-group-prepend">
-      <span class="input-group-text">{{
-        pickupTime.isUsed ? "Used" : "Not Used"
-      }}</span>
-    </div>
     <input
       type="datetime-local"
       class="form-control"
@@ -42,7 +37,13 @@ export default defineComponent({
     async getPickupTimes() {
       this.pickupTimes = (
         (await API.graphql(
-          graphqlOperation(listPickupTimes)
+          graphqlOperation(listPickupTimes, {
+            filter: {
+              isUsed: {
+                ne: true,
+              },
+            },
+          })
         )) as GraphQLResult<ListPickupTimesQuery>
       ).data.listPickupTimes.items.sort((a, b) =>
         a.time > b.time ? -1 : a.time === b.time ? 0 : 1

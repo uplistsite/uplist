@@ -76,6 +76,13 @@ export const createAppraisal = /* GraphQL */ `
       wear
       deniedReason
       withdrawnReason
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -114,6 +121,13 @@ export const updateAppraisal = /* GraphQL */ `
       wear
       deniedReason
       withdrawnReason
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -152,6 +166,13 @@ export const deleteAppraisal = /* GraphQL */ `
       wear
       deniedReason
       withdrawnReason
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -200,135 +221,6 @@ export const deleteS3Object = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-    }
-  }
-`;
-export const createPickup = /* GraphQL */ `
-  mutation CreatePickup(
-    $input: CreatePickupInput!
-    $condition: ModelPickupConditionInput
-  ) {
-    createPickup(input: $input, condition: $condition) {
-      id
-      owner
-      appraisal {
-        id
-        owner
-        name
-        description
-        pictures {
-          nextToken
-        }
-        appraisalUserStatus
-        paymentAdvance
-        paymentRangeLow
-        paymentRangeHigh
-        defects
-        year
-        model
-        make
-        wear
-        deniedReason
-        withdrawnReason
-        appraisalAdminStatus
-        createdAt
-        updatedAt
-      }
-      pickupTime {
-        id
-        time
-        isUsed
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updatePickup = /* GraphQL */ `
-  mutation UpdatePickup(
-    $input: UpdatePickupInput!
-    $condition: ModelPickupConditionInput
-  ) {
-    updatePickup(input: $input, condition: $condition) {
-      id
-      owner
-      appraisal {
-        id
-        owner
-        name
-        description
-        pictures {
-          nextToken
-        }
-        appraisalUserStatus
-        paymentAdvance
-        paymentRangeLow
-        paymentRangeHigh
-        defects
-        year
-        model
-        make
-        wear
-        deniedReason
-        withdrawnReason
-        appraisalAdminStatus
-        createdAt
-        updatedAt
-      }
-      pickupTime {
-        id
-        time
-        isUsed
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deletePickup = /* GraphQL */ `
-  mutation DeletePickup(
-    $input: DeletePickupInput!
-    $condition: ModelPickupConditionInput
-  ) {
-    deletePickup(input: $input, condition: $condition) {
-      id
-      owner
-      appraisal {
-        id
-        owner
-        name
-        description
-        pictures {
-          nextToken
-        }
-        appraisalUserStatus
-        paymentAdvance
-        paymentRangeLow
-        paymentRangeHigh
-        defects
-        year
-        model
-        make
-        wear
-        deniedReason
-        withdrawnReason
-        appraisalAdminStatus
-        createdAt
-        updatedAt
-      }
-      pickupTime {
-        id
-        time
-        isUsed
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
     }
   }
 `;

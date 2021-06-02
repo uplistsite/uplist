@@ -64,6 +64,13 @@ export const onCreateAppraisal = /* GraphQL */ `
       wear
       deniedReason
       withdrawnReason
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -99,6 +106,13 @@ export const onUpdateAppraisal = /* GraphQL */ `
       wear
       deniedReason
       withdrawnReason
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -134,6 +148,13 @@ export const onDeleteAppraisal = /* GraphQL */ `
       wear
       deniedReason
       withdrawnReason
+      pickupTime {
+        id
+        time
+        isUsed
+        createdAt
+        updatedAt
+      }
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -173,126 +194,6 @@ export const onDeleteS3Object = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-    }
-  }
-`;
-export const onCreatePickup = /* GraphQL */ `
-  subscription OnCreatePickup($owner: String) {
-    onCreatePickup(owner: $owner) {
-      id
-      owner
-      appraisal {
-        id
-        owner
-        name
-        description
-        pictures {
-          nextToken
-        }
-        appraisalUserStatus
-        paymentAdvance
-        paymentRangeLow
-        paymentRangeHigh
-        defects
-        year
-        model
-        make
-        wear
-        deniedReason
-        withdrawnReason
-        appraisalAdminStatus
-        createdAt
-        updatedAt
-      }
-      pickupTime {
-        id
-        time
-        isUsed
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdatePickup = /* GraphQL */ `
-  subscription OnUpdatePickup($owner: String) {
-    onUpdatePickup(owner: $owner) {
-      id
-      owner
-      appraisal {
-        id
-        owner
-        name
-        description
-        pictures {
-          nextToken
-        }
-        appraisalUserStatus
-        paymentAdvance
-        paymentRangeLow
-        paymentRangeHigh
-        defects
-        year
-        model
-        make
-        wear
-        deniedReason
-        withdrawnReason
-        appraisalAdminStatus
-        createdAt
-        updatedAt
-      }
-      pickupTime {
-        id
-        time
-        isUsed
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeletePickup = /* GraphQL */ `
-  subscription OnDeletePickup($owner: String) {
-    onDeletePickup(owner: $owner) {
-      id
-      owner
-      appraisal {
-        id
-        owner
-        name
-        description
-        pictures {
-          nextToken
-        }
-        appraisalUserStatus
-        paymentAdvance
-        paymentRangeLow
-        paymentRangeHigh
-        defects
-        year
-        model
-        make
-        wear
-        deniedReason
-        withdrawnReason
-        appraisalAdminStatus
-        createdAt
-        updatedAt
-      }
-      pickupTime {
-        id
-        time
-        isUsed
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
     }
   }
 `;

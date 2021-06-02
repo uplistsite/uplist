@@ -55,6 +55,7 @@ type Appraisal
     wear: Wear,
     deniedReason: String,
     withdrawnReason: String,
+    pickupTime: PickupTime @connection,
     appraisalAdminStatus: AppraisalAdminStatus
     @auth(
         rules: [
@@ -75,20 +76,6 @@ type S3Object
     id: ID!,
     foreignId: ID!,
     key: String!
-}
-
-type Pickup
-@model
-@auth(
-    rules: [
-        { allow: owner, operations: [create, delete, read] },
-        { allow: groups, groups: ["Admin"] },
-    ])
-{
-    id: ID!,
-    owner: String,
-    appraisal: Appraisal! @connection,
-    pickupTime: PickupTime! @connection
 }
 
 type PickupTime
