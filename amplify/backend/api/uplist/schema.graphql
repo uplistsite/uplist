@@ -30,7 +30,6 @@ type Appraisal
     description: String!,
     pictures: [S3Object] @connection(keyName: "byAppraisal", fields: ["id"]),
     appraisalUserStatus: AppraisalUserStatus,
-    pickupTime: PickupTime @connection,
     paymentAdvance: Float
     @auth(
         rules: [
@@ -78,6 +77,20 @@ type S3Object
     key: String!
 }
 
+type Pickup
+@model
+@auth(
+    rules: [
+        { allow: owner, operations: [create, delete, read] },
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    owner: String,
+    appraisal: Appraisal! @connection,
+    pickupTime: PickupTime! @connection
+}
+
 type PickupTime
 @model
 @auth(
@@ -89,11 +102,6 @@ type PickupTime
     id: ID!,
     time: AWSDateTime!,
     isUsed: Boolean
-    @auth(
-        rules: [
-            { allow: private, operations: [update] },
-            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-        ])
 }
 
 enum AppraisalUserStatus {

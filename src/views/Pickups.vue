@@ -8,20 +8,27 @@
         <a class="nav-link" href="#times" :class="timesClasses">Times</a>
       </li>
     </ul>
+    <div class="row justify-content-center">
+      <div class="col-12" v-if="hash === '#times'">
+        <div class="card shadow">
+          <div class="card-body">
+            <h3 class="card-title">Times</h3>
+            <PickupTimesView></PickupTimesView>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import PickupTimesView from "@/components/Pickups/Times/View.vue";
 
 export default defineComponent({
   name: "Pickups",
   data() {
     return {
-      appraisalError: "",
-      name: "",
-      description: "",
-      images: [],
       hash: "",
     };
   },
@@ -35,7 +42,7 @@ export default defineComponent({
       return "";
     },
   },
-
+  components: { PickupTimesView },
   watch: {
     "$route.hash": {
       handler: function (hash) {
@@ -48,6 +55,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
