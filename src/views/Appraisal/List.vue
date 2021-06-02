@@ -16,7 +16,8 @@
         class="col-12 mb-4"
       >
         <div class="card shadow">
-          <h3 class="card-header">{{ appraisal.name }}
+          <h3 class="card-header">
+            {{ appraisal.name }}
             <button
               class="btn btn-link float-end"
               @click="navigateUpdateAppraisal(appraisal.id)"
@@ -60,16 +61,16 @@
                 Withdrawn
               </div>
               <div
-                  class="progress-bar"
-                  role="progressbar"
-                  style="width: 16%"
-                  aria-valuenow="30"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="Appraisal was denied."
-                  :class="
+                class="progress-bar"
+                role="progressbar"
+                style="width: 16%"
+                aria-valuenow="30"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Appraisal was denied."
+                :class="
                   getStatusClasses(
                     'DENIED',
                     getCurrentStatus(
@@ -78,7 +79,7 @@
                     )
                   )
                 "
-                  @click="
+                @click="
                   changeStatus(
                     getCurrentStatus(
                       appraisal.appraisalUserStatus,
@@ -294,6 +295,11 @@
       :id="approvedId"
       @close="closeModals"
     ></Approved>
+    <Accepted
+      v-if="acceptedId"
+      :id="acceptedId"
+      @close="closeModals"
+    ></Accepted>
   </div>
 </template>
 
@@ -306,6 +312,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { mapGetters } from "vuex";
 import Denied from "@/components/Appraisal/Stages/Denied.vue";
 import Approved from "@/components/Appraisal/Stages/Approved.vue";
+import Accepted from "@/components/Appraisal/Stages/Accepted.vue";
 
 const STATUSES = {
   WITHDRAWN: "WITHDRAWN",
@@ -325,11 +332,13 @@ export default defineComponent({
       appraisals: [],
       deniedId: "",
       approvedId: "",
+      acceptedId: "",
     };
   },
   components: {
     Denied,
     Approved,
+    Accepted,
   },
   computed: {
     ...mapGetters(["isAdminUser"]),
@@ -403,7 +412,7 @@ export default defineComponent({
           }
           return "bg-secondary";
         } else if (status === STATUSES.PROCESSING) {
-          if ([STATUSES.LISTED].includes(currentStatus) && this.isAdminUser) {
+          if ([STATUSES.ACCEPTED].includes(currentStatus) && this.isAdminUser) {
             return "bg-primary";
           }
           if (
@@ -501,7 +510,7 @@ export default defineComponent({
         newStatus === STATUSES.ACCEPTED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
+        this.acceptedId = id;
       } else if (
         newStatus === STATUSES.PROCESSING &&
         this.getNextStatuses(oldStatus).includes(newStatus)
@@ -522,6 +531,7 @@ export default defineComponent({
     closeModals() {
       this.approvedId = "";
       this.deniedId = "";
+      this.acceptedId = "";
       this.getAppraisals();
     },
   },
