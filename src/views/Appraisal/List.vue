@@ -300,6 +300,11 @@
       :id="acceptedId"
       @close="closeModals"
     ></Accepted>
+    <Processing
+      v-if="processingId"
+      :id="processingId"
+      @close="closeModals"
+    ></Processing>
   </div>
 </template>
 
@@ -313,6 +318,7 @@ import { mapGetters } from "vuex";
 import Denied from "@/components/Appraisal/Stages/Denied.vue";
 import Approved from "@/components/Appraisal/Stages/Approved.vue";
 import Accepted from "@/components/Appraisal/Stages/Accepted.vue";
+import Processing from "@/components/Appraisal/Stages/Processing.vue";
 
 const STATUSES = {
   WITHDRAWN: "WITHDRAWN",
@@ -333,12 +339,14 @@ export default defineComponent({
       deniedId: "",
       approvedId: "",
       acceptedId: "",
+      processingId: "",
     };
   },
   components: {
     Denied,
     Approved,
     Accepted,
+    Processing,
   },
   computed: {
     ...mapGetters(["isAdminUser"]),
@@ -424,7 +432,7 @@ export default defineComponent({
           }
           return "bg-secondary";
         } else if (status === STATUSES.LISTED) {
-          if ([STATUSES.SOLD].includes(currentStatus) && this.isAdminUser) {
+          if ([STATUSES.PROCESSING].includes(currentStatus) && this.isAdminUser) {
             return "bg-primary";
           }
           if ([STATUSES.LISTED, STATUSES.SOLD].includes(currentStatus)) {
@@ -515,7 +523,7 @@ export default defineComponent({
         newStatus === STATUSES.PROCESSING &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
+        this.processingId = id;
       } else if (
         newStatus === STATUSES.LISTED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
@@ -532,6 +540,7 @@ export default defineComponent({
       this.approvedId = "";
       this.deniedId = "";
       this.acceptedId = "";
+      this.processingId = "";
       this.getAppraisals();
     },
   },
