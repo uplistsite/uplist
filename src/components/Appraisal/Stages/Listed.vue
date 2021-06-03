@@ -53,7 +53,7 @@ import { updateAppraisal } from "@/graphql/mutations";
 import { API } from "aws-amplify";
 
 export default defineComponent({
-  name: "Appraisal Processed",
+  name: "Appraisal Listed",
   props: {
     id: String,
   },
@@ -62,16 +62,20 @@ export default defineComponent({
   },
   data() {
     return {
-      listings: [{
-        value: "",
-      }],
+      listings: [
+        {
+          value: "",
+        },
+      ],
     };
   },
   methods: {
     async list() {
-      console.log(this.listings
+      console.log(
+        this.listings
           .map((listing) => listing.value)
-          .filter((listing) => !!listing));
+          .filter((listing) => !!listing)
+      );
       try {
         await API.graphql({
           query: updateAppraisal,

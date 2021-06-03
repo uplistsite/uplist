@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Sell Appraisal</h5>
+          <h5 class="modal-title">Withdraw Appraisal</h5>
           <button
             type="button"
             class="btn-close"
@@ -12,30 +12,27 @@
           ></button>
         </div>
         <div class="modal-body">
-          <p class="mb-1">
-            Are you sure you want to move this appraisal to a sold status? This
-            will automatically add the Sold Price (minus commission) to the
-            User's balance.
-          </p>
-          <form id="soldForm" @submit.prevent="sell">
+          <p class="mb-1">Are you sure you want to withdraw this appraisal?</p>
+          <form id="withdrawnForm" @submit.prevent="withdraw">
             <div class="mb-3">
-              <label for="inputPaymentAdvance" class="form-label"
-                >Sell Price</label
-              >
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">$</span>
-                </div>
-                <input
-                  v-model="soldPrice"
-                  type="number"
-                  class="form-control"
-                  id="inputPaymentAdvance"
-                  step=".01"
-                  min=".01"
-                  required
-                />
-              </div>
+              <label for="reason" class="col-form-label">Reason</label>
+              <select class="form-select" id="reason" v-model="reason" required>
+                <option disabled value="">Please select a reason</option>
+                <option>Already sold</option>
+                <option>Appraisal price inadequate</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="mb-3" v-if="reason === 'Other'">
+              <label for="otherReason" class="form-label">Other Reason</label>
+              <textarea
+                v-model="otherReason"
+                type="text"
+                class="form-control"
+                id="otherReason"
+                rows="3"
+                required
+              />
             </div>
           </form>
         </div>
@@ -47,8 +44,8 @@
           >
             Cancel
           </button>
-          <button form="soldForm" type="submit" class="btn btn-primary">
-            Sell
+          <button form="withdrawnForm" type="submit" class="btn btn-danger">
+            Withdraw
           </button>
         </div>
       </div>
@@ -63,28 +60,31 @@ import { updateAppraisal } from "@/graphql/mutations";
 import { API } from "aws-amplify";
 
 export default defineComponent({
-  name: "Appraisal Sold",
+  name: "Appraisal Withdrawn",
   props: {
     id: String,
   },
   data() {
     return {
-      soldPrice: 0,
+      reason: "",
+      otherReason: "",
     };
   },
   components: {
     Modal,
   },
   methods: {
-    async sell() {
+    async withdraw() {
       try {
         await API.graphql({
           query: updateAppraisal,
           variables: {
             input: {
               id: this.id,
-              soldPrice: this.soldPrice,
-              appraisalAdminStatus: "SOLD",
+              withdrawnReason: this.otherReason
+                ? this.otherReason
+                : this.reason,
+              appraisalUserStatus: "WITHDRAWN",
             },
           },
         });

@@ -289,6 +289,11 @@
         </div>
       </div>
     </div>
+    <Withdrawn
+      v-if="withdrawnId"
+      :id="withdrawnId"
+      @close="closeModals"
+    ></Withdrawn>
     <Denied v-if="deniedId" :id="deniedId" @close="closeModals"></Denied>
     <Approved
       v-if="approvedId"
@@ -317,6 +322,7 @@ import { GraphQLResult } from "@aws-amplify/api";
 import { ListAppraisalsQuery } from "@/API";
 import { API, graphqlOperation } from "aws-amplify";
 import { mapGetters } from "vuex";
+import Withdrawn from "@/components/Appraisal/Stages/Withdrawn.vue";
 import Denied from "@/components/Appraisal/Stages/Denied.vue";
 import Approved from "@/components/Appraisal/Stages/Approved.vue";
 import Accepted from "@/components/Appraisal/Stages/Accepted.vue";
@@ -340,6 +346,7 @@ export default defineComponent({
   data() {
     return {
       appraisals: [],
+      withdrawnId: "",
       deniedId: "",
       approvedId: "",
       acceptedId: "",
@@ -349,6 +356,7 @@ export default defineComponent({
     };
   },
   components: {
+    Withdrawn,
     Denied,
     Approved,
     Accepted,
@@ -512,7 +520,7 @@ export default defineComponent({
         newStatus === STATUSES.WITHDRAWN &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
+        this.withdrawnId = id;
       } else if (
         newStatus === STATUSES.PENDING &&
         this.getNextStatuses(oldStatus).includes(newStatus)
@@ -551,6 +559,7 @@ export default defineComponent({
       }
     },
     closeModals() {
+      this.withdrawnId = "";
       this.approvedId = "";
       this.deniedId = "";
       this.acceptedId = "";
