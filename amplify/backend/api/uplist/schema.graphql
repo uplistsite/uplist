@@ -48,6 +48,12 @@ type Appraisal
             { allow: owner, operations: [read] },
             { allow: groups, groups: ["Admin"], operations: [create, update, read] }
         ]),
+    soldPrice: Float
+    @auth(
+        rules: [
+            { allow: owner, operations: [read] },
+            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+        ]),
     defects: String,
     year: String,
     model: String,

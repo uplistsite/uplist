@@ -69,6 +69,7 @@ export const createAppraisal = /* GraphQL */ `
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
+      soldPrice
       defects
       year
       model
@@ -115,6 +116,7 @@ export const updateAppraisal = /* GraphQL */ `
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
+      soldPrice
       defects
       year
       model
@@ -161,6 +163,7 @@ export const deleteAppraisal = /* GraphQL */ `
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
+      soldPrice
       defects
       year
       model

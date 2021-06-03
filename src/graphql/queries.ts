@@ -53,6 +53,7 @@ export const getAppraisal = /* GraphQL */ `
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
+      soldPrice
       defects
       year
       model
@@ -93,6 +94,7 @@ export const listAppraisals = /* GraphQL */ `
         paymentAdvance
         paymentRangeLow
         paymentRangeHigh
+        soldPrice
         defects
         year
         model

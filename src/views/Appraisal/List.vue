@@ -306,6 +306,7 @@
       @close="closeModals"
     ></Processing>
     <Listed v-if="listedId" :id="listedId" @close="closeModals"></Listed>
+    <Sold v-if="soldId" :id="soldId" @close="closeModals"></Sold>
   </div>
 </template>
 
@@ -321,6 +322,7 @@ import Approved from "@/components/Appraisal/Stages/Approved.vue";
 import Accepted from "@/components/Appraisal/Stages/Accepted.vue";
 import Processing from "@/components/Appraisal/Stages/Processing.vue";
 import Listed from "@/components/Appraisal/Stages/Listed.vue";
+import Sold from "@/components/Appraisal/Stages/Sold.vue";
 
 const STATUSES = {
   WITHDRAWN: "WITHDRAWN",
@@ -343,6 +345,7 @@ export default defineComponent({
       acceptedId: "",
       processingId: "",
       listedId: "",
+      soldId: "",
     };
   },
   components: {
@@ -351,6 +354,7 @@ export default defineComponent({
     Accepted,
     Processing,
     Listed,
+    Sold,
   },
   computed: {
     ...mapGetters(["isAdminUser"]),
@@ -543,7 +547,7 @@ export default defineComponent({
         newStatus === STATUSES.SOLD &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
+        this.soldId = id;
       }
     },
     closeModals() {
@@ -552,6 +556,7 @@ export default defineComponent({
       this.acceptedId = "";
       this.processingId = "";
       this.listedId = "";
+      this.soldId = "";
       this.getAppraisals();
     },
   },
