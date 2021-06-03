@@ -71,6 +71,7 @@ export const onCreateAppraisal = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      listings
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -113,6 +114,7 @@ export const onUpdateAppraisal = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      listings
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -155,6 +157,7 @@ export const onDeleteAppraisal = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      listings
       appraisalAdminStatus
       createdAt
       updatedAt

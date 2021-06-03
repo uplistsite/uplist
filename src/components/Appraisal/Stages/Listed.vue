@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Processing Appraisal</h5>
+          <h5 class="modal-title">Listed Appraisal</h5>
           <button
             type="button"
             class="btn-close"
@@ -12,11 +12,22 @@
           ></button>
         </div>
         <div class="modal-body">
-          <p class="mb-1">
-            Are you sure you want to move this appraisal to a processing status?
-            This will automatically add the Payment Advance to the User's
-            balance.
-          </p>
+          <form id="listedForm" @submit.prevent="list">
+            <div class="mb-3">
+              <p class="form-label mb-3">Listings</p>
+              <div class="mb-3" v-for="(listing, k) in listings" :key="k">
+                <input
+                  type="url"
+                  class="form-control"
+                  v-model="listing.value"
+                  required
+                />
+              </div>
+              <button type="button" class="btn btn-primary" @click="addListing">
+                Add listing
+              </button>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button
@@ -26,8 +37,8 @@
           >
             Cancel
           </button>
-          <button type="button" @click="process" class="btn btn-primary">
-            Processing
+          <button form="listedForm" type="submit" class="btn btn-primary">
+            Listed
           </button>
         </div>
       </div>
@@ -49,15 +60,28 @@ export default defineComponent({
   components: {
     Modal,
   },
+  data() {
+    return {
+      listings: [{
+        value: "",
+      }],
+    };
+  },
   methods: {
-    async process() {
+    async list() {
+      console.log(this.listings
+          .map((listing) => listing.value)
+          .filter((listing) => !!listing));
       try {
         await API.graphql({
           query: updateAppraisal,
           variables: {
             input: {
               id: this.id,
-              appraisalAdminStatus: "PROCESSING",
+              listings: this.listings
+                .map((listing) => listing.value)
+                .filter((listing) => !!listing),
+              appraisalAdminStatus: "LISTED",
             },
           },
         });
@@ -66,6 +90,11 @@ export default defineComponent({
       }
       const modal: any = this.$refs.modal;
       modal.close();
+    },
+    addListing() {
+      this.listings.push({
+        value: "",
+      });
     },
   },
 });

@@ -305,6 +305,7 @@
       :id="processingId"
       @close="closeModals"
     ></Processing>
+    <Listed v-if="listedId" :id="listedId" @close="closeModals"></Listed>
   </div>
 </template>
 
@@ -319,6 +320,7 @@ import Denied from "@/components/Appraisal/Stages/Denied.vue";
 import Approved from "@/components/Appraisal/Stages/Approved.vue";
 import Accepted from "@/components/Appraisal/Stages/Accepted.vue";
 import Processing from "@/components/Appraisal/Stages/Processing.vue";
+import Listed from "@/components/Appraisal/Stages/Listed.vue";
 
 const STATUSES = {
   WITHDRAWN: "WITHDRAWN",
@@ -340,6 +342,7 @@ export default defineComponent({
       approvedId: "",
       acceptedId: "",
       processingId: "",
+      listedId: "",
     };
   },
   components: {
@@ -347,6 +350,7 @@ export default defineComponent({
     Approved,
     Accepted,
     Processing,
+    Listed,
   },
   computed: {
     ...mapGetters(["isAdminUser"]),
@@ -432,7 +436,10 @@ export default defineComponent({
           }
           return "bg-secondary";
         } else if (status === STATUSES.LISTED) {
-          if ([STATUSES.PROCESSING].includes(currentStatus) && this.isAdminUser) {
+          if (
+            [STATUSES.PROCESSING].includes(currentStatus) &&
+            this.isAdminUser
+          ) {
             return "bg-primary";
           }
           if ([STATUSES.LISTED, STATUSES.SOLD].includes(currentStatus)) {
@@ -440,6 +447,9 @@ export default defineComponent({
           }
           return "bg-secondary";
         } else if (status === STATUSES.SOLD) {
+          if ([STATUSES.LISTED].includes(currentStatus) && this.isAdminUser) {
+            return "bg-primary";
+          }
           if ([STATUSES.SOLD].includes(currentStatus)) {
             return "bg-success";
           }
@@ -528,7 +538,7 @@ export default defineComponent({
         newStatus === STATUSES.LISTED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
-        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
+        this.listedId = id;
       } else if (
         newStatus === STATUSES.SOLD &&
         this.getNextStatuses(oldStatus).includes(newStatus)
@@ -541,6 +551,7 @@ export default defineComponent({
       this.deniedId = "";
       this.acceptedId = "";
       this.processingId = "";
+      this.listedId = "";
       this.getAppraisals();
     },
   },

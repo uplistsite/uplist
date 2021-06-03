@@ -56,6 +56,12 @@ type Appraisal
     deniedReason: String,
     withdrawnReason: String,
     pickupTime: PickupTime @connection,
+    listings: [AWSURL],
+    @auth(
+        rules: [
+            { allow: owner, operations: [read] },
+            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+        ])
     appraisalAdminStatus: AppraisalAdminStatus
     @auth(
         rules: [

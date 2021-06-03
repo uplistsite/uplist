@@ -67,6 +67,7 @@ export const getAppraisal = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      listings
       appraisalAdminStatus
       createdAt
       updatedAt
@@ -106,6 +107,7 @@ export const listAppraisals = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        listings
         appraisalAdminStatus
         createdAt
         updatedAt
