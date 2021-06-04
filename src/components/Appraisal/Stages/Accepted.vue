@@ -94,15 +94,22 @@ export default defineComponent({
       const modal: any = this.$refs.modal;
       modal.close();
     },
-    formatPickupTime(time: string) {
+    stdTimezoneOffset(): number {
+      const jan = new Date(new Date().getFullYear(), 0, 1);
+      const jul = new Date(new Date().getFullYear(), 6, 1);
+      return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    },
+    isDstObserved(date: Date): boolean {
+      return date.getTimezoneOffset() < this.stdTimezoneOffset();
+    },
+    formatPickupTime(dateTimeString: string) {
+      const dateTime = new Date(dateTimeString);
       let options = {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        timeZone: "America/Chicago",
+        timeZone: this.isDstObserved(dateTime)
+          ? "America/Denver"
+          : "America/Chicago",
       };
-      return new Date(time).toLocaleString("en-US", options);
+      return new Date(dateTimeString).toLocaleString("en-US", options);
     },
     async getPickupTimes() {
       this.pickupTimes = (
