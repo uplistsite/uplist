@@ -30,6 +30,12 @@ type Appraisal
     description: String!,
     pictures: [S3Object] @connection(keyName: "byAppraisal", fields: ["id"]),
     appraisalUserStatus: AppraisalUserStatus,
+    commission: Int
+    @auth(
+        rules: [
+            { allow: owner, operations: [read] },
+            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+        ]),
     paymentAdvance: Float
     @auth(
         rules: [

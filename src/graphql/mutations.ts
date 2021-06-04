@@ -66,6 +66,7 @@ export const createAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      commission
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
@@ -113,6 +114,7 @@ export const updateAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      commission
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
@@ -160,6 +162,7 @@ export const deleteAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      commission
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh

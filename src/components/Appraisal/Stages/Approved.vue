@@ -71,6 +71,24 @@
                 />
               </div>
             </div>
+            <div class="mb-3">
+              <label for="commission" class="form-label">Commission</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">%</span>
+                </div>
+                <input
+                  v-model="commission"
+                  type="number"
+                  class="form-control"
+                  id="commission"
+                  step="1"
+                  min="0"
+                  max="50"
+                  required
+                />
+              </div>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -106,7 +124,16 @@ export default defineComponent({
       paymentAdvance: 0,
       paymentRangeLow: 0,
       paymentRangeHigh: 0,
+      commission: 0,
     };
+  },
+  watch: {
+    paymentRangeLow: function (val: number) {
+      if (val >= 500) this.commission = 15;
+      else if (val >= 250) this.commission = 20;
+      else if (val >= 100) this.commission = 30;
+      else this.commission = 50;
+    },
   },
   components: {
     Modal,
@@ -122,6 +149,7 @@ export default defineComponent({
               paymentAdvance: this.paymentAdvance,
               paymentRangeLow: this.paymentRangeLow,
               paymentRangeHigh: this.paymentRangeHigh,
+              commission: this.commission,
               appraisalAdminStatus: "APPROVED",
             },
           },

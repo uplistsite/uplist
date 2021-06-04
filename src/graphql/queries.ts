@@ -50,6 +50,7 @@ export const getAppraisal = /* GraphQL */ `
         nextToken
       }
       appraisalUserStatus
+      commission
       paymentAdvance
       paymentRangeLow
       paymentRangeHigh
@@ -91,6 +92,7 @@ export const listAppraisals = /* GraphQL */ `
           nextToken
         }
         appraisalUserStatus
+        commission
         paymentAdvance
         paymentRangeLow
         paymentRangeHigh
