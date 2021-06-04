@@ -9,9 +9,38 @@
         >
           Create New Appraisal
         </button>
+        <button
+          class="btn btn-outline-primary dropdown-toggle float-end"
+          type="button"
+          data-bs-toggle="dropdown"
+          data-bs-auto-close="outside"
+        >
+          Filter Statuses
+        </button>
+
+        <div class="dropdown-menu">
+          <div
+            v-for="status in Object.keys(getStatuses)"
+            :key="status"
+            class="dropdown-item"
+          >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                :id="getStatuses[status]"
+                :value="getStatuses[status]"
+                v-model="selectedStatuses"
+              />
+              <label class="form-check-label" :for="getStatuses[status]">{{
+                firstLetterCap(getStatuses[status])
+              }}</label>
+            </div>
+          </div>
+        </div>
       </div>
       <div
-        v-for="appraisal in appraisals"
+        v-for="appraisal in getFilteredAppraisals"
         :key="appraisal.id"
         class="col-12 mb-4"
       >
@@ -329,8 +358,9 @@ import Accepted from "@/components/Appraisal/Stages/Accepted.vue";
 import Processing from "@/components/Appraisal/Stages/Processing.vue";
 import Listed from "@/components/Appraisal/Stages/Listed.vue";
 import Sold from "@/components/Appraisal/Stages/Sold.vue";
+import {Appraisal} from "@/./API";
 
-const STATUSES = {
+const STATUSES: any = {
   WITHDRAWN: "WITHDRAWN",
   PENDING: "PENDING",
   DENIED: "DENIED",
@@ -353,6 +383,7 @@ export default defineComponent({
       processingId: "",
       listedId: "",
       soldId: "",
+      selectedStatuses: Object.keys(STATUSES).map((statusKey: string) => STATUSES[statusKey]),
     };
   },
   components: {
@@ -470,6 +501,19 @@ export default defineComponent({
         return "";
       };
     },
+    getStatuses() {
+      return STATUSES;
+    },
+    getFilteredAppraisals(): Appraisal[] {
+      return this.appraisals.filter((appraisal: Appraisal) => {
+        return this.selectedStatuses.includes(
+          this.getCurrentStatus(
+            appraisal.appraisalUserStatus,
+            appraisal.appraisalAdminStatus
+          )
+        );
+      });
+    },
   },
   methods: {
     getCurrentStatus(userStatus: string, adminStatus: string) {
@@ -557,6 +601,15 @@ export default defineComponent({
       ) {
         this.soldId = id;
       }
+    },
+    firstLetterCap(s: string): string {
+      const words = s.toLowerCase().split(" ");
+
+      return words
+        .map((word) => {
+          return word[0].toUpperCase() + word.substring(1);
+        })
+        .join(" ");
     },
     closeModals() {
       this.withdrawnId = "";
