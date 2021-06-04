@@ -94,14 +94,6 @@ export default defineComponent({
       const modal: any = this.$refs.modal;
       modal.close();
     },
-    stdTimezoneOffset(): number {
-      const jan = new Date(new Date().getFullYear(), 0, 1);
-      const jul = new Date(new Date().getFullYear(), 6, 1);
-      return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-    },
-    isDstObserved(date: Date): boolean {
-      return date.getTimezoneOffset() < this.stdTimezoneOffset();
-    },
     formatPickupTime(dateTimeString: string) {
       const dateTime = new Date(dateTimeString);
       const timeZone = "America/Chicago";
