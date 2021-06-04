@@ -358,7 +358,7 @@ import Accepted from "@/components/Appraisal/Stages/Accepted.vue";
 import Processing from "@/components/Appraisal/Stages/Processing.vue";
 import Listed from "@/components/Appraisal/Stages/Listed.vue";
 import Sold from "@/components/Appraisal/Stages/Sold.vue";
-import {Appraisal} from "@/./API";
+import { Appraisal } from "@/API";
 
 const STATUSES: any = {
   WITHDRAWN: "WITHDRAWN",
@@ -383,7 +383,9 @@ export default defineComponent({
       processingId: "",
       listedId: "",
       soldId: "",
-      selectedStatuses: Object.keys(STATUSES).map((statusKey: string) => STATUSES[statusKey]),
+      selectedStatuses: Object.keys(STATUSES).map(
+        (statusKey: string) => STATUSES[statusKey]
+      ),
     };
   },
   components: {

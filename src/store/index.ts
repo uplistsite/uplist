@@ -4,10 +4,17 @@ import { API, graphqlOperation } from "aws-amplify";
 import { listUsers } from "@/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api";
 import { ListUsersQuery } from "@/API";
+import { User } from "@/API";
 
-async function findUser(): Promise<any> {
+async function findUser(sub: string): Promise<User> {
   const users = (await API.graphql(
-    graphqlOperation(listUsers)
+    graphqlOperation(listUsers, {
+      filter: {
+        owner: {
+          eq: sub,
+        },
+      },
+    })
   )) as GraphQLResult<ListUsersQuery>;
   return users.data.listUsers.items[0];
 }
@@ -34,8 +41,10 @@ export default createStore({
         commit("setCognitoUser", null);
       }
     },
-    async getUser({ commit }) {
-      const user = await findUser();
+    async getUser({ state, commit }) {
+      const user = state?.cognitoUser?.attributes?.sub
+        ? await findUser(state.cognitoUser.attributes.sub)
+        : null;
       commit("setUser", user);
     },
   },
