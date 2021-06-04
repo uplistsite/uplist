@@ -120,12 +120,17 @@ export default defineComponent({
       })}`;
     },
     async getPickupTimes() {
+      const date = new Date();
+      date.setDate(date.getDate() + 2);
       this.pickupTimes = (
         (await API.graphql(
           graphqlOperation(listPickupTimes, {
             filter: {
               isUsed: {
                 ne: true,
+              },
+              time: {
+                gt: date.toISOString(),
               },
             },
           })
