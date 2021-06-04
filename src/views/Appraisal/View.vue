@@ -93,6 +93,10 @@ import { GraphQLResult } from "@aws-amplify/api";
 import { GetAppraisalQuery } from "@/API";
 import { v4 as uuid } from "uuid";
 
+interface HTMLInputEvent extends Event {
+  target: HTMLInputElement & EventTarget;
+}
+
 export default defineComponent({
   name: "Appraisal View",
   data() {
@@ -178,10 +182,10 @@ export default defineComponent({
         this.appraisalError = e;
       }
     },
-    async uploadImages(e: any) {
+    async uploadImages(e: HTMLInputEvent) {
       const newFiles = Array.from(e.target.files);
       await Promise.all(
-        newFiles.map(async (file: any) => {
+        newFiles.map(async (file: File) => {
           const { name: fileName, type: mimeType } = file;
           const key = `${uuid()}${fileName}`;
           await Storage.put(key, file, {

@@ -360,7 +360,11 @@ import Listed from "@/components/Appraisal/Stages/Listed.vue";
 import Sold from "@/components/Appraisal/Stages/Sold.vue";
 import { Appraisal } from "@/API";
 
-const STATUSES: any = {
+type ObjectMap = {
+  [key: string]: string;
+};
+
+const STATUSES: ObjectMap = {
   WITHDRAWN: "WITHDRAWN",
   PENDING: "PENDING",
   DENIED: "DENIED",
