@@ -5,13 +5,18 @@
     class="input-group mb-3"
   >
     <input
-      type="datetime-local"
+      type="text"
       class="form-control"
       :value="formatDateTime(pickupTime.time)"
       disabled
     />
     <div class="input-group-append">
-      <button class="btn btn-outline-danger" type="button" id="deletePickupTime" @click="deletePickupTime(pickupTime.id)">
+      <button
+        class="btn btn-outline-danger"
+        type="button"
+        id="deletePickupTime"
+        @click="deletePickupTime(pickupTime.id)"
+      >
         <BIconTrash></BIconTrash>
       </button>
     </div>
@@ -49,8 +54,30 @@ export default defineComponent({
         a.time > b.time ? -1 : a.time === b.time ? 0 : 1
       );
     },
-    formatDateTime(dateTime: string): string {
-      return dateTime.substring(0, dateTime.length - 6);
+    formatDateTime(dateTimeString: string) {
+      const dateTime = new Date(dateTimeString);
+      const timeZone = "America/Chicago";
+      let options = {
+        timeZone: timeZone,
+      };
+      return `${dateTime.toLocaleDateString("en-us", {
+        weekday: "long",
+        ...options,
+      })}, ${dateTime.toLocaleDateString("en-us", {
+        month: "long",
+        ...options,
+      })} ${dateTime.toLocaleDateString("en-us", {
+        day: "numeric",
+        ...options,
+      })}, ${dateTime.toLocaleDateString("en-us", {
+        year: "numeric",
+        ...options,
+      })} at ${dateTime.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+        ...options,
+      })}`;
     },
     async deletePickupTime(id: string) {
       await API.graphql({

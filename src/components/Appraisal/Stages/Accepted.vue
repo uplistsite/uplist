@@ -104,12 +104,28 @@ export default defineComponent({
     },
     formatPickupTime(dateTimeString: string) {
       const dateTime = new Date(dateTimeString);
+      const timeZone = "America/Chicago";
       let options = {
-        timeZone: this.isDstObserved(dateTime)
-          ? "America/Denver"
-          : "America/Chicago",
+        timeZone: timeZone,
       };
-      return new Date(dateTimeString).toLocaleString("en-US", options);
+      return `${dateTime.toLocaleDateString("en-us", {
+        weekday: "long",
+        ...options,
+      })}, ${dateTime.toLocaleDateString("en-us", {
+        month: "long",
+        ...options,
+      })} ${dateTime.toLocaleDateString("en-us", {
+        day: "numeric",
+        ...options,
+      })}, ${dateTime.toLocaleDateString("en-us", {
+        year: "numeric",
+        ...options,
+      })} at ${dateTime.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+        ...options,
+      })}`;
     },
     async getPickupTimes() {
       this.pickupTimes = (
@@ -123,7 +139,7 @@ export default defineComponent({
           })
         )) as GraphQLResult<ListPickupTimesQuery>
       ).data.listPickupTimes.items.sort((a, b) =>
-        a.time > b.time ? -1 : a.time === b.time ? 0 : 1
+        a.time > b.time ? 1 : a.time === b.time ? 0 : -1
       );
     },
   },

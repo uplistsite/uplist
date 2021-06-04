@@ -73,43 +73,56 @@ export default defineComponent({
       selectedTimes: [],
       date: "",
       times: {
-        "00:00:00-06:00": "12 AM",
-        "01:00:00-06:00": "01 AM",
-        "02:00:00-06:00": "02 AM",
-        "03:00:00-06:00": "03 AM",
-        "04:00:00-06:00": "04 AM",
-        "05:00:00-06:00": "05 AM",
-        "06:00:00-06:00": "06 AM",
-        "07:00:00-06:00": "07 AM",
-        "08:00:00-06:00": "08 AM",
-        "09:00:00-06:00": "09 AM",
-        "10:00:00-06:00": "10 AM",
-        "11:00:00-06:00": "11 AM",
-        "12:00:00-06:00": "12 PM",
-        "13:00:00-06:00": "01 PM",
-        "14:00:00-06:00": "02 PM",
-        "15:00:00-06:00": "03 PM",
-        "16:00:00-06:00": "04 PM",
-        "17:00:00-06:00": "05 PM",
-        "18:00:00-06:00": "06 PM",
-        "19:00:00-06:00": "07 PM",
-        "20:00:00-06:00": "08 PM",
-        "21:00:00-06:00": "09 PM",
-        "22:00:00-06:00": "10 PM",
-        "23:00:00-06:00": "11 PM",
+        "00:00:00": "12 AM",
+        "01:00:00": "01 AM",
+        "02:00:00": "02 AM",
+        "03:00:00": "03 AM",
+        "04:00:00": "04 AM",
+        "05:00:00": "05 AM",
+        "06:00:00": "06 AM",
+        "07:00:00": "07 AM",
+        "08:00:00": "08 AM",
+        "09:00:00": "09 AM",
+        "10:00:00": "10 AM",
+        "11:00:00": "11 AM",
+        "12:00:00": "12 PM",
+        "13:00:00": "01 PM",
+        "14:00:00": "02 PM",
+        "15:00:00": "03 PM",
+        "16:00:00": "04 PM",
+        "17:00:00": "05 PM",
+        "18:00:00": "06 PM",
+        "19:00:00": "07 PM",
+        "20:00:00": "08 PM",
+        "21:00:00": "09 PM",
+        "22:00:00": "10 PM",
+        "23:00:00": "11 PM",
       },
     };
   },
   components: { Modal },
   methods: {
+    stdTimezoneOffset(): number {
+      const jan = new Date(new Date().getFullYear(), 0, 1);
+      const jul = new Date(new Date().getFullYear(), 6, 1);
+      return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    },
+    isDstObserved(date: Date): boolean {
+      return date.getTimezoneOffset() < this.stdTimezoneOffset();
+    },
     async createTimes() {
       await Promise.all(
         this.selectedTimes.map(async (selectedTime: string) => {
+          const timeZoneOffset = this.isDstObserved(
+            new Date(`${this.date}T${selectedTime}Z`)
+          )
+            ? "-05:00"
+            : "-06:00";
           await API.graphql({
             query: createPickupTime,
             variables: {
               input: {
-                time: `${this.date}T${selectedTime}`,
+                time: `${this.date}T${selectedTime}${timeZoneOffset}`,
               },
             },
           });
