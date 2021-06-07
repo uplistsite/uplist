@@ -60,16 +60,18 @@
               <div
                 class="progress-bar"
                 role="progressbar"
-                style="width: 16%"
+                :style="`width: ${100 / Object.keys(statuses).length}%`"
                 aria-valuenow="15"
                 aria-valuemin="0"
                 aria-valuemax="100"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-                title="Withdraw the appraisal."
+                v-for="status in Object.keys(statuses)"
+                :key="status"
+                :title="statusDescriptions[status]"
                 :class="
                   getStatusClasses(
-                    'WITHDRAWN',
+                    statuses[status],
                     getCurrentStatus(
                       appraisal.appraisalUserStatus,
                       appraisal.appraisalAdminStatus
@@ -82,236 +84,12 @@
                       appraisal.appraisalUserStatus,
                       appraisal.appraisalAdminStatus
                     ),
-                    'WITHDRAWN',
+                    statuses[status],
                     appraisal.id
                   )
                 "
               >
-                Withdrawn
-              </div>
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 16%"
-                aria-valuenow="30"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Appraisal was denied."
-                :class="
-                  getStatusClasses(
-                    'DENIED',
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    )
-                  )
-                "
-                @click="
-                  changeStatus(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    ),
-                    'DENIED',
-                    appraisal.id
-                  )
-                "
-              >
-                Denied
-              </div>
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 16%"
-                aria-valuenow="30"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Appraisal is being appraised."
-                :class="
-                  getStatusClasses(
-                    'PENDING',
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    )
-                  )
-                "
-                @click="
-                  changeStatus(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    ),
-                    'PENDING',
-                    appraisal.id
-                  )
-                "
-              >
-                Pending
-              </div>
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 16%"
-                aria-valuenow="30"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Appraisal was approved. Pending user acceptance."
-                :class="
-                  getStatusClasses(
-                    'APPROVED',
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    )
-                  )
-                "
-                @click="
-                  changeStatus(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    ),
-                    'APPROVED',
-                    appraisal.id
-                  )
-                "
-              >
-                Approved
-              </div>
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 17%"
-                aria-valuenow="20"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Accept the appraisal."
-                :class="
-                  getStatusClasses(
-                    'ACCEPTED',
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    )
-                  )
-                "
-                @click="
-                  changeStatus(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    ),
-                    'ACCEPTED',
-                    appraisal.id
-                  )
-                "
-              >
-                Accepted
-              </div>
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 17%"
-                aria-valuenow="20"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Item is currently being processed."
-                :class="
-                  getStatusClasses(
-                    'PROCESSING',
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    )
-                  )
-                "
-                @click="
-                  changeStatus(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    ),
-                    'PROCESSING',
-                    appraisal.id
-                  )
-                "
-              >
-                Processing
-              </div>
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 17%"
-                aria-valuenow="20"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Item has been listed for sale."
-                :class="
-                  getStatusClasses(
-                    'LISTED',
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    )
-                  )
-                "
-                @click="
-                  changeStatus(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    ),
-                    'LISTED',
-                    appraisal.id
-                  )
-                "
-              >
-                Listed
-              </div>
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 17%"
-                aria-valuenow="20"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Item has been sold."
-                :class="
-                  getStatusClasses(
-                    'SOLD',
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    )
-                  )
-                "
-                @click="
-                  changeStatus(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    ),
-                    'SOLD',
-                    appraisal.id
-                  )
-                "
-              >
-                Sold
+                {{ firstLetterCap(statuses[status]) }}
               </div>
             </div>
           </div>
@@ -366,13 +144,24 @@ type ObjectMap = {
 
 const STATUSES: ObjectMap = {
   WITHDRAWN: "WITHDRAWN",
-  PENDING: "PENDING",
   DENIED: "DENIED",
+  PENDING: "PENDING",
   APPROVED: "APPROVED",
   ACCEPTED: "ACCEPTED",
   PROCESSING: "PROCESSING",
   LISTED: "LISTED",
   SOLD: "SOLD",
+};
+
+const STATUS_DESCRIPTIONS: ObjectMap = {
+  WITHDRAWN: "Withdraw the appraisal.",
+  DENIED: "Appraisal was denied.",
+  PENDING: "Appraisal is being appraised.",
+  APPROVED: "Appraisal was approved. Pending user acceptance.",
+  ACCEPTED: "Accept the appraisal.",
+  PROCESSING: "Item is currently being processed.",
+  LISTED: "Item has been listed for sale.",
+  SOLD: "Item has been sold.",
 };
 
 export default defineComponent({
@@ -390,6 +179,8 @@ export default defineComponent({
       selectedStatuses: Object.keys(STATUSES).map(
         (statusKey: string) => STATUSES[statusKey]
       ),
+      statusDescriptions: STATUS_DESCRIPTIONS,
+      statuses: STATUSES,
     };
   },
   components: {
