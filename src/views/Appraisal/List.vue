@@ -45,18 +45,58 @@
         class="col-12 mb-4"
       >
         <div class="card shadow">
-          <h3 class="card-header">
-            {{ appraisal.name }}
+          <div class="card-header py-2">
+            <h5 class="float-start mt-2">{{ appraisal.name }}</h5>
             <button
-              class="btn btn-link float-end"
+              class="btn btn-link float-end mt-0"
               @click="navigateUpdateAppraisal(appraisal.id)"
             >
               Edit
             </button>
-          </h3>
+            <div class="float-end mt-1">
+              <select
+                class="form-select form-select-sm"
+                id="reason"
+                @change="
+                  changeStatus(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    ),
+                    statuses[$event.target.value],
+                    appraisal.id
+                  )
+                "
+                style="width: 120px"
+              >
+                <option disabled value="" selected>
+                  {{
+                    firstLetterCap(
+                      getCurrentStatus(
+                        appraisal.appraisalUserStatus,
+                        appraisal.appraisalAdminStatus
+                      )
+                    )
+                  }}
+                </option>
+                <option
+                  v-for="nextStatus in getNextStatuses(
+                    getCurrentStatus(
+                      appraisal.appraisalUserStatus,
+                      appraisal.appraisalAdminStatus
+                    )
+                  )"
+                  :key="nextStatus"
+                  :value="nextStatus"
+                >
+                  {{ firstLetterCap(statusToAction[nextStatus]) }}
+                </option>
+              </select>
+            </div>
+          </div>
           <div class="card-body">
             <h6>{{ appraisal.description }}</h6>
-            <div class="progress">
+            <div class="progress d-none d-md-flex">
               <div
                 class="progress-bar"
                 role="progressbar"
@@ -164,6 +204,17 @@ const STATUS_DESCRIPTIONS: ObjectMap = {
   SOLD: "Item has been sold.",
 };
 
+const STATUS_TO_ACTION: ObjectMap = {
+  WITHDRAWN: "WITHDRAW",
+  DENIED: "DENY",
+  PENDING: "PENDING",
+  APPROVED: "APPROVE",
+  ACCEPTED: "ACCEPT",
+  PROCESSING: "PROCESS",
+  LISTED: "LIST",
+  SOLD: "SELL",
+};
+
 export default defineComponent({
   name: "Appraisals List",
   data() {
@@ -181,6 +232,7 @@ export default defineComponent({
       ),
       statusDescriptions: STATUS_DESCRIPTIONS,
       statuses: STATUSES,
+      statusToAction: STATUS_TO_ACTION,
     };
   },
   components: {
@@ -362,11 +414,6 @@ export default defineComponent({
         this.getNextStatuses(oldStatus).includes(newStatus)
       ) {
         this.withdrawnId = id;
-      } else if (
-        newStatus === STATUSES.PENDING &&
-        this.getNextStatuses(oldStatus).includes(newStatus)
-      ) {
-        console.log(`From ${oldStatus} to ${newStatus} for ${id}`);
       } else if (
         newStatus === STATUSES.DENIED &&
         this.getNextStatuses(oldStatus).includes(newStatus)
