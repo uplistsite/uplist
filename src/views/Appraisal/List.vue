@@ -59,33 +59,19 @@
                 id="reason"
                 @change="
                   changeStatus(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    ),
+                    appraisal.currentStatus,
                     statuses[$event.target.value],
                     appraisal.id
                   )
                 "
                 style="width: 120px"
+                :disabled="!appraisal.nextStatuses.length"
               >
                 <option disabled value="" selected>
-                  {{
-                    firstLetterCap(
-                      getCurrentStatus(
-                        appraisal.appraisalUserStatus,
-                        appraisal.appraisalAdminStatus
-                      )
-                    )
-                  }}
+                  {{ firstLetterCap(appraisal.currentStatus) }}
                 </option>
                 <option
-                  v-for="nextStatus in getNextStatuses(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    )
-                  )"
+                  v-for="nextStatus in appraisal.nextStatuses"
                   :key="nextStatus"
                   :value="nextStatus"
                 >
@@ -95,7 +81,10 @@
             </div>
           </div>
           <div class="card-body">
-            <h6>{{ appraisal.description }}</h6>
+            <h6>
+              <span class="font-weight-bold">Description:</span>
+              {{ appraisal.description }}
+            </h6>
             <div class="progress d-none d-md-flex">
               <div
                 class="progress-bar"
@@ -110,20 +99,11 @@
                 :key="status"
                 :title="statusDescriptions[status]"
                 :class="
-                  getStatusClasses(
-                    statuses[status],
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    )
-                  )
+                  getStatusClasses(statuses[status], appraisal.currentStatus)
                 "
                 @click="
                   changeStatus(
-                    getCurrentStatus(
-                      appraisal.appraisalUserStatus,
-                      appraisal.appraisalAdminStatus
-                    ),
+                    appraisal.currentStatus,
                     statuses[status],
                     appraisal.id
                   )
@@ -132,6 +112,9 @@
                 {{ firstLetterCap(statuses[status]) }}
               </div>
             </div>
+          </div>
+          <div class="card-footer text-center">
+            <small class="text-muted">Show More</small>
           </div>
         </div>
       </div>
@@ -383,9 +366,26 @@ export default defineComponent({
         (await API.graphql(
           graphqlOperation(listAppraisals)
         )) as GraphQLResult<ListAppraisalsQuery>
-      ).data.listAppraisals.items.sort((a, b) =>
-        a.createdAt > b.createdAt ? -1 : a.createdAt === b.createdAt ? 0 : 1
-      );
+      ).data.listAppraisals.items
+        .sort((a, b) =>
+          a.createdAt > b.createdAt ? -1 : a.createdAt === b.createdAt ? 0 : 1
+        )
+        .map((appraisal) => {
+          return {
+            ...appraisal,
+            showMore: false,
+            currentStatus: this.getCurrentStatus(
+              appraisal.appraisalUserStatus,
+              appraisal.appraisalAdminStatus
+            ),
+            nextStatuses: this.getNextStatuses(
+              this.getCurrentStatus(
+                appraisal.appraisalUserStatus,
+                appraisal.appraisalAdminStatus
+              )
+            ),
+          };
+        });
     },
     getNextStatuses(status: string) {
       if (status === STATUSES.WITHDRAWN) {
@@ -488,5 +488,8 @@ export default defineComponent({
 }
 .bg-danger {
   cursor: not-allowed;
+}
+.card-footer {
+  cursor: pointer;
 }
 </style>
