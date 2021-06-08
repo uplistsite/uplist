@@ -74,7 +74,7 @@
                   :disabled="allowedStatus === appraisal.currentStatus"
                   :selected="allowedStatus === appraisal.currentStatus"
                 >
-                  {{ firstLetterCap(statusToAction[allowedStatus]) }}
+                  {{ allowedStatus === appraisal.currentStatus ? firstLetterCap(allowedStatus) : firstLetterCap(statusToAction[allowedStatus]) }}
                 </option>
               </select>
             </div>
