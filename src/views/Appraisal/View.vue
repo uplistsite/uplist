@@ -1,4 +1,12 @@
 <template>
+  <div
+    v-if="isCreate"
+    class="alert alert-primary d-flex align-items-center"
+    role="alert"
+  >
+    <BIconInfoCircleFill class="bi flex-shrink-0 me-2"></BIconInfoCircleFill>
+    <div>You'll be able to add images after creating the appraisal.</div>
+  </div>
   <div class="container mt-5 mb-5">
     <ul class="nav nav-tabs justify-content-center">
       <li class="nav-item">
@@ -9,40 +17,101 @@
       </li>
     </ul>
     <div class="row justify-content-center">
-      <div class="col-12" v-if="hash === '#description' || !hash">
+      <div class="col-12" v-if="!hash">
         <div class="card shadow">
           <div class="card-body">
             <h3 class="card-title">{{ typeText + " Appraisal" }}</h3>
-            <form @submit.prevent="processAppraisal">
-              <div class="mb-3">
-                <label for="inputName" class="form-label label-required"
-                  >Name</label
-                >
-                <input
-                  v-model="name"
-                  type="text"
-                  class="form-control"
-                  id="inputName"
-                  required
-                />
+            <form @submit.stop.prevent="processAppraisal">
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="inputName" class="form-label label-required"
+                    >Name</label
+                  >
+                  <input
+                    v-model="name"
+                    type="text"
+                    class="form-control"
+                    id="inputName"
+                    required
+                  />
+                </div>
+                <div class="col-12">
+                  <label for="inputWear" class="form-label label-required"
+                    >Wear</label
+                  >
+                  <select
+                    class="form-select"
+                    id="inputWear"
+                    v-model="wear"
+                    required
+                  >
+                    <option disabled value="">Please select a wear</option>
+                    <option v-for="wear in wears" :key="wear" :value="wear">
+                      {{ firstLetterCap(wear) }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-7">
+                  <label
+                    for="inputDescription"
+                    class="form-label label-required"
+                    >Description</label
+                  >
+                  <textarea
+                    v-model="description"
+                    type="text"
+                    class="form-control"
+                    id="inputDescription"
+                    rows="3"
+                    required
+                  />
+                </div>
+                <div class="col-md-5">
+                  <label for="inputDefects" class="form-label">Defects</label>
+                  <textarea
+                    v-model="defects"
+                    type="text"
+                    class="form-control"
+                    id="inputDefects"
+                    rows="3"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="inputMake" class="form-label">Make</label>
+                  <input
+                    v-model="make"
+                    type="text"
+                    class="form-control"
+                    id="inputMake"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="inputModel" class="form-label">Model</label>
+                  <input
+                    v-model="model"
+                    type="text"
+                    class="form-control"
+                    id="inputModel"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="inputYear" class="form-label">Year</label>
+                  <input
+                    v-model="year"
+                    type="number"
+                    class="form-control"
+                    id="inputYear"
+                    placeholder="2021"
+                    pattern="[0-9]{4}"
+                  />
+                </div>
               </div>
-              <div class="mb-3">
-                <label for="inputDescription" class="form-label label-required"
-                  >Description</label
-                >
-                <textarea
-                  v-model="description"
-                  type="text"
-                  class="form-control"
-                  id="inputDescription"
-                  rows="3"
-                  required
-                />
-              </div>
-              <div v-if="appraisalError" class="form-text text-danger mb-3">
+              <div v-if="appraisalError" class="form-text text-danger">
                 {{ appraisalError }}
               </div>
-              <button class="btn btn-primary float-end">{{ typeText }}</button>
+              <button class="btn btn-primary float-end mt-3">
+                {{ typeText }}
+              </button>
             </form>
           </div>
         </div>
@@ -92,10 +161,13 @@ import { getAppraisal } from "@/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api";
 import { GetAppraisalQuery } from "@/API";
 import { v4 as uuid } from "uuid";
+import { Appraisal } from "@/API";
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }
+
+const WEARS = ["POOR", "WELL_USED", "USED", "LIGHTLY_USED", "LIKE_NEW", "NEW"];
 
 export default defineComponent({
   name: "Appraisal View",
@@ -103,8 +175,14 @@ export default defineComponent({
     return {
       appraisalError: "",
       name: "",
+      wear: "",
       description: "",
+      defects: "",
+      make: "",
+      model: "",
+      year: "",
       images: [],
+      wears: WEARS.reverse(),
       hash: "",
     };
   },
@@ -149,9 +227,16 @@ export default defineComponent({
     async navigateListAppraisals() {
       await this.$router.push({ name: "ListAppraisals" });
     },
+    async navigateAppraisalImages(id: string) {
+      await this.$router.push({
+        name: "UpdateAppraisal",
+        hash: "#images",
+        params: { id: id },
+      });
+    },
     async createAppraisal() {
       try {
-        await API.graphql({
+        const appraisal: any = await API.graphql({
           query: createAppraisal,
           variables: {
             input: {
@@ -160,7 +245,7 @@ export default defineComponent({
             },
           },
         });
-        await this.navigateListAppraisals();
+        await this.navigateAppraisalImages(appraisal.data.createAppraisal.id);
       } catch (e) {
         this.appraisalError = e;
       }
@@ -177,7 +262,7 @@ export default defineComponent({
             },
           },
         });
-        await this.navigateListAppraisals();
+        //await this.navigateListAppraisals();
       } catch (e) {
         this.appraisalError = e;
       }
@@ -226,11 +311,22 @@ export default defineComponent({
         graphqlOperation(getAppraisal, { id: this.id })
       )) as GraphQLResult<GetAppraisalQuery>;
       this.name = appraisal.data.getAppraisal.name;
+      this.wear = appraisal.data.getAppraisal.wear;
       this.description = appraisal.data.getAppraisal.description;
+      this.defects = appraisal.data.getAppraisal.defects;
       const imageKeys = appraisal.data.getAppraisal.pictures.items.map(
         (item) => item.key
       );
       if (imageKeys) await this.fetchImages(imageKeys);
+    },
+    firstLetterCap(s: string): string {
+      const words = s.toLowerCase().replaceAll("_", " ").split(" ");
+
+      return words
+        .map((word) => {
+          return word[0].toUpperCase() + word.substring(1);
+        })
+        .join(" ");
     },
   },
   async created() {

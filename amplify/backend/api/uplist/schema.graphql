@@ -61,7 +61,7 @@ type Appraisal
             { allow: groups, groups: ["Admin"], operations: [create, update, read] }
         ]),
     defects: String,
-    year: String,
+    year: Int,
     model: String,
     make: String,
     wear: Wear,
