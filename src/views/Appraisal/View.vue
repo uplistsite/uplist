@@ -241,7 +241,12 @@ export default defineComponent({
           variables: {
             input: {
               name: this.name,
+              wear: this.wear,
               description: this.description,
+              defects: this.defects,
+              make: this.make,
+              model: this.model,
+              year: this.year,
             },
           },
         });
@@ -258,11 +263,16 @@ export default defineComponent({
             input: {
               id: this.id,
               name: this.name,
+              wear: this.wear,
               description: this.description,
+              defects: this.defects,
+              make: this.make,
+              model: this.model,
+              year: this.year,
             },
           },
         });
-        //await this.navigateListAppraisals();
+        await this.navigateListAppraisals();
       } catch (e) {
         this.appraisalError = e;
       }
@@ -314,6 +324,9 @@ export default defineComponent({
       this.wear = appraisal.data.getAppraisal.wear;
       this.description = appraisal.data.getAppraisal.description;
       this.defects = appraisal.data.getAppraisal.defects;
+      this.make = appraisal.data.getAppraisal.make;
+      this.model = appraisal.data.getAppraisal.model;
+      this.year = appraisal.data.getAppraisal.year;
       const imageKeys = appraisal.data.getAppraisal.pictures.items.map(
         (item) => item.key
       );
