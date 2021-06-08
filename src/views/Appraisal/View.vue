@@ -179,7 +179,7 @@ export default defineComponent({
       defects: "",
       make: "",
       model: "",
-      year: "",
+      year: null,
       images: [],
       wears: WEARS.reverse(),
       hash: "",
