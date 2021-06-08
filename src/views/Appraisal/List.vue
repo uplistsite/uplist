@@ -40,7 +40,7 @@
         </div>
       </div>
       <div
-        v-for="appraisal in getFilteredAppraisals"
+        v-for="(appraisal, index) in getFilteredAppraisals"
         :key="appraisal.id"
         class="col-12 mb-4"
       >
@@ -112,8 +112,13 @@
               </div>
             </div>
           </div>
-          <div class="card-footer text-center">
-            <small class="text-muted">Show More</small>
+          <div
+            class="card-footer text-center"
+            @click="updateAppraisal(index, { showMore: !appraisal.showMore })"
+          >
+            <small class="text-muted">{{
+              appraisal.showMore ? "Show Less" : "Show More"
+            }}</small>
           </div>
         </div>
       </div>
@@ -360,6 +365,12 @@ export default defineComponent({
     async navigateCreateAppraisal() {
       await this.$router.push({ name: "CreateAppraisal" });
     },
+    async updateAppraisal(index: number, update: any) {
+      const appraisal = this.appraisals[index];
+      for (const field of Object.keys(update)) {
+        appraisal[field] = update[field];
+      }
+    },
     async getAppraisals() {
       this.appraisals = (
         (await API.graphql(
@@ -388,7 +399,6 @@ export default defineComponent({
             allowedStatuses: [currentStatus].concat(nextStatuses),
           };
         });
-      console.log(this.appraisals);
     },
     getNextStatuses(status: string) {
       if (status === STATUSES.WITHDRAWN) {
