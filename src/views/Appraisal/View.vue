@@ -161,13 +161,12 @@ import { getAppraisal } from "@/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api";
 import { GetAppraisalQuery } from "@/API";
 import { v4 as uuid } from "uuid";
-import { Appraisal } from "@/API";
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }
 
-const WEARS = ["POOR", "WELL_USED", "USED", "LIGHTLY_USED", "LIKE_NEW", "NEW"];
+const WEARS = ["POOR", "WELL_USED", "USED", "LIGHTLY_USED", "LIKE_NEW", "NEW", "BAD"];
 
 export default defineComponent({
   name: "Appraisal View",
@@ -252,7 +251,7 @@ export default defineComponent({
         });
         await this.navigateAppraisalImages(appraisal.data.createAppraisal.id);
       } catch (e) {
-        this.appraisalError = e;
+        this.appraisalError = e?.errors[0].message;
       }
     },
     async updateAppraisal() {
@@ -274,7 +273,7 @@ export default defineComponent({
         });
         await this.navigateListAppraisals();
       } catch (e) {
-        this.appraisalError = e;
+        this.appraisalError = e?.errors[0].message;
       }
     },
     async uploadImages(e: HTMLInputEvent) {
