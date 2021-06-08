@@ -166,7 +166,7 @@ interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }
 
-const WEARS = ["POOR", "WELL_USED", "USED", "LIGHTLY_USED", "LIKE_NEW", "NEW", "BAD"];
+const WEARS = ["POOR", "WELL_USED", "USED", "LIGHTLY_USED", "LIKE_NEW", "NEW"];
 
 export default defineComponent({
   name: "Appraisal View",
