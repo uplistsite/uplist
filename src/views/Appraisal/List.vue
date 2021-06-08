@@ -67,24 +67,23 @@
                 style="width: 120px"
                 :disabled="!appraisal.nextStatuses.length"
               >
-                <option disabled value="" selected>
-                  {{ firstLetterCap(appraisal.currentStatus) }}
-                </option>
                 <option
-                  v-for="nextStatus in appraisal.nextStatuses"
-                  :key="nextStatus"
-                  :value="nextStatus"
+                  v-for="allowedStatus in appraisal.allowedStatuses"
+                  :key="allowedStatus"
+                  :value="allowedStatus"
+                  :disabled="allowedStatus === appraisal.currentStatus"
+                  :selected="allowedStatus === appraisal.currentStatus"
                 >
-                  {{ firstLetterCap(statusToAction[nextStatus]) }}
+                  {{ firstLetterCap(statusToAction[allowedStatus]) }}
                 </option>
               </select>
             </div>
           </div>
           <div class="card-body">
-            <h6>
+            <p>
               <span class="font-weight-bold">Description:</span>
               {{ appraisal.description }}
-            </h6>
+            </p>
             <div class="progress d-none d-md-flex">
               <div
                 class="progress-bar"
@@ -371,21 +370,25 @@ export default defineComponent({
           a.createdAt > b.createdAt ? -1 : a.createdAt === b.createdAt ? 0 : 1
         )
         .map((appraisal) => {
+          const currentStatus = this.getCurrentStatus(
+            appraisal.appraisalUserStatus,
+            appraisal.appraisalAdminStatus
+          );
+          const nextStatuses = this.getNextStatuses(
+            this.getCurrentStatus(
+              appraisal.appraisalUserStatus,
+              appraisal.appraisalAdminStatus
+            )
+          );
           return {
             ...appraisal,
             showMore: false,
-            currentStatus: this.getCurrentStatus(
-              appraisal.appraisalUserStatus,
-              appraisal.appraisalAdminStatus
-            ),
-            nextStatuses: this.getNextStatuses(
-              this.getCurrentStatus(
-                appraisal.appraisalUserStatus,
-                appraisal.appraisalAdminStatus
-              )
-            ),
+            currentStatus: currentStatus,
+            nextStatuses: nextStatuses,
+            allowedStatuses: [currentStatus].concat(nextStatuses),
           };
         });
+      console.log(this.appraisals);
     },
     getNextStatuses(status: string) {
       if (status === STATUSES.WITHDRAWN) {
