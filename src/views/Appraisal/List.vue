@@ -74,16 +74,77 @@
                   :disabled="allowedStatus === appraisal.currentStatus"
                   :selected="allowedStatus === appraisal.currentStatus"
                 >
-                  {{ allowedStatus === appraisal.currentStatus ? firstLetterCap(allowedStatus) : firstLetterCap(statusToAction[allowedStatus]) }}
+                  {{
+                    allowedStatus === appraisal.currentStatus
+                      ? firstLetterCap(allowedStatus)
+                      : firstLetterCap(statusToAction[allowedStatus])
+                  }}
                 </option>
               </select>
             </div>
           </div>
           <div class="card-body">
-            <p>
-              <span class="font-weight-bold">Description:</span>
-              {{ appraisal.description }}
-            </p>
+            <div class="row mb-3">
+              <div class="col">
+                <div>
+                  <span class="fw-bold">Description:</span>
+                  {{ appraisal.description }}
+                </div>
+                <div>
+                  <span class="fw-bold">Condition:</span>
+                  {{ firstLetterCap(appraisal.wear) }}
+                </div>
+                <div v-if="appraisal.showMore">
+                  <div>
+                    <span class="fw-bold">Defects:</span>
+                    {{ appraisal.defects ? appraisal.defects : "N/A" }}
+                  </div>
+                  <div>
+                    <span class="fw-bold">Make:</span>
+                    {{ appraisal.make ? appraisal.make : "N/A" }}
+                  </div>
+                  <div>
+                    <span class="fw-bold">Model:</span>
+                    {{ appraisal.model ? appraisal.model : "N/A" }}
+                  </div>
+                  <div>
+                    <span class="fw-bold">Year:</span>
+                    {{ appraisal.year ? appraisal.year : "N/A" }}
+                  </div>
+                </div>
+              </div>
+              <div class="col text-end">
+                <div v-if="appraisal.paymentAdvance">
+                  <div>
+                    Estimated Sell Price:
+                    <span class="fw-bold text-success"
+                      >${{ appraisal.paymentRangeLow }}</span
+                    >
+                    to
+                    <span class="fw-bold text-success"
+                      >${{ appraisal.paymentRangeHigh }}</span
+                    >
+                  </div>
+                  <div>
+                    Upfront Payment:
+                    <span class="fw-bold text-success"
+                      >${{ appraisal.paymentAdvance }}</span
+                    >
+                  </div>
+                </div>
+                <div v-if="appraisal.deniedReason || appraisal.withdrawnReason">
+                  <div>
+                    Reason for
+                    {{ appraisal.deniedReason ? "Denial" : "Withdraw" }}:
+                    <span class="text-danger">{{
+                      appraisal.deniedReason
+                        ? appraisal.deniedReason
+                        : appraisal.withdrawnReason
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="progress d-none d-md-flex">
               <div
                 class="progress-bar"
@@ -460,7 +521,8 @@ export default defineComponent({
       }
     },
     firstLetterCap(s: string): string {
-      const words = s.toLowerCase().split(" ");
+      if (!s) return s;
+      const words = s.toLowerCase().replaceAll("_", " ").split(" ");
 
       return words
         .map((word) => {
