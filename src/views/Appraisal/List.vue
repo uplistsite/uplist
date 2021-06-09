@@ -132,6 +132,14 @@
                     >
                   </div>
                 </div>
+                <div v-if="appraisal.soldPrice">
+                  <div>
+                    Sold Price:
+                    <span class="fw-bold text-success"
+                      >${{ appraisal.soldPrice }}</span
+                    >
+                  </div>
+                </div>
                 <div v-if="appraisal.deniedReason || appraisal.withdrawnReason">
                   <div>
                     Reason for
