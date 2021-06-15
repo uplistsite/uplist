@@ -89,6 +89,14 @@ export const listAppraisals = /* GraphQL */ `
         name
         description
         pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
           nextToken
         }
         appraisalUserStatus

@@ -17,7 +17,6 @@
         >
           Filter Statuses
         </button>
-
         <div class="dropdown-menu">
           <div
             v-for="status in Object.keys(getStatuses)"
@@ -551,6 +550,7 @@ export default defineComponent({
   },
   async created() {
     await this.getAppraisals();
+    console.log(this.appraisals);
   },
 });
 </script>

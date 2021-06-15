@@ -17,6 +17,9 @@
           </div>
         </div>
       </div>
+      <div class="col-12" v-if="hash === ''">
+        <PickupsList></PickupsList>
+      </div>
     </div>
   </div>
 </template>
@@ -24,6 +27,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import PickupTimesView from "@/components/Pickups/Times/View.vue";
+import PickupsList from "@/components/Pickups/Pickups/List.vue";
 
 export default defineComponent({
   name: "Pickups",
@@ -42,7 +46,7 @@ export default defineComponent({
       return "";
     },
   },
-  components: { PickupTimesView },
+  components: { PickupTimesView, PickupsList },
   watch: {
     "$route.hash": {
       handler: function (hash) {

@@ -815,6 +815,15 @@ export type ListAppraisalsQuery = {
       description: string,
       pictures?:  {
         __typename: "ModelS3ObjectConnection",
+        items?:  Array< {
+          __typename: "S3Object",
+          id: string,
+          foreignId: string,
+          key: string,
+          createdAt: string,
+          updatedAt: string,
+          owner?: string | null,
+        } | null > | null,
         nextToken?: string | null,
       } | null,
       appraisalUserStatus?: AppraisalUserStatus | null,
