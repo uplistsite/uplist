@@ -7,6 +7,21 @@ export const onCreateUser = /* GraphQL */ `
     onCreateUser(owner: $owner) {
       id
       owner
+      addresses {
+        items {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       balance
       createdAt
       updatedAt
@@ -18,6 +33,21 @@ export const onUpdateUser = /* GraphQL */ `
     onUpdateUser(owner: $owner) {
       id
       owner
+      addresses {
+        items {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       balance
       createdAt
       updatedAt
@@ -29,6 +59,21 @@ export const onDeleteUser = /* GraphQL */ `
     onDeleteUser(owner: $owner) {
       id
       owner
+      addresses {
+        items {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       balance
       createdAt
       updatedAt
@@ -70,6 +115,18 @@ export const onCreateAppraisal = /* GraphQL */ `
         id
         time
         isUsed
+        createdAt
+        updatedAt
+      }
+      address {
+        id
+        owner
+        street1
+        street2
+        zip
+        city
+        state
+        userId
         createdAt
         updatedAt
       }
@@ -118,6 +175,18 @@ export const onUpdateAppraisal = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      address {
+        id
+        owner
+        street1
+        street2
+        zip
+        city
+        state
+        userId
+        createdAt
+        updatedAt
+      }
       listings
       appraisalAdminStatus
       createdAt
@@ -160,6 +229,18 @@ export const onDeleteAppraisal = /* GraphQL */ `
         id
         time
         isUsed
+        createdAt
+        updatedAt
+      }
+      address {
+        id
+        owner
+        street1
+        street2
+        zip
+        city
+        state
+        userId
         createdAt
         updatedAt
       }
@@ -234,6 +315,54 @@ export const onDeletePickupTime = /* GraphQL */ `
       id
       time
       isUsed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateAddress = /* GraphQL */ `
+  subscription OnCreateAddress($owner: String) {
+    onCreateAddress(owner: $owner) {
+      id
+      owner
+      street1
+      street2
+      zip
+      city
+      state
+      userId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateAddress = /* GraphQL */ `
+  subscription OnUpdateAddress($owner: String) {
+    onUpdateAddress(owner: $owner) {
+      id
+      owner
+      street1
+      street2
+      zip
+      city
+      state
+      userId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteAddress = /* GraphQL */ `
+  subscription OnDeleteAddress($owner: String) {
+    onDeleteAddress(owner: $owner) {
+      id
+      owner
+      street1
+      street2
+      zip
+      city
+      state
+      userId
       createdAt
       updatedAt
     }

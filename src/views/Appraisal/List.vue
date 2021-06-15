@@ -550,7 +550,6 @@ export default defineComponent({
   },
   async created() {
     await this.getAppraisals();
-    console.log(this.appraisals);
   },
 });
 </script>

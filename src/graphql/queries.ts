@@ -7,6 +7,21 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       owner
+      addresses {
+        items {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       balance
       createdAt
       updatedAt
@@ -23,6 +38,21 @@ export const listUsers = /* GraphQL */ `
       items {
         id
         owner
+        addresses {
+          items {
+            id
+            owner
+            street1
+            street2
+            zip
+            city
+            state
+            userId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
         balance
         createdAt
         updatedAt
@@ -66,6 +96,18 @@ export const getAppraisal = /* GraphQL */ `
         id
         time
         isUsed
+        createdAt
+        updatedAt
+      }
+      address {
+        id
+        owner
+        street1
+        street2
+        zip
+        city
+        state
+        userId
         createdAt
         updatedAt
       }
@@ -116,6 +158,18 @@ export const listAppraisals = /* GraphQL */ `
           id
           time
           isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
           createdAt
           updatedAt
         }
@@ -181,6 +235,45 @@ export const listPickupTimes = /* GraphQL */ `
         id
         time
         isUsed
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getAddress = /* GraphQL */ `
+  query GetAddress($id: ID!) {
+    getAddress(id: $id) {
+      id
+      owner
+      street1
+      street2
+      zip
+      city
+      state
+      userId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listAddresss = /* GraphQL */ `
+  query ListAddresss(
+    $filter: ModelAddressFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAddresss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        owner
+        street1
+        street2
+        zip
+        city
+        state
+        userId
         createdAt
         updatedAt
       }

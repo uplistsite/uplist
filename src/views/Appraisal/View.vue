@@ -10,7 +10,7 @@
   <div class="container mt-5 mb-5">
     <ul class="nav nav-tabs justify-content-center">
       <li class="nav-item">
-        <a class="nav-link" href="#" :class="descriptionClasses">Description</a>
+        <a class="nav-link" href="#" :class="infoClasses">Info</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#images" :class="imagesClasses">Images</a>
@@ -199,8 +199,8 @@ export default defineComponent({
       if (this.isUpdate) return "Update";
       return "Create";
     },
-    descriptionClasses() {
-      if (this.hash === "#description" || !this.hash) return "active";
+    infoClasses() {
+      if (!this.hash) return "active";
       return "";
     },
     imagesClasses() {

@@ -2,7 +2,7 @@
   <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light">
     <div class="container-fluid">
       <router-link to="/">
-        <a class="navbar-brand">Uplist.io</a>
+        <a class="navbar-brand">Uplist</a>
       </router-link>
       <button
         class="navbar-toggler"

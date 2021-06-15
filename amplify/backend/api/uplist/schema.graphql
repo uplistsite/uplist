@@ -8,6 +8,7 @@ type User
 {
     id: ID!,
     owner: String,
+    addresses: [Address] @connection(keyName: "byUser", fields: ["id"]),
     balance: Float
     @auth(
         rules: [
@@ -68,6 +69,7 @@ type Appraisal
     deniedReason: String,
     withdrawnReason: String,
     pickupTime: PickupTime @connection,
+    address: Address @connection,
     listings: [AWSURL],
     @auth(
         rules: [
@@ -107,6 +109,25 @@ type PickupTime
     id: ID!,
     time: AWSDateTime!,
     isUsed: Boolean
+}
+
+type Address
+@model
+@key(name: "byUser", fields: ["userId", "street1", "street2", "zip", "city", "state"])
+@auth(
+    rules: [
+        { allow: owner, operations: [create, update, delete, read] },
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    owner: String,
+    street1: String!,
+    street2: String,
+    zip: String!,
+    city: String!,
+    state: String!,
+    userId: ID!,
 }
 
 enum AppraisalUserStatus {

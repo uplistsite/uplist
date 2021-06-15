@@ -45,7 +45,28 @@ export type User = {
   __typename: "User",
   id?: string,
   owner?: string | null,
+  addresses?: ModelAddressConnection,
   balance?: number | null,
+  createdAt?: string,
+  updatedAt?: string,
+};
+
+export type ModelAddressConnection = {
+  __typename: "ModelAddressConnection",
+  items?:  Array<Address | null > | null,
+  nextToken?: string | null,
+};
+
+export type Address = {
+  __typename: "Address",
+  id?: string,
+  owner?: string | null,
+  street1?: string,
+  street2?: string | null,
+  zip?: string,
+  city?: string,
+  state?: string,
+  userId?: string,
   createdAt?: string,
   updatedAt?: string,
 };
@@ -81,6 +102,7 @@ export type CreateAppraisalInput = {
   listings?: Array< string | null > | null,
   appraisalAdminStatus?: AppraisalAdminStatus | null,
   appraisalPickupTimeId?: string | null,
+  appraisalAddressId?: string | null,
 };
 
 export enum AppraisalUserStatus {
@@ -205,6 +227,7 @@ export type Appraisal = {
   deniedReason?: string | null,
   withdrawnReason?: string | null,
   pickupTime?: PickupTime,
+  address?: Address,
   listings?: Array< string | null > | null,
   appraisalAdminStatus?: AppraisalAdminStatus | null,
   createdAt?: string,
@@ -257,6 +280,7 @@ export type UpdateAppraisalInput = {
   listings?: Array< string | null > | null,
   appraisalAdminStatus?: AppraisalAdminStatus | null,
   appraisalPickupTimeId?: string | null,
+  appraisalAddressId?: string | null,
 };
 
 export type DeleteAppraisalInput = {
@@ -334,6 +358,44 @@ export type DeletePickupTimeInput = {
   id?: string | null,
 };
 
+export type CreateAddressInput = {
+  id?: string | null,
+  owner?: string | null,
+  street1: string,
+  street2?: string | null,
+  zip: string,
+  city: string,
+  state: string,
+  userId: string,
+};
+
+export type ModelAddressConditionInput = {
+  street1?: ModelStringInput | null,
+  street2?: ModelStringInput | null,
+  zip?: ModelStringInput | null,
+  city?: ModelStringInput | null,
+  state?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+  and?: Array< ModelAddressConditionInput | null > | null,
+  or?: Array< ModelAddressConditionInput | null > | null,
+  not?: ModelAddressConditionInput | null,
+};
+
+export type UpdateAddressInput = {
+  id: string,
+  owner?: string | null,
+  street1?: string | null,
+  street2?: string | null,
+  zip?: string | null,
+  city?: string | null,
+  state?: string | null,
+  userId?: string | null,
+};
+
+export type DeleteAddressInput = {
+  id?: string | null,
+};
+
 export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
   owner?: ModelStringInput | null,
@@ -404,6 +466,20 @@ export type ModelPickupTimeConnection = {
   nextToken?: string | null,
 };
 
+export type ModelAddressFilterInput = {
+  id?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
+  street1?: ModelStringInput | null,
+  street2?: ModelStringInput | null,
+  zip?: ModelStringInput | null,
+  city?: ModelStringInput | null,
+  state?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+  and?: Array< ModelAddressFilterInput | null > | null,
+  or?: Array< ModelAddressFilterInput | null > | null,
+  not?: ModelAddressFilterInput | null,
+};
+
 export type CreateUserMutationVariables = {
   input?: CreateUserInput,
   condition?: ModelUserConditionInput | null,
@@ -414,6 +490,23 @@ export type CreateUserMutation = {
     __typename: "User",
     id: string,
     owner?: string | null,
+    addresses?:  {
+      __typename: "ModelAddressConnection",
+      items?:  Array< {
+        __typename: "Address",
+        id: string,
+        owner?: string | null,
+        street1: string,
+        street2?: string | null,
+        zip: string,
+        city: string,
+        state: string,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
@@ -430,6 +523,23 @@ export type UpdateUserMutation = {
     __typename: "User",
     id: string,
     owner?: string | null,
+    addresses?:  {
+      __typename: "ModelAddressConnection",
+      items?:  Array< {
+        __typename: "Address",
+        id: string,
+        owner?: string | null,
+        street1: string,
+        street2?: string | null,
+        zip: string,
+        city: string,
+        state: string,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
@@ -446,6 +556,23 @@ export type DeleteUserMutation = {
     __typename: "User",
     id: string,
     owner?: string | null,
+    addresses?:  {
+      __typename: "ModelAddressConnection",
+      items?:  Array< {
+        __typename: "Address",
+        id: string,
+        owner?: string | null,
+        street1: string,
+        street2?: string | null,
+        zip: string,
+        city: string,
+        state: string,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
@@ -495,6 +622,19 @@ export type CreateAppraisalMutation = {
       id: string,
       time: string,
       isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    address?:  {
+      __typename: "Address",
+      id: string,
+      owner?: string | null,
+      street1: string,
+      street2?: string | null,
+      zip: string,
+      city: string,
+      state: string,
+      userId: string,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -551,6 +691,19 @@ export type UpdateAppraisalMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    address?:  {
+      __typename: "Address",
+      id: string,
+      owner?: string | null,
+      street1: string,
+      street2?: string | null,
+      zip: string,
+      city: string,
+      state: string,
+      userId: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     listings?: Array< string | null > | null,
     appraisalAdminStatus?: AppraisalAdminStatus | null,
     createdAt: string,
@@ -601,6 +754,19 @@ export type DeleteAppraisalMutation = {
       id: string,
       time: string,
       isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    address?:  {
+      __typename: "Address",
+      id: string,
+      owner?: string | null,
+      street1: string,
+      street2?: string | null,
+      zip: string,
+      city: string,
+      state: string,
+      userId: string,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -710,6 +876,69 @@ export type DeletePickupTimeMutation = {
   } | null,
 };
 
+export type CreateAddressMutationVariables = {
+  input?: CreateAddressInput,
+  condition?: ModelAddressConditionInput | null,
+};
+
+export type CreateAddressMutation = {
+  createAddress?:  {
+    __typename: "Address",
+    id: string,
+    owner?: string | null,
+    street1: string,
+    street2?: string | null,
+    zip: string,
+    city: string,
+    state: string,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateAddressMutationVariables = {
+  input?: UpdateAddressInput,
+  condition?: ModelAddressConditionInput | null,
+};
+
+export type UpdateAddressMutation = {
+  updateAddress?:  {
+    __typename: "Address",
+    id: string,
+    owner?: string | null,
+    street1: string,
+    street2?: string | null,
+    zip: string,
+    city: string,
+    state: string,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteAddressMutationVariables = {
+  input?: DeleteAddressInput,
+  condition?: ModelAddressConditionInput | null,
+};
+
+export type DeleteAddressMutation = {
+  deleteAddress?:  {
+    __typename: "Address",
+    id: string,
+    owner?: string | null,
+    street1: string,
+    street2?: string | null,
+    zip: string,
+    city: string,
+    state: string,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type GetUserQueryVariables = {
   id?: string,
 };
@@ -719,6 +948,23 @@ export type GetUserQuery = {
     __typename: "User",
     id: string,
     owner?: string | null,
+    addresses?:  {
+      __typename: "ModelAddressConnection",
+      items?:  Array< {
+        __typename: "Address",
+        id: string,
+        owner?: string | null,
+        street1: string,
+        street2?: string | null,
+        zip: string,
+        city: string,
+        state: string,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
@@ -738,6 +984,23 @@ export type ListUsersQuery = {
       __typename: "User",
       id: string,
       owner?: string | null,
+      addresses?:  {
+        __typename: "ModelAddressConnection",
+        items?:  Array< {
+          __typename: "Address",
+          id: string,
+          owner?: string | null,
+          street1: string,
+          street2?: string | null,
+          zip: string,
+          city: string,
+          state: string,
+          userId: string,
+          createdAt: string,
+          updatedAt: string,
+        } | null > | null,
+        nextToken?: string | null,
+      } | null,
       balance?: number | null,
       createdAt: string,
       updatedAt: string,
@@ -788,6 +1051,19 @@ export type GetAppraisalQuery = {
       id: string,
       time: string,
       isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    address?:  {
+      __typename: "Address",
+      id: string,
+      owner?: string | null,
+      street1: string,
+      street2?: string | null,
+      zip: string,
+      city: string,
+      state: string,
+      userId: string,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -844,6 +1120,19 @@ export type ListAppraisalsQuery = {
         id: string,
         time: string,
         isUsed?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      address?:  {
+        __typename: "Address",
+        id: string,
+        owner?: string | null,
+        street1: string,
+        street2?: string | null,
+        zip: string,
+        city: string,
+        state: string,
+        userId: string,
         createdAt: string,
         updatedAt: string,
       } | null,
@@ -930,6 +1219,52 @@ export type ListPickupTimesQuery = {
   } | null,
 };
 
+export type GetAddressQueryVariables = {
+  id?: string,
+};
+
+export type GetAddressQuery = {
+  getAddress?:  {
+    __typename: "Address",
+    id: string,
+    owner?: string | null,
+    street1: string,
+    street2?: string | null,
+    zip: string,
+    city: string,
+    state: string,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListAddresssQueryVariables = {
+  filter?: ModelAddressFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAddresssQuery = {
+  listAddresss?:  {
+    __typename: "ModelAddressConnection",
+    items?:  Array< {
+      __typename: "Address",
+      id: string,
+      owner?: string | null,
+      street1: string,
+      street2?: string | null,
+      zip: string,
+      city: string,
+      state: string,
+      userId: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateUserSubscriptionVariables = {
   owner?: string | null,
 };
@@ -939,6 +1274,23 @@ export type OnCreateUserSubscription = {
     __typename: "User",
     id: string,
     owner?: string | null,
+    addresses?:  {
+      __typename: "ModelAddressConnection",
+      items?:  Array< {
+        __typename: "Address",
+        id: string,
+        owner?: string | null,
+        street1: string,
+        street2?: string | null,
+        zip: string,
+        city: string,
+        state: string,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
@@ -954,6 +1306,23 @@ export type OnUpdateUserSubscription = {
     __typename: "User",
     id: string,
     owner?: string | null,
+    addresses?:  {
+      __typename: "ModelAddressConnection",
+      items?:  Array< {
+        __typename: "Address",
+        id: string,
+        owner?: string | null,
+        street1: string,
+        street2?: string | null,
+        zip: string,
+        city: string,
+        state: string,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
@@ -969,6 +1338,23 @@ export type OnDeleteUserSubscription = {
     __typename: "User",
     id: string,
     owner?: string | null,
+    addresses?:  {
+      __typename: "ModelAddressConnection",
+      items?:  Array< {
+        __typename: "Address",
+        id: string,
+        owner?: string | null,
+        street1: string,
+        street2?: string | null,
+        zip: string,
+        city: string,
+        state: string,
+        userId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     balance?: number | null,
     createdAt: string,
     updatedAt: string,
@@ -1017,6 +1403,19 @@ export type OnCreateAppraisalSubscription = {
       id: string,
       time: string,
       isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    address?:  {
+      __typename: "Address",
+      id: string,
+      owner?: string | null,
+      street1: string,
+      street2?: string | null,
+      zip: string,
+      city: string,
+      state: string,
+      userId: string,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1072,6 +1471,19 @@ export type OnUpdateAppraisalSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    address?:  {
+      __typename: "Address",
+      id: string,
+      owner?: string | null,
+      street1: string,
+      street2?: string | null,
+      zip: string,
+      city: string,
+      state: string,
+      userId: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     listings?: Array< string | null > | null,
     appraisalAdminStatus?: AppraisalAdminStatus | null,
     createdAt: string,
@@ -1121,6 +1533,19 @@ export type OnDeleteAppraisalSubscription = {
       id: string,
       time: string,
       isUsed?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    address?:  {
+      __typename: "Address",
+      id: string,
+      owner?: string | null,
+      street1: string,
+      street2?: string | null,
+      zip: string,
+      city: string,
+      state: string,
+      userId: string,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1207,6 +1632,66 @@ export type OnDeletePickupTimeSubscription = {
     id: string,
     time: string,
     isUsed?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateAddressSubscriptionVariables = {
+  owner?: string | null,
+};
+
+export type OnCreateAddressSubscription = {
+  onCreateAddress?:  {
+    __typename: "Address",
+    id: string,
+    owner?: string | null,
+    street1: string,
+    street2?: string | null,
+    zip: string,
+    city: string,
+    state: string,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateAddressSubscriptionVariables = {
+  owner?: string | null,
+};
+
+export type OnUpdateAddressSubscription = {
+  onUpdateAddress?:  {
+    __typename: "Address",
+    id: string,
+    owner?: string | null,
+    street1: string,
+    street2?: string | null,
+    zip: string,
+    city: string,
+    state: string,
+    userId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteAddressSubscriptionVariables = {
+  owner?: string | null,
+};
+
+export type OnDeleteAddressSubscription = {
+  onDeleteAddress?:  {
+    __typename: "Address",
+    id: string,
+    owner?: string | null,
+    street1: string,
+    street2?: string | null,
+    zip: string,
+    city: string,
+    state: string,
+    userId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
