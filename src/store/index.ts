@@ -65,5 +65,8 @@ export default createStore({
         ];
       return groups?.includes("Admin");
     },
+    getAddresses: (state) => {
+      return state.user?.addresses?.items ? state.user.addresses.items : [];
+    },
   },
 });

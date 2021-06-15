@@ -105,6 +105,44 @@
                     pattern="[0-9]{4}"
                   />
                 </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label label-required"
+                    >Address</label
+                  >
+                  <div class="input-group">
+                    <select
+                      class="form-select"
+                      id="inputAddress"
+                      v-model="address"
+                      required
+                    >
+                      <option disabled value="">
+                        Please select an address
+                      </option>
+                      <option
+                        v-for="address in getAddresses"
+                        :key="address.id"
+                        :value="address.id"
+                      >
+                        {{ formatAddress(address) }}
+                      </option>
+                    </select>
+                    <button
+                      v-if="!address"
+                      class="btn btn-outline-secondary"
+                      type="button"
+                    >
+                      Add
+                    </button>
+                    <button
+                      v-else
+                      class="btn btn-outline-secondary"
+                      type="button"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
               </div>
               <div v-if="appraisalError" class="form-text text-danger">
                 {{ appraisalError }}
@@ -159,8 +197,9 @@ import {
 } from "@/graphql/mutations";
 import { getAppraisal } from "@/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api";
-import { GetAppraisalQuery } from "@/API";
+import { Address, GetAppraisalQuery } from "@/API";
 import { v4 as uuid } from "uuid";
+import { mapGetters } from "vuex";
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -183,12 +222,14 @@ export default defineComponent({
       images: [],
       wears: WEARS.reverse(),
       hash: "",
+      address: "",
     };
   },
   props: {
     id: String,
   },
   computed: {
+    ...mapGetters(["getAddresses"]),
     isCreate(): boolean {
       return !this.id;
     },
@@ -246,6 +287,7 @@ export default defineComponent({
               make: this.make,
               model: this.model,
               year: this.year,
+              address: this.address,
             },
           },
         });
@@ -339,6 +381,9 @@ export default defineComponent({
           return word[0].toUpperCase() + word.substring(1);
         })
         .join(" ");
+    },
+    async formatAddress(address: Address): Promise<string> {
+      return `${address.street1}, ${address.street2}, ${address.city}, ${address.state}, ${address.zip}`;
     },
   },
   async created() {
