@@ -110,6 +110,7 @@
 import { Auth } from "aws-amplify";
 import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
+import { Collapse } from "bootstrap";
 
 export default defineComponent({
   name: "App",
@@ -120,6 +121,15 @@ export default defineComponent({
         this.$store.commit("setCognitoUser", null);
       } catch (error) {
         alert(error.message);
+      }
+    },
+  },
+  watch: {
+    $route() {
+      const menuToggle = document.querySelector("#navbarSupportedContent");
+      if (menuToggle.classList.contains("show")) {
+        const bsCollapse = new Collapse(menuToggle);
+        bsCollapse.toggle();
       }
     },
   },
