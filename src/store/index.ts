@@ -68,5 +68,8 @@ export default createStore({
     getAddresses: (state) => {
       return state.user?.addresses?.items ? state.user.addresses.items : [];
     },
+    getUserId: (state) => {
+      return state?.user?.id;
+    },
   },
 });

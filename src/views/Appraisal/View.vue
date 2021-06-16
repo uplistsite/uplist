@@ -128,18 +128,19 @@
                       </option>
                     </select>
                     <button
-                      v-if="!address"
+                      v-if="address"
                       class="btn btn-outline-secondary"
                       type="button"
-                    >
-                      Add
-                    </button>
-                    <button
-                      v-else
-                      class="btn btn-outline-secondary"
-                      type="button"
+                      @click="addressEditId = address"
                     >
                       Edit
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      @click="showCreateAddress = true"
+                    >
+                      Add
                     </button>
                   </div>
                 </div>
@@ -185,6 +186,12 @@
       </div>
     </div>
   </div>
+  <Address v-if="showCreateAddress" @close="closeAddressModals" />
+  <Address
+    v-if="addressEditId"
+    :id="addressEditId"
+    @close="closeAddressModals"
+  ></Address>
 </template>
 
 <script lang="ts">
@@ -197,9 +204,10 @@ import {
 } from "@/graphql/mutations";
 import { getAppraisal } from "@/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api";
-import { Address, GetAppraisalQuery } from "@/API";
+import { Address as AddressType, GetAppraisalQuery } from "@/API";
 import { v4 as uuid } from "uuid";
 import { mapGetters } from "vuex";
+import Address from "@/components/Address.vue";
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -223,7 +231,12 @@ export default defineComponent({
       wears: WEARS.reverse(),
       hash: "",
       address: "",
+      showCreateAddress: false,
+      addressEditId: "",
     };
+  },
+  components: {
+    Address,
   },
   props: {
     id: String,
@@ -287,7 +300,7 @@ export default defineComponent({
               make: this.make,
               model: this.model,
               year: this.year,
-              address: this.address,
+              appraisalAddressId: this.address,
             },
           },
         });
@@ -310,6 +323,7 @@ export default defineComponent({
               make: this.make,
               model: this.model,
               year: this.year,
+              appraisalAddressId: this.address,
             },
           },
         });
@@ -368,6 +382,7 @@ export default defineComponent({
       this.make = appraisal.data.getAppraisal.make;
       this.model = appraisal.data.getAppraisal.model;
       this.year = appraisal.data.getAppraisal.year;
+      this.address = appraisal.data.getAppraisal.address.id;
       const imageKeys = appraisal.data.getAppraisal.pictures.items.map(
         (item) => item.key
       );
@@ -382,8 +397,15 @@ export default defineComponent({
         })
         .join(" ");
     },
-    async formatAddress(address: Address): Promise<string> {
-      return `${address.street1}, ${address.street2}, ${address.city}, ${address.state}, ${address.zip}`;
+    formatAddress(address: AddressType) {
+      return `${address.street1}, ${
+        address.street2 ? address.street2 + ", " : ""
+      }${address.city}, ${address.state}, ${address.zip}`;
+    },
+    async closeAddressModals() {
+      this.showCreateAddress = false;
+      this.addressEditId = "";
+      await this.$store.dispatch("getUser");
     },
   },
   async created() {
