@@ -110,6 +110,14 @@
                     <span class="fw-bold">Year:</span>
                     {{ appraisal.year ? appraisal.year : "N/A" }}
                   </div>
+                  <div>
+                    <span class="fw-bold">Address:</span>
+                    {{
+                      appraisal.address
+                        ? formatAddress(appraisal.address)
+                        : "N/A"
+                    }}
+                  </div>
                 </div>
               </div>
               <div class="col text-end">
@@ -221,7 +229,7 @@
 import { defineComponent } from "vue";
 import { listAppraisals } from "@/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api";
-import { ListAppraisalsQuery } from "@/API";
+import { Address as AddressType, ListAppraisalsQuery } from "@/API";
 import { API, graphqlOperation } from "aws-amplify";
 import { mapGetters } from "vuex";
 import Withdrawn from "@/components/Appraisal/Stages/Withdrawn.vue";
@@ -536,6 +544,11 @@ export default defineComponent({
           return word[0].toUpperCase() + word.substring(1);
         })
         .join(" ");
+    },
+    formatAddress(address: AddressType) {
+      return `${address.street1}, ${
+        address.street2 ? address.street2 + ", " : ""
+      }${address.city}, ${address.state}, ${address.zip}`;
     },
     closeModals() {
       this.withdrawnId = "";
