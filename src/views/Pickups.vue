@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5 mb-5">
-    <ul class="nav nav-pills justify-content-center">
+    <ul class="nav nav-tabs justify-content-center">
       <li class="nav-item">
         <a class="nav-link" href="#" :class="pickupsClasses">Pickups</a>
       </li>

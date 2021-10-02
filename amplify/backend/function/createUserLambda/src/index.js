@@ -24,7 +24,7 @@ exports.handler = async (event, context) => {
         createdAt: date.toISOString(),
         updatedAt: date.toISOString(),
       },
-      TableName: process.env.API_UPLIST_USERTABLE_NAME
+      TableName: process.env.API_UPLIST_USERTABLE_NAME,
     };
 
     // Call DynamoDB
