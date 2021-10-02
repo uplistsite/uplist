@@ -84,6 +84,9 @@ export default defineComponent({
               appraisalUserStatus: {
                 eq: "ACCEPTED",
               },
+              appraisalAdminStatus: {
+                eq: "APPROVED",
+              },
             },
           })
         )) as GraphQLResult<ListAppraisalsQuery>
