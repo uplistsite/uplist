@@ -130,6 +130,37 @@ type Address
     userId: ID!,
 }
 
+type PaymentRequest
+@model
+@auth(
+    rules: [
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    status: PaymentRequestStatus!,
+    appraisal: Appraisal!,
+    requestPrice: Float!,
+    actualPrice: Float!,
+    comments: String
+}
+
+type Payment
+@model
+@auth(
+    rules: [
+        { allow: owner, operations: [read] },
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    owner: String,
+    appraisal: Appraisal!,
+    paymentRequest: PaymentRequest!,
+    price: Float!,
+    comments: String
+}
+
 enum AppraisalUserStatus {
     WITHDRAWN,
     ACCEPTED
@@ -141,6 +172,12 @@ enum AppraisalAdminStatus {
     PROCESSING,
     LISTED,
     SOLD
+}
+
+enum PaymentRequestStatus {
+    APPROVED,
+    DENIED,
+    PENDING
 }
 
 enum Wear {

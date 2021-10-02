@@ -368,3 +368,558 @@ export const onDeleteAddress = /* GraphQL */ `
     }
   }
 `;
+export const onCreatePaymentRequest = /* GraphQL */ `
+  subscription OnCreatePaymentRequest {
+    onCreatePaymentRequest {
+      id
+      status
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      requestPrice
+      actualPrice
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePaymentRequest = /* GraphQL */ `
+  subscription OnUpdatePaymentRequest {
+    onUpdatePaymentRequest {
+      id
+      status
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      requestPrice
+      actualPrice
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePaymentRequest = /* GraphQL */ `
+  subscription OnDeletePaymentRequest {
+    onDeletePaymentRequest {
+      id
+      status
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      requestPrice
+      actualPrice
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreatePayment = /* GraphQL */ `
+  subscription OnCreatePayment($owner: String) {
+    onCreatePayment(owner: $owner) {
+      id
+      owner
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      paymentRequest {
+        id
+        status
+        appraisal {
+          id
+          owner
+          name
+          description
+          pictures {
+            nextToken
+          }
+          appraisalUserStatus
+          commission
+          paymentAdvance
+          paymentRangeLow
+          paymentRangeHigh
+          soldPrice
+          defects
+          year
+          model
+          make
+          wear
+          deniedReason
+          withdrawnReason
+          pickupTime {
+            id
+            time
+            isUsed
+            createdAt
+            updatedAt
+          }
+          address {
+            id
+            owner
+            street1
+            street2
+            zip
+            city
+            state
+            userId
+            createdAt
+            updatedAt
+          }
+          listings
+          appraisalAdminStatus
+          createdAt
+          updatedAt
+        }
+        requestPrice
+        actualPrice
+        comments
+        createdAt
+        updatedAt
+      }
+      price
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePayment = /* GraphQL */ `
+  subscription OnUpdatePayment($owner: String) {
+    onUpdatePayment(owner: $owner) {
+      id
+      owner
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      paymentRequest {
+        id
+        status
+        appraisal {
+          id
+          owner
+          name
+          description
+          pictures {
+            nextToken
+          }
+          appraisalUserStatus
+          commission
+          paymentAdvance
+          paymentRangeLow
+          paymentRangeHigh
+          soldPrice
+          defects
+          year
+          model
+          make
+          wear
+          deniedReason
+          withdrawnReason
+          pickupTime {
+            id
+            time
+            isUsed
+            createdAt
+            updatedAt
+          }
+          address {
+            id
+            owner
+            street1
+            street2
+            zip
+            city
+            state
+            userId
+            createdAt
+            updatedAt
+          }
+          listings
+          appraisalAdminStatus
+          createdAt
+          updatedAt
+        }
+        requestPrice
+        actualPrice
+        comments
+        createdAt
+        updatedAt
+      }
+      price
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePayment = /* GraphQL */ `
+  subscription OnDeletePayment($owner: String) {
+    onDeletePayment(owner: $owner) {
+      id
+      owner
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      paymentRequest {
+        id
+        status
+        appraisal {
+          id
+          owner
+          name
+          description
+          pictures {
+            nextToken
+          }
+          appraisalUserStatus
+          commission
+          paymentAdvance
+          paymentRangeLow
+          paymentRangeHigh
+          soldPrice
+          defects
+          year
+          model
+          make
+          wear
+          deniedReason
+          withdrawnReason
+          pickupTime {
+            id
+            time
+            isUsed
+            createdAt
+            updatedAt
+          }
+          address {
+            id
+            owner
+            street1
+            street2
+            zip
+            city
+            state
+            userId
+            createdAt
+            updatedAt
+          }
+          listings
+          appraisalAdminStatus
+          createdAt
+          updatedAt
+        }
+        requestPrice
+        actualPrice
+        comments
+        createdAt
+        updatedAt
+      }
+      price
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;

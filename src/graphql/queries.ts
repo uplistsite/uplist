@@ -281,3 +281,349 @@ export const listAddresss = /* GraphQL */ `
     }
   }
 `;
+export const getPaymentRequest = /* GraphQL */ `
+  query GetPaymentRequest($id: ID!) {
+    getPaymentRequest(id: $id) {
+      id
+      status
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      requestPrice
+      actualPrice
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPaymentRequests = /* GraphQL */ `
+  query ListPaymentRequests(
+    $filter: ModelPaymentRequestFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPaymentRequests(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        status
+        appraisal {
+          id
+          owner
+          name
+          description
+          pictures {
+            nextToken
+          }
+          appraisalUserStatus
+          commission
+          paymentAdvance
+          paymentRangeLow
+          paymentRangeHigh
+          soldPrice
+          defects
+          year
+          model
+          make
+          wear
+          deniedReason
+          withdrawnReason
+          pickupTime {
+            id
+            time
+            isUsed
+            createdAt
+            updatedAt
+          }
+          address {
+            id
+            owner
+            street1
+            street2
+            zip
+            city
+            state
+            userId
+            createdAt
+            updatedAt
+          }
+          listings
+          appraisalAdminStatus
+          createdAt
+          updatedAt
+        }
+        requestPrice
+        actualPrice
+        comments
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getPayment = /* GraphQL */ `
+  query GetPayment($id: ID!) {
+    getPayment(id: $id) {
+      id
+      owner
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      paymentRequest {
+        id
+        status
+        appraisal {
+          id
+          owner
+          name
+          description
+          pictures {
+            nextToken
+          }
+          appraisalUserStatus
+          commission
+          paymentAdvance
+          paymentRangeLow
+          paymentRangeHigh
+          soldPrice
+          defects
+          year
+          model
+          make
+          wear
+          deniedReason
+          withdrawnReason
+          pickupTime {
+            id
+            time
+            isUsed
+            createdAt
+            updatedAt
+          }
+          address {
+            id
+            owner
+            street1
+            street2
+            zip
+            city
+            state
+            userId
+            createdAt
+            updatedAt
+          }
+          listings
+          appraisalAdminStatus
+          createdAt
+          updatedAt
+        }
+        requestPrice
+        actualPrice
+        comments
+        createdAt
+        updatedAt
+      }
+      price
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPayments = /* GraphQL */ `
+  query ListPayments(
+    $filter: ModelPaymentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPayments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        owner
+        appraisal {
+          id
+          owner
+          name
+          description
+          pictures {
+            nextToken
+          }
+          appraisalUserStatus
+          commission
+          paymentAdvance
+          paymentRangeLow
+          paymentRangeHigh
+          soldPrice
+          defects
+          year
+          model
+          make
+          wear
+          deniedReason
+          withdrawnReason
+          pickupTime {
+            id
+            time
+            isUsed
+            createdAt
+            updatedAt
+          }
+          address {
+            id
+            owner
+            street1
+            street2
+            zip
+            city
+            state
+            userId
+            createdAt
+            updatedAt
+          }
+          listings
+          appraisalAdminStatus
+          createdAt
+          updatedAt
+        }
+        paymentRequest {
+          id
+          status
+          appraisal {
+            id
+            owner
+            name
+            description
+            appraisalUserStatus
+            commission
+            paymentAdvance
+            paymentRangeLow
+            paymentRangeHigh
+            soldPrice
+            defects
+            year
+            model
+            make
+            wear
+            deniedReason
+            withdrawnReason
+            listings
+            appraisalAdminStatus
+            createdAt
+            updatedAt
+          }
+          requestPrice
+          actualPrice
+          comments
+          createdAt
+          updatedAt
+        }
+        price
+        comments
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

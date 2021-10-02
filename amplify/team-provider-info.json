@@ -24,6 +24,10 @@
         "createUserLambda": {
           "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
           "s3Key": "amplify-builds/createUserLambda-656e5462446969383143-build.zip"
+        },
+        "createPaymentRequestLambda": {
+          "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
+          "s3Key": "amplify-builds/createPaymentRequestLambda-31726d6d33516348644f-build.zip"
         }
       }
     }

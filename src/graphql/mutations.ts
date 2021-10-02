@@ -413,3 +413,576 @@ export const deleteAddress = /* GraphQL */ `
     }
   }
 `;
+export const createPaymentRequest = /* GraphQL */ `
+  mutation CreatePaymentRequest(
+    $input: CreatePaymentRequestInput!
+    $condition: ModelPaymentRequestConditionInput
+  ) {
+    createPaymentRequest(input: $input, condition: $condition) {
+      id
+      status
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      requestPrice
+      actualPrice
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updatePaymentRequest = /* GraphQL */ `
+  mutation UpdatePaymentRequest(
+    $input: UpdatePaymentRequestInput!
+    $condition: ModelPaymentRequestConditionInput
+  ) {
+    updatePaymentRequest(input: $input, condition: $condition) {
+      id
+      status
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      requestPrice
+      actualPrice
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deletePaymentRequest = /* GraphQL */ `
+  mutation DeletePaymentRequest(
+    $input: DeletePaymentRequestInput!
+    $condition: ModelPaymentRequestConditionInput
+  ) {
+    deletePaymentRequest(input: $input, condition: $condition) {
+      id
+      status
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      requestPrice
+      actualPrice
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createPayment = /* GraphQL */ `
+  mutation CreatePayment(
+    $input: CreatePaymentInput!
+    $condition: ModelPaymentConditionInput
+  ) {
+    createPayment(input: $input, condition: $condition) {
+      id
+      owner
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      paymentRequest {
+        id
+        status
+        appraisal {
+          id
+          owner
+          name
+          description
+          pictures {
+            nextToken
+          }
+          appraisalUserStatus
+          commission
+          paymentAdvance
+          paymentRangeLow
+          paymentRangeHigh
+          soldPrice
+          defects
+          year
+          model
+          make
+          wear
+          deniedReason
+          withdrawnReason
+          pickupTime {
+            id
+            time
+            isUsed
+            createdAt
+            updatedAt
+          }
+          address {
+            id
+            owner
+            street1
+            street2
+            zip
+            city
+            state
+            userId
+            createdAt
+            updatedAt
+          }
+          listings
+          appraisalAdminStatus
+          createdAt
+          updatedAt
+        }
+        requestPrice
+        actualPrice
+        comments
+        createdAt
+        updatedAt
+      }
+      price
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updatePayment = /* GraphQL */ `
+  mutation UpdatePayment(
+    $input: UpdatePaymentInput!
+    $condition: ModelPaymentConditionInput
+  ) {
+    updatePayment(input: $input, condition: $condition) {
+      id
+      owner
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      paymentRequest {
+        id
+        status
+        appraisal {
+          id
+          owner
+          name
+          description
+          pictures {
+            nextToken
+          }
+          appraisalUserStatus
+          commission
+          paymentAdvance
+          paymentRangeLow
+          paymentRangeHigh
+          soldPrice
+          defects
+          year
+          model
+          make
+          wear
+          deniedReason
+          withdrawnReason
+          pickupTime {
+            id
+            time
+            isUsed
+            createdAt
+            updatedAt
+          }
+          address {
+            id
+            owner
+            street1
+            street2
+            zip
+            city
+            state
+            userId
+            createdAt
+            updatedAt
+          }
+          listings
+          appraisalAdminStatus
+          createdAt
+          updatedAt
+        }
+        requestPrice
+        actualPrice
+        comments
+        createdAt
+        updatedAt
+      }
+      price
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deletePayment = /* GraphQL */ `
+  mutation DeletePayment(
+    $input: DeletePaymentInput!
+    $condition: ModelPaymentConditionInput
+  ) {
+    deletePayment(input: $input, condition: $condition) {
+      id
+      owner
+      appraisal {
+        id
+        owner
+        name
+        description
+        pictures {
+          items {
+            id
+            foreignId
+            key
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        appraisalUserStatus
+        commission
+        paymentAdvance
+        paymentRangeLow
+        paymentRangeHigh
+        soldPrice
+        defects
+        year
+        model
+        make
+        wear
+        deniedReason
+        withdrawnReason
+        pickupTime {
+          id
+          time
+          isUsed
+          createdAt
+          updatedAt
+        }
+        address {
+          id
+          owner
+          street1
+          street2
+          zip
+          city
+          state
+          userId
+          createdAt
+          updatedAt
+        }
+        listings
+        appraisalAdminStatus
+        createdAt
+        updatedAt
+      }
+      paymentRequest {
+        id
+        status
+        appraisal {
+          id
+          owner
+          name
+          description
+          pictures {
+            nextToken
+          }
+          appraisalUserStatus
+          commission
+          paymentAdvance
+          paymentRangeLow
+          paymentRangeHigh
+          soldPrice
+          defects
+          year
+          model
+          make
+          wear
+          deniedReason
+          withdrawnReason
+          pickupTime {
+            id
+            time
+            isUsed
+            createdAt
+            updatedAt
+          }
+          address {
+            id
+            owner
+            street1
+            street2
+            zip
+            city
+            state
+            userId
+            createdAt
+            updatedAt
+          }
+          listings
+          appraisalAdminStatus
+          createdAt
+          updatedAt
+        }
+        requestPrice
+        actualPrice
+        comments
+        createdAt
+        updatedAt
+      }
+      price
+      comments
+      createdAt
+      updatedAt
+    }
+  }
+`;
