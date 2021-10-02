@@ -1,10 +1,10 @@
 {
+  "lambdaLayers": [],
   "permissions": {
     "storage": {
-      "PaymentRequest:@model(appsync)": [
+      "Appraisal:@model(appsync)": [
         "create"
       ]
     }
-  },
-  "lambdaLayers": []
+  }
 }

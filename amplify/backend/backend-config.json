@@ -52,7 +52,7 @@
         }
       ]
     },
-    "createPaymentRequestLambda": {
+    "appraisalStreamLambda": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
