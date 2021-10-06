@@ -55,12 +55,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "appraisalStreamLambda",
+            "paymentRequestStreamLambda",
             {
               "Fn::Join": [
                 "",
                 [
-                  "appraisalStreamLambda",
+                  "paymentRequestStreamLambda",
                   "-",
                   {
                     "Ref": "env"
@@ -78,15 +78,12 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "API_UPLIST_GRAPHQLAPIIDOUTPUT": {
-              "Ref": "apiuplistGraphQLAPIIdOutput"
-            },
-            "API_UPLIST_PAYMENTREQUESTTABLE_NAME": {
+            "API_UPLIST_PAYMENTTABLE_NAME": {
               "Fn::ImportValue": {
-                "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:PaymentRequestTable:Name"
+                "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:PaymentTable:Name"
               }
             },
-            "API_UPLIST_PAYMENTREQUESTTABLE_ARN": {
+            "API_UPLIST_PAYMENTTABLE_ARN": {
               "Fn::Join": [
                 "",
                 [
@@ -101,11 +98,14 @@
                   ":table/",
                   {
                     "Fn::ImportValue": {
-                      "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:PaymentRequestTable:Name"
+                      "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:PaymentTable:Name"
                     }
                   }
                 ]
               ]
+            },
+            "API_UPLIST_GRAPHQLAPIIDOUTPUT": {
+              "Ref": "apiuplistGraphQLAPIIdOutput"
             }
           }
         },
@@ -117,7 +117,7 @@
         },
         "Runtime": "nodejs14.x",
         "Layers": [],
-        "Timeout": "25"
+        "Timeout": 25
       }
     },
     "LambdaExecutionRole": {
@@ -126,12 +126,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "uplistLambdaRolefcf666fc",
+            "uplistLambdaRole801889d6",
             {
               "Fn::Join": [
                 "",
                 [
-                  "uplistLambdaRolefcf666fc",
+                  "uplistLambdaRole801889d6",
                   "-",
                   {
                     "Ref": "env"
@@ -202,62 +202,6 @@
         }
       }
     },
-    "LambdaTriggerPolicyAppraisal": {
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ],
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "amplify-lambda-execution-policy-Appraisal",
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ],
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:DescribeStream",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:ListStreams"
-              ],
-              "Resource": {
-                "Fn::ImportValue": {
-                  "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:AppraisalTable:StreamArn"
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
-    "LambdaEventSourceMappingAppraisal": {
-      "Type": "AWS::Lambda::EventSourceMapping",
-      "DependsOn": [
-        "LambdaTriggerPolicyAppraisal",
-        "LambdaExecutionRole"
-      ],
-      "Properties": {
-        "BatchSize": 100,
-        "Enabled": true,
-        "EventSourceArn": {
-          "Fn::ImportValue": {
-            "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:AppraisalTable:StreamArn"
-          }
-        },
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "LambdaFunction",
-            "Arn"
-          ]
-        },
-        "StartingPosition": "LATEST"
-      }
-    },
     "AmplifyResourcesPolicy": {
       "DependsOn": [
         "LambdaExecutionRole"
@@ -296,7 +240,7 @@
                       ":table/",
                       {
                         "Fn::ImportValue": {
-                          "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:PaymentRequestTable:Name"
+                          "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:PaymentTable:Name"
                         }
                       }
                     ]
@@ -317,7 +261,7 @@
                       ":table/",
                       {
                         "Fn::ImportValue": {
-                          "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:PaymentRequestTable:Name"
+                          "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:PaymentTable:Name"
                         }
                       },
                       "/index/*"
@@ -328,6 +272,62 @@
             }
           ]
         }
+      }
+    },
+    "LambdaTriggerPolicyPaymentRequest": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy-PaymentRequest",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListStreams"
+              ],
+              "Resource": {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:PaymentRequestTable:StreamArn"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "LambdaEventSourceMappingPaymentRequest": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "DependsOn": [
+        "LambdaTriggerPolicyPaymentRequest",
+        "LambdaExecutionRole"
+      ],
+      "Properties": {
+        "BatchSize": 100,
+        "Enabled": true,
+        "EventSourceArn": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${apiuplistGraphQLAPIIdOutput}:GetAtt:PaymentRequestTable:StreamArn"
+          }
+        },
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "LambdaFunction",
+            "Arn"
+          ]
+        },
+        "StartingPosition": "LATEST"
       }
     }
   },

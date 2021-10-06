@@ -1,7 +1,7 @@
 /* Amplify Params - DO NOT EDIT
 	API_UPLIST_GRAPHQLAPIIDOUTPUT
-	API_UPLIST_PAYMENTREQUESTTABLE_ARN
-	API_UPLIST_PAYMENTREQUESTTABLE_NAME
+	API_UPLIST_PAYMENTTABLE_ARN
+	API_UPLIST_PAYMENTTABLE_NAME
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
@@ -13,45 +13,42 @@ const { v4 } = require("uuid");
 const docClient = new aws.DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
 
 exports.handler = async (event) => {
-  const paymentRequests = [];
+  const payments = [];
   event.Records.forEach((record) => {
     if (record.eventName === "MODIFY") {
       // Add payment request when status moves to Processing
       if (
-        record.dynamodb.NewImage.appraisalAdminStatus.S === "PROCESSING" &&
-        record.dynamodb.OldImage.appraisalAdminStatus.S === "APPROVED"
+        record.dynamodb.NewImage.status.S === "APPROVED"
       ) {
-        paymentRequests.push(
-          processPaymentRequestInsert(record.dynamodb.NewImage)
+        payments.push(
+          processPaymentInsert(record.dynamodb.NewImage)
         );
       }
     }
   });
 
-  await Promise.all(paymentRequests);
+  await Promise.all(payments);
 
   return null;
 };
 
-const processPaymentRequestInsert = async (newImage) => {
+const processPaymentInsert = async (newImage) => {
   let date = new Date();
 
   let params = {
     Item: {
       id: v4(),
-      status: "PENDING",
       owner: newImage.owner.S,
-      paymentRequestAppraisalId: newImage.id.S,
-      requestPrice: parseFloat(newImage.paymentAdvance.N),
-      actualPrice: parseFloat(newImage.paymentAdvance.N),
+      paymentPaymentRequestId: newImage.id.S,
       createdAt: date.toISOString(),
       updatedAt: date.toISOString(),
     },
-    TableName: process.env.API_UPLIST_PAYMENTREQUESTTABLE_NAME,
+    TableName: process.env.API_UPLIST_PAYMENTTABLE_NAME,
   };
 
   // Call DynamoDB
   try {
+    console.log(newImage);
     console.log(params);
     await docClient.put(params).promise();
     console.log("Success");
@@ -59,3 +56,4 @@ const processPaymentRequestInsert = async (newImage) => {
     console.log("Error", err);
   }
 };
+

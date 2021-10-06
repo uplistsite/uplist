@@ -1,5 +1,6 @@
 type User
 @model
+@key(name: "byOwner", fields: ["owner"], queryField: "usersByOwner")
 @auth(
     rules: [
         { allow: owner, operations: [read] },
@@ -13,7 +14,7 @@ type User
     @auth(
         rules: [
             { allow: owner, operations: [read] },
-            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+            { allow: groups, groups: ["Admin"], operations: [read] }
         ])
 }
 
@@ -134,12 +135,14 @@ type PaymentRequest
 @model
 @auth(
     rules: [
+        { allow: owner, operations: [read] },
         { allow: groups, groups: ["Admin"] },
     ])
 {
     id: ID!,
+    owner: String,
     status: PaymentRequestStatus!,
-    appraisal: Appraisal!,
+    appraisal: Appraisal! @connection,
     requestPrice: Float!,
     actualPrice: Float!,
     comments: String
@@ -150,15 +153,12 @@ type Payment
 @auth(
     rules: [
         { allow: owner, operations: [read] },
-        { allow: groups, groups: ["Admin"] },
+        { allow: groups, groups: ["Admin"], operations: [read] },
     ])
 {
     id: ID!,
     owner: String,
-    appraisal: Appraisal!,
-    paymentRequest: PaymentRequest!,
-    price: Float!,
-    comments: String
+    paymentRequest: PaymentRequest! @connection
 }
 
 enum AppraisalUserStatus {

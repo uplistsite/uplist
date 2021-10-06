@@ -27,7 +27,15 @@
         },
         "appraisalStreamLambda": {
           "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
-          "s3Key": "amplify-builds/appraisalStreamLambda-6c4b4e446d38414e5a57-build.zip"
+          "s3Key": "amplify-builds/appraisalStreamLambda-41696b4e7a6a2b5a5250-build.zip"
+        },
+        "paymentRequestStreamLambda": {
+          "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
+          "s3Key": "amplify-builds/paymentRequestStreamLambda-346864323249366f7a56-build.zip"
+        },
+        "paymentStreamLambda": {
+          "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
+          "s3Key": "amplify-builds/paymentStreamLambda-39413452385049766475-build.zip"
         }
       }
     }
