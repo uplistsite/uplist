@@ -1,41 +1,29 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-uplist-dev-202247-authRole",
-      "UnauthRoleArn": "arn:aws:iam::415412976998:role/amplify-uplist-dev-202247-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::415412976998:role/amplify-uplist-dev-202247-authRole",
+      "AuthRoleName": "amplify-uplist-dev-203047-authRole",
+      "UnauthRoleArn": "arn:aws:iam::415412976998:role/amplify-uplist-dev-203047-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::415412976998:role/amplify-uplist-dev-203047-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-uplist-dev-202247-deployment",
-      "UnauthRoleName": "amplify-uplist-dev-202247-unauthRole",
-      "StackName": "amplify-uplist-dev-202247",
-      "StackId": "arn:aws:cloudformation:us-east-1:415412976998:stack/amplify-uplist-dev-202247/912be4d0-b2c0-11eb-98ac-0e09ee5d9c1f",
-      "AmplifyAppId": "d1yd0cu3cud78t"
+      "DeploymentBucketName": "amplify-uplist-dev-203047-deployment",
+      "UnauthRoleName": "amplify-uplist-dev-203047-unauthRole",
+      "StackName": "amplify-uplist-dev-203047",
+      "StackId": "arn:aws:cloudformation:us-east-1:415412976998:stack/amplify-uplist-dev-203047/dde29c30-2a32-11ec-a828-0ebf48318e4d",
+      "AmplifyAppId": "d8mhl8yao6f82"
     },
     "categories": {
       "auth": {
-        "uplist9241861e9241861e": {},
-        "userPoolGroups": {}
+        "userPoolGroups": {},
+        "uplist9241861e9241861e": {}
       },
       "function": {
         "AdminQueriesab231e8c": {
-          "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
+          "deploymentBucketName": "amplify-uplist-dev-203047-deployment",
           "s3Key": "amplify-builds/AdminQueriesab231e8c-336b6165524a3550637a-build.zip"
         },
         "createUserLambda": {
-          "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
-          "s3Key": "amplify-builds/createUserLambda-656e5462446969383143-build.zip"
-        },
-        "appraisalStreamLambda": {
-          "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
-          "s3Key": "amplify-builds/appraisalStreamLambda-41696b4e7a6a2b5a5250-build.zip"
-        },
-        "paymentRequestStreamLambda": {
-          "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
-          "s3Key": "amplify-builds/paymentRequestStreamLambda-346864323249366f7a56-build.zip"
-        },
-        "paymentStreamLambda": {
-          "deploymentBucketName": "amplify-uplist-dev-202247-deployment",
-          "s3Key": "amplify-builds/paymentStreamLambda-39413452385049766475-build.zip"
+          "deploymentBucketName": "amplify-uplist-dev-203047-deployment",
+          "s3Key": "amplify-builds/createUserLambda-5a476c567033476c3951-build.zip"
         }
       }
     }

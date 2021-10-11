@@ -9,7 +9,6 @@ Amplify Params - DO NOT EDIT */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const aws = require("aws-sdk");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { v4 } = require("uuid");
 const docClient = new aws.DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
 
 exports.handler = async (event, context) => {
@@ -18,7 +17,6 @@ exports.handler = async (event, context) => {
   if (event.request.userAttributes.sub) {
     let params = {
       Item: {
-        id: v4(),
         owner: event.request.userAttributes.sub,
         balance: 0,
         createdAt: date.toISOString(),

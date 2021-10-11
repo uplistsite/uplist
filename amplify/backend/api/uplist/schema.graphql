@@ -1,183 +1,70 @@
 type User
 @model
-@key(name: "byOwner", fields: ["owner"], queryField: "usersByOwner")
-@auth(
-    rules: [
-        { allow: owner, operations: [read] },
-        { allow: groups, groups: ["Admin"] },
-    ])
-{
-    id: ID!,
-    owner: String,
-    addresses: [Address] @connection(keyName: "byUser", fields: ["id"]),
-    balance: Float
-    @auth(
-        rules: [
-            { allow: owner, operations: [read] },
-            { allow: groups, groups: ["Admin"], operations: [read] }
-        ])
-}
-
-type Appraisal
-@model
-@auth(
-    rules: [
-        { allow: owner, operations: [create, update, delete, read] },
-        { allow: groups, groups: ["Admin"] },
-    ])
-{
-    id: ID!,
-    owner: String,
-    name: String!,
-    description: String!,
-    pictures: [S3Object] @connection(keyName: "byAppraisal", fields: ["id"]),
-    appraisalUserStatus: AppraisalUserStatus,
-    commission: Int
-    @auth(
-        rules: [
-            { allow: owner, operations: [read] },
-            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-        ]),
-    paymentAdvance: Float
-    @auth(
-        rules: [
-            { allow: owner, operations: [read] },
-            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-        ]),
-    paymentRangeLow: Float
-    @auth(
-        rules: [
-            { allow: owner, operations: [read] },
-            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-        ]),
-    paymentRangeHigh: Float
-    @auth(
-        rules: [
-            { allow: owner, operations: [read] },
-            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-        ]),
-    soldPrice: Float
-    @auth(
-        rules: [
-            { allow: owner, operations: [read] },
-            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-        ]),
-    defects: String,
-    year: Int,
-    model: String,
-    make: String,
-    wear: Wear,
-    deniedReason: String,
-    withdrawnReason: String,
-    pickupTime: PickupTime @connection,
-    address: Address @connection,
-    listings: [AWSURL],
-    @auth(
-        rules: [
-            { allow: owner, operations: [read] },
-            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-        ])
-    appraisalAdminStatus: AppraisalAdminStatus
-    @auth(
-        rules: [
-            { allow: owner, operations: [read] },
-            { allow: groups, groups: ["Admin"], operations: [create, update, read] }
-        ])
-}
-
-type S3Object
-@model
-@key(name: "byAppraisal", fields: ["foreignId", "key"])
-@auth(
-    rules: [
-        { allow: owner },
-        { allow: groups, groups: ["Admin"] },
-    ])
-{
-    id: ID!,
-    foreignId: ID!,
-    key: String!
-}
-
-type PickupTime
-@model
-@auth(
-    rules: [
-        { allow: private, operations: [read] },
-        { allow: groups, groups: ["Admin"] },
-    ])
-{
-    id: ID!,
-    time: AWSDateTime!,
-    isUsed: Boolean
-}
-
-type Address
-@model
-@key(name: "byUser", fields: ["userId", "street1", "street2", "zip", "city", "state"])
-@auth(
-    rules: [
-        { allow: owner, operations: [create, update, delete, read] },
-        { allow: groups, groups: ["Admin"] },
-    ])
-{
-    id: ID!,
-    owner: String,
-    street1: String!,
-    street2: String,
-    zip: String!,
-    city: String!,
-    state: String!,
-    userId: ID!,
-}
-
-type PaymentRequest
-@model
-@auth(
-    rules: [
-        { allow: owner, operations: [read] },
-        { allow: groups, groups: ["Admin"] },
-    ])
-{
-    id: ID!,
-    owner: String,
-    status: PaymentRequestStatus!,
-    appraisal: Appraisal! @connection,
-    requestPrice: Float!,
-    actualPrice: Float!,
-    comments: String
-}
-
-type Payment
-@model
+@key(fields: ["owner"])
 @auth(
     rules: [
         { allow: owner, operations: [read] },
         { allow: groups, groups: ["Admin"], operations: [read] },
     ])
 {
+    owner: String!,
+    addresses: [Address] @connection(keyName: "byOwner", fields: ["owner"]),
+    items: [Item] @connection(keyName: "byOwner", fields: ["owner"])
+}
+
+type Address
+@model
+@key(name: "byOwner", fields: ["owner", "addressLine1", "addressLine2", "city", "postalCode", "state", "country"])
+@auth(
+    rules: [
+        { allow: owner },
+        { allow: groups, groups: ["Admin"], operations: [read] },
+    ])
+{
     id: ID!,
     owner: String,
-    paymentRequest: PaymentRequest! @connection
+    addressLine1: String!,
+    addressLine2: String,
+    city: String!,
+    postalCode: String!,
+    state: String!,
+    country: String!
 }
 
-enum AppraisalUserStatus {
-    WITHDRAWN,
-    ACCEPTED
+type Item
+@model
+@key(name: "byOwner", fields: ["owner", "id", "name", "description", "defects", "year", "make", "model", "wear"])
+@auth(
+    rules: [
+        { allow: owner, operations: [create, read, update] },
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    owner: String,
+    name: String!,
+    description: String,
+    defects: String,
+    year: Int,
+    make: String,
+    model: String,
+    wear: Wear,
+    address: Address @connection
 }
 
-enum AppraisalAdminStatus {
-    APPROVED,
-    DENIED,
-    PROCESSING,
-    LISTED,
-    SOLD
-}
-
-enum PaymentRequestStatus {
-    APPROVED,
-    DENIED,
-    PENDING
+type ProductCategory
+@model
+@auth(
+    rules: [
+        { allow: owner, operations: [read] },
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    name: String!,
+    code: Int!,
+    description: String,
+    parentCode: ProductCategory @connection
 }
 
 enum Wear {
