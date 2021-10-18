@@ -34,6 +34,7 @@ type Address
 type Item
 @model
 @key(name: "byOwner", fields: ["owner", "id", "name", "description", "defects", "year", "make", "model", "wear"])
+@key(name: "byId", fields: ["id", "name", "description", "defects", "year", "make", "model", "wear"])
 @auth(
     rules: [
         { allow: owner, operations: [create, read, update] },
@@ -49,7 +50,8 @@ type Item
     make: String,
     model: String,
     wear: Wear,
-    address: Address @connection
+    address: Address @connection,
+    appraisals: [Appraisal] @connection(keyName: "byItem", fields: ["id"])
 }
 
 type ProductCategory
@@ -65,6 +67,135 @@ type ProductCategory
     code: Int!,
     description: String,
     parentCode: ProductCategory @connection
+}
+
+type Appraisal
+@model
+@key(name: "byId", fields: ["id", "status", "comments", "amountUpfront", "amountRangeHigh", "amountRangeLow"])
+@key(name: "byItem", fields: ["itemId", "id", "status", "comments", "amountUpfront", "amountRangeHigh", "amountRangeLow"])
+@key(name: "byVendor", fields: ["vendorId", "itemId", "id", "status", "comments", "amountUpfront", "amountRangeHigh", "amountRangeLow"])
+@auth(
+    rules: [
+        { allow: owner, operations: [read] },
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    owner: String,
+    itemId: ID!,
+    item: Item @connection(fields: ["itemId"])
+    status: AppraisalStatus!,
+    comments: String,
+    amountUpfront: Float,
+    amountRangeHigh: Float,
+    amountRangeLow: Float,
+    vendorId: ID!,
+    vendor: Vendor @connection(fields: ["vendorId"]),
+    pickups: [Pickup] @connection(keyName: "byAppraisal", fields: ["id"])
+}
+
+type Pickup
+@model
+@key(name: "byAppraisal", fields: ["appraisalId", "id", "employeeId"])
+@auth(
+    rules: [
+        { allow: owner, operations: [read] },
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    owner: String,
+    appraisalId: ID!,
+    appraisal: Appraisal @connection(fields: ["appraisalId"]),
+    employeeId: ID!,
+    employee: Employee @connection(fields: ["employeeId"])
+}
+
+type Vendor
+@model
+@auth(
+    rules: [
+        { allow: owner, operations: [read] },
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    owner: String,
+    name: String,
+    description: String,
+    group: String,
+    employees: [Employee] @connection(keyName: "byVendor", fields: ["id"])
+}
+
+type Employee
+@model
+@key(name: "byVendor", fields: ["vendorId", "id", "firstName", "lastName"])
+@auth(
+    rules: [
+        { allow: owner, operations: [read] },
+        { allow: groups, groups: ["Admin"] },
+    ])
+{
+    id: ID!,
+    owner: String,
+    firstName: String!,
+    lastName: String!,
+    vendorId: ID!,
+    schedules: [Schedule] @connection(keyName: "byEmployee", fields: ["id"])
+}
+
+type Schedule
+@model
+@key(name: "byEmployee", fields: ["employeeId", "from", "to"])
+@auth(
+    rules: [
+        { allow: owner, operations: [read] },
+        { allow: groups, groups: ["Admin"] }
+    ])
+{
+    id: ID!,
+    owner: String,
+    employeeId: ID!,
+    from: AWSDateTime!,
+    to: AWSDateTime!
+}
+
+type S3Object
+@model
+@auth(
+    rules: [
+        { allow: owner, operations: [read] },
+        { allow: groups, groups: ["Admin"] }
+    ])
+{
+    id: ID!,
+    owner: String,
+    key: String!
+}
+
+type S3ObjectJoin
+@model
+@key(fields: ["s3ObjectId", "foreignKey"])
+@key(name: "byForiegnKey", fields: ["foreignKey", "s3ObjectId"])
+@auth(
+    rules: [
+        { allow: owner, operations: [read] },
+        { allow: groups, groups: ["Admin"] }
+    ])
+{
+    s3ObjectId: ID!,
+    s3Object: S3Object @connection(fields: ["s3ObjectId"])
+    foreignKey: String!
+}
+
+enum EmployeeStatus {
+    ACTIVE,
+    INACTIVE
+}
+
+enum AppraisalStatus {
+    PENDING,
+    ACCEPTED
 }
 
 enum Wear {
