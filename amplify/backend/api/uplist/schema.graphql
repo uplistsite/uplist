@@ -33,8 +33,8 @@ type Address
 
 type Item
 @model
-@key(name: "byOwner", fields: ["owner", "id", "name", "description", "defects", "year", "make", "model", "wear"])
-@key(name: "byId", fields: ["id", "name", "description", "defects", "year", "make", "model", "wear"])
+@key(name: "byOwner", fields: ["owner", "id", "name", "description", "year", "make", "model", "totalPrice"])
+@key(name: "byId", fields: ["id", "name", "description", "year", "make", "model" "totalPrice"])
 @auth(
     rules: [
         { allow: owner, operations: [create, read, update] },
@@ -45,13 +45,32 @@ type Item
     owner: String,
     name: String!,
     description: String,
-    defects: String,
     year: Int,
     make: String,
     model: String,
-    wear: Wear,
     address: Address @connection,
+    totalPrice: Float,
+    lineItems: [LineItem] @connection(keyName: "byItem", fields: ["id"])
     appraisals: [Appraisal] @connection(keyName: "byItem", fields: ["id"])
+}
+
+type LineItem
+@model
+@key(name: "byItem", fields: ["itemId", "id", "quantity", "notes", "unitPrice", "wear"])
+@auth(
+    rules: [
+        { allow: owner, operations: [create, read, update] },
+        { allow: groups, groups: ["Admin"] },
+    ]
+)
+{
+    id: ID!,
+    owner: String,
+    itemId: ID!,
+    quantity: Int,
+    notes: String,
+    unitPrice: Float,
+    wear: Wear,
 }
 
 type ProductCategory
